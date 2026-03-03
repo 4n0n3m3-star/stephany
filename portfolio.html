@@ -224,9 +224,7 @@
 
 <script>
     // Inherit theme
-    const saved = localStorage.getItem('theme') ||
-        (window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light');
-    document.documentElement.classList.toggle('dark', saved === 'dark');
+    document.documentElement.classList.remove('dark');
 
     // Parallax grid — mirrors ParallaxScrollSecond framer-motion behaviour
     // Column 1: y(0→-200), x(0→-200), rotateZ(0→-20)

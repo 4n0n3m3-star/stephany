@@ -1196,14 +1196,11 @@
         heroVideo.load();
     }
 
-    const savedTheme = localStorage.getItem('theme') ||
-        (window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light');
-    applyTheme(savedTheme === 'dark');
+    applyTheme(false);
 
     themeBtn.addEventListener('click', () => {
         const isDark = !themeBtn.classList.contains('dark');
         applyTheme(isDark);
-        localStorage.setItem('theme', isDark ? 'dark' : 'light');
     });
 
     // Parallax divider
