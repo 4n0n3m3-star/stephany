@@ -783,21 +783,41 @@
             /* ── Parallax divider ── */
             .parallax-divider { height: 60vw; min-height: 280px; }
 
-            /* ── Studio — stack vertically ── */
+            /* ── Studio — stack: text → photo → button ── */
             .studio {
                 flex-direction: column;
                 min-height: auto;
             }
+            .studio-content {
+                display: contents; /* dissolve wrapper so children join .studio flex */
+            }
             .studio-photo {
+                order: 2;
                 flex: none;
                 height: 60vw;
                 min-height: 260px;
             }
-            .studio-content {
-                padding: 48px 24px 52px;
+            .studio-text {
+                order: 1;
+                background: var(--text);
+                padding: 48px 24px 40px;
+                color: var(--cream-light);
+            }
+            .studio-content .btn {
+                order: 3;
+                background: var(--text);
+                padding: 24px;
+                border-top: 1px solid rgba(253,250,247,0.12);
+                border-left: none;
+                border-right: none;
+                border-bottom: none;
+                color: var(--cream-light);
+                display: block;
+                text-align: center;
+                width: 100%;
             }
             .studio-title { font-size: clamp(2rem, 7vw, 4rem); }
-            .studio-content p { font-size: 0.85rem; }
+            .studio-text p { font-size: 0.85rem; }
 
             /* ── Links section ── */
             .links-section { padding: 0 24px; }
@@ -1073,8 +1093,8 @@
 <!-- ─── STUDIO ─────────────────────────────────────── -->
 <section class="studio" id="studio">
     <div class="studio-photo"></div>
-    <div class="studio-content fade-up">
-        <div>
+    <div class="studio-content">
+        <div class="studio-text fade-up">
             <h2 class="studio-title">LUMI Atelier</h2>
             <div class="divider"></div>
             <p>LUMI is more than a studio — it is a sanctuary. A private atelier where every detail has been considered, from the lighting to the music, to ensure your experience is as meaningful as the art itself.</p>
