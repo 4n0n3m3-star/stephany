@@ -754,16 +754,15 @@
             /* ── Sections base ── */
             section { padding: 72px 24px; }
             .hero {
-                padding: 64px 28px 72px;
+                padding: 64px 24px 80px;
                 min-height: 100svh;
             }
             .hero-scroll { display: none; }
-            .hero-sun { display: none; }
             .hero-name { letter-spacing: 0.06em; }
             .hero-tagline {
                 font-size: 0.72rem;
                 letter-spacing: 0.15em;
-                margin-bottom: 36px;
+                margin-bottom: 40px;
             }
 
             /* ── About ── */
@@ -1196,7 +1195,8 @@
         heroVideo.load();
     }
 
-    const savedTheme = localStorage.getItem('theme') || 'light';
+    const savedTheme = localStorage.getItem('theme') ||
+        (window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light');
     applyTheme(savedTheme === 'dark');
 
     themeBtn.addEventListener('click', () => {

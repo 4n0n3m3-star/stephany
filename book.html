@@ -397,7 +397,8 @@
 
 <script>
     // Inherit theme from main site
-    const saved = localStorage.getItem('theme') || 'light';
+    const saved = localStorage.getItem('theme') ||
+        (window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light');
     document.documentElement.classList.toggle('dark', saved === 'dark');
 
     // Scroll velocity marquee
