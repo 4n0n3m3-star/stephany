@@ -155,11 +155,13 @@
         }
         @media (max-width: 600px) {
             nav { padding: 20px 24px; }
-            .portfolio-grid-section { padding: 80px 8px 80px; }
+            .portfolio-grid-section { padding: 80px 8px 32px; }
             .portfolio-grid { grid-template-columns: 1fr; gap: 8px; }
             .col-2, .col-3 { display: none; }
             .portfolio-item img { height: 80vw; }
-            .links-section { padding: 0 24px; }
+            .links-section { padding: 0 20px; }
+            .links-item { padding: 44px 0; }
+            .links-link { font-size: clamp(1rem, 5.2vw, 1.8rem); }
         }
     </style>
 </head>
