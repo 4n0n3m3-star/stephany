@@ -235,6 +235,12 @@
         const col3Items = document.querySelectorAll('#col-3 .portfolio-item');
 
         function update() {
+            if (window.innerWidth <= 900) {
+                col1Items.forEach(el => { el.style.transform = ''; });
+                col3Items.forEach(el => { el.style.transform = ''; });
+                return;
+            }
+
             const rect = section.getBoundingClientRect();
             // progress: 0 when section top hits viewport bottom, 1 when section bottom hits viewport top
             const total = rect.height + window.innerHeight;
