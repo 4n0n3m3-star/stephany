@@ -787,6 +787,7 @@
             .studio {
                 flex-direction: column;
                 min-height: auto;
+                background: var(--text);
             }
             .studio-content {
                 display: contents; /* dissolve wrapper so children join .studio flex */
@@ -805,16 +806,13 @@
             }
             .studio-content .btn {
                 order: 3;
-                background: var(--text);
-                padding: 24px;
-                border-top: 1px solid rgba(253,250,247,0.12);
-                border-left: none;
-                border-right: none;
-                border-bottom: none;
+                background: transparent;
                 color: var(--cream-light);
+                border-color: rgba(253,250,247,0.4);
                 display: block;
                 text-align: center;
-                width: 100%;
+                width: calc(100% - 48px);
+                margin: 28px 24px;
             }
             .studio-title { font-size: clamp(2rem, 7vw, 4rem); }
             .studio-text p { font-size: 0.85rem; }
