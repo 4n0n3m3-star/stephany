@@ -1,0 +1,456 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Book your session — LUMI Atelier</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Tenor+Sans&family=Montserrat:wght@200;300;400;500&display=swap" rel="stylesheet">
+    <style>
+        *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+
+        :root {
+            --cream-light: #FDFAF7;
+            --cream:       #ECD9D0;
+            --blush:       #E6CCBD;
+            --rose-taupe:  #D0B8AC;
+            --taupe:       #B09080;
+            --warm-brown:  #A77049;
+            --dark-brown:  #8C6248;
+            --text:        #2C1A0E;
+            --text-light:  #7A5C48;
+        }
+
+        html { scroll-behavior: smooth; }
+
+        body {
+            background: var(--cream-light);
+            color: var(--text);
+            font-family: 'Montserrat', sans-serif;
+            font-weight: 300;
+            line-height: 1.7;
+            min-height: 100vh;
+        }
+
+        /* ─── NAV ─────────────────────────────────────── */
+        nav {
+            position: fixed;
+            top: 0; left: 0; right: 0;
+            z-index: 100;
+            padding: 28px 64px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            background: rgba(253,250,247,0.92);
+            backdrop-filter: blur(12px);
+            border-bottom: 1px solid var(--blush);
+        }
+        .nav-back {
+            font-size: 0.62rem;
+            letter-spacing: 0.28em;
+            text-transform: uppercase;
+            color: var(--text-light);
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            transition: color 0.3s;
+        }
+        .nav-back:hover { color: var(--warm-brown); }
+        .nav-back svg { width: 14px; height: 14px; }
+        .nav-brand {
+            font-family: 'Tenor Sans', serif;
+            font-size: 0.9rem;
+            letter-spacing: 0.12em;
+            color: var(--text);
+            text-decoration: none;
+        }
+
+        /* ─── PAGE ────────────────────────────────────── */
+        .page {
+            padding: 140px 72px 100px;
+            max-width: 860px;
+        }
+
+        /* ─── EYEBROW + RULE ──────────────────────────── */
+        .eyebrow {
+            font-size: 0.65rem;
+            letter-spacing: 0.35em;
+            text-transform: uppercase;
+            color: var(--text-light);
+            display: block;
+            margin-bottom: 24px;
+        }
+        .rule {
+            width: 100%;
+            height: 1px;
+            background: var(--blush);
+            margin-bottom: 52px;
+        }
+        .page-title {
+            font-family: 'Tenor Sans', serif;
+            font-size: clamp(2rem, 3.5vw, 4rem);
+            font-weight: 300;
+            line-height: 1.15;
+            color: var(--text);
+            margin-bottom: 52px;
+        }
+
+        /* ─── FORM ────────────────────────────────────── */
+        .contact-form {
+            display: flex;
+            flex-direction: column;
+            gap: 32px;
+        }
+        .form-row {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 32px;
+        }
+        .form-group {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+        .form-group label {
+            font-size: 0.56rem;
+            letter-spacing: 0.28em;
+            text-transform: uppercase;
+            color: var(--text-light);
+        }
+        .form-group input,
+        .form-group textarea,
+        .form-group select {
+            background: transparent;
+            border: none;
+            border-bottom: 1px solid var(--rose-taupe);
+            padding: 10px 0;
+            font-family: 'Montserrat', sans-serif;
+            font-size: 0.84rem;
+            font-weight: 300;
+            color: var(--text);
+            outline: none;
+            transition: border-color 0.3s;
+            -webkit-appearance: none;
+        }
+        .form-group input:focus,
+        .form-group textarea:focus,
+        .form-group select:focus { border-color: var(--warm-brown); }
+        .form-group input::placeholder,
+        .form-group textarea::placeholder { color: var(--rose-taupe); }
+        .form-group textarea { resize: none; height: 120px; }
+        .form-submit { margin-top: 12px; }
+
+        .btn {
+            display: inline-block;
+            padding: 16px 48px;
+            border: 1px solid var(--warm-brown);
+            color: var(--warm-brown);
+            font-family: 'Montserrat', sans-serif;
+            font-size: 0.65rem;
+            font-weight: 400;
+            letter-spacing: 0.22em;
+            text-transform: uppercase;
+            text-decoration: none;
+            cursor: pointer;
+            background: transparent;
+            transition: background 0.4s cubic-bezier(0.25,0.46,0.45,0.94),
+                        color 0.4s cubic-bezier(0.25,0.46,0.45,0.94),
+                        border-color 0.4s cubic-bezier(0.25,0.46,0.45,0.94),
+                        transform 0.3s cubic-bezier(0.25,0.46,0.45,0.94);
+        }
+        .btn:hover {
+            background: var(--warm-brown);
+            color: var(--cream-light);
+            transform: translateY(-2px);
+        }
+        .btn-filled {
+            background: var(--warm-brown);
+            color: var(--cream-light);
+            border-color: var(--warm-brown);
+        }
+        .btn-filled:hover {
+            background: var(--dark-brown);
+            border-color: var(--dark-brown);
+            transform: translateY(-2px);
+        }
+
+        /* ─── DARK MODE ───────────────────────────────── */
+        html.dark body { background: #130a03; color: var(--cream); }
+        html.dark nav {
+            background: rgba(19,10,3,0.92);
+            border-color: #3a2418;
+        }
+        html.dark .nav-brand { color: var(--cream-light); }
+        html.dark .eyebrow { color: var(--rose-taupe); }
+        html.dark .rule { background: #3a2418; }
+        html.dark .page-title { color: var(--cream-light); }
+        html.dark .form-group label { color: var(--rose-taupe); }
+        html.dark .form-group input,
+        html.dark .form-group textarea,
+        html.dark .form-group select {
+            color: var(--cream-light);
+            border-color: #5a3a28;
+        }
+        html.dark .form-group input::placeholder,
+        html.dark .form-group textarea::placeholder { color: #5a3a28; }
+
+        /* ─── LINKS SECTION ───────────────────────── */
+        .links-section {
+            background: var(--text);
+            padding: 0 72px;
+            text-align: center;
+        }
+        .links-item { padding: 88px 0; }
+        .links-rule {
+            width: 100%;
+            height: 1px;
+            background: rgba(253,250,247,0.1);
+        }
+        .links-label {
+            display: block;
+            font-size: 0.68rem;
+            font-weight: 500;
+            letter-spacing: 0.08em;
+            color: var(--blush);
+            margin-bottom: 20px;
+        }
+        .links-link {
+            font-family: 'Tenor Sans', serif;
+            font-size: clamp(2.2rem, 5vw, 7.5rem);
+            font-weight: 300;
+            color: var(--cream-light);
+            text-decoration: none;
+            line-height: 1;
+            position: relative;
+            display: inline-block;
+        }
+        .links-link::after {
+            content: '';
+            position: absolute;
+            bottom: 4px;
+            left: 0;
+            width: 0;
+            height: 1px;
+            background: var(--cream-light);
+            transition: width 0.5s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+        }
+        .links-link:hover::after { width: 100%; }
+        html.dark .links-section { background: #0a0602; }
+
+        /* ─── SCROLL VELOCITY MARQUEE ─────────────── */
+        .sv-section { background: var(--cream-light); padding: 0; overflow: hidden; }
+        .sv-row { position: relative; overflow: hidden; display: flex; }
+        .sv-row + .sv-row { margin-top: 3px; }
+        .sv-track { display: flex; flex-direction: row; flex-wrap: nowrap; gap: 3px; will-change: transform; }
+        .sv-item { flex: 0 0 auto; width: 18vw; height: 12vw; overflow: hidden; }
+        .sv-item img { width: 100%; height: 100%; object-fit: cover; display: block; pointer-events: none; }
+        html.dark .sv-section { background: #130a03; }
+
+        /* ─── FOOTER ──────────────────────────────── */
+        footer {
+            background: var(--text);
+            color: var(--blush);
+            padding: 52px 72px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+        .footer-brand { display: flex; flex-direction: column; gap: 4px; }
+        .footer-name {
+            font-family: 'Tenor Sans', serif;
+            font-size: 1.4rem;
+            letter-spacing: 0.2em;
+            color: var(--cream);
+            text-transform: uppercase;
+        }
+        .footer-sub {
+            font-size: 0.54rem;
+            letter-spacing: 0.3em;
+            text-transform: uppercase;
+            color: var(--blush);
+        }
+        .footer-copy { font-size: 0.55rem; letter-spacing: 0.15em; text-transform: uppercase; }
+        .footer-social { display: flex; flex-direction: column; align-items: flex-end; gap: 10px; }
+        .footer-social a {
+            font-family: 'Tenor Sans', serif;
+            font-size: clamp(1rem, 1.5vw, 1.6rem);
+            font-weight: 300;
+            color: var(--cream-light);
+            text-decoration: none;
+            line-height: 1;
+            position: relative;
+            display: inline-block;
+        }
+        .footer-social a::after {
+            content: '';
+            position: absolute;
+            bottom: -2px;
+            left: 0;
+            width: 0;
+            height: 1px;
+            background: var(--cream-light);
+            transition: width 0.45s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+        }
+        .footer-social a:hover::after { width: 100%; }
+        html.dark footer { background: #0a0602; }
+
+        @media (max-width: 600px) {
+            .page { padding: 120px 24px 80px; }
+            nav { padding: 20px 24px; }
+            .form-row { grid-template-columns: 1fr; }
+        }
+    </style>
+</head>
+<body>
+
+<nav>
+    <a href="index.html" class="nav-back">
+        <svg viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="1.2">
+            <path d="M10 7H4M4 7L7 4M4 7L7 10"/>
+        </svg>
+        Back
+    </a>
+    <a href="index.html" class="nav-brand">STEPHANY RIBEIRO</a>
+</nav>
+
+<main class="page">
+    <span class="eyebrow">Book your session</span>
+    <div class="rule"></div>
+    <h1 class="page-title">Tell me about<br>your vision.</h1>
+
+    <form class="contact-form" id="contact-form">
+        <div class="form-row">
+            <div class="form-group">
+                <label for="name">Full Name</label>
+                <input type="text" id="name" placeholder="Your name" required>
+            </div>
+            <div class="form-group">
+                <label for="email">Email</label>
+                <input type="email" id="email" placeholder="your@email.com" required>
+            </div>
+        </div>
+        <div class="form-row">
+            <div class="form-group">
+                <label for="placement">Placement</label>
+                <input type="text" id="placement" placeholder="Where on the body?">
+            </div>
+            <div class="form-group">
+                <label for="size">Approximate Size</label>
+                <select id="size">
+                    <option value="" disabled selected>Select size</option>
+                    <option>Small (2–5 cm)</option>
+                    <option>Medium (5–10 cm)</option>
+                    <option>Large (10–15 cm)</option>
+                    <option>Extra Large (15+ cm)</option>
+                </select>
+            </div>
+        </div>
+        <div class="form-group">
+            <label for="idea">Your Idea</label>
+            <textarea id="idea" placeholder="Describe your tattoo idea, inspiration, references..." required></textarea>
+        </div>
+        <div class="form-submit">
+            <button type="submit" class="btn btn-filled">Send Request</button>
+        </div>
+    </form>
+</main>
+
+<!-- ─── LINKS ─────────────────────────────────────── -->
+<section class="links-section">
+    <div class="links-item">
+        <span class="links-label">Bookings &amp; Enquiries ↗</span>
+        <a href="mailto:art@stephanytattoo.com" class="links-link">art@stephanytattoo.com</a>
+    </div>
+    <div class="links-rule"></div>
+    <div class="links-item">
+        <span class="links-label">Instagram ↗</span>
+        <a href="https://www.instagram.com/stephany.tattoo/" target="_blank" rel="noopener" class="links-link">@stephany.tattoo</a>
+    </div>
+</section>
+
+<!-- ─── SCROLL VELOCITY MARQUEE ──────────────────── -->
+<div class="sv-section">
+    <div class="sv-row"><div class="sv-track" data-velocity="1.8">
+        <div class="sv-item"><img src="media/letters/letters-grateful.jpg" alt=""></div>
+        <div class="sv-item"><img src="media/estrelas/estrelas-1.jpg" alt=""></div>
+        <div class="sv-item"><img src="media/floral/floral-1.jpg" alt=""></div>
+        <div class="sv-item"><img src="media/letters/letters-minimalist-1.jpg" alt=""></div>
+        <div class="sv-item"><img src="media/estrelas/estrelas-3.jpg" alt=""></div>
+        <div class="sv-item"><img src="media/floral/floral-3.jpg" alt=""></div>
+        <div class="sv-item"><img src="media/letters/letters-fonts-1.jpg" alt=""></div>
+        <div class="sv-item"><img src="media/estrelas/estrelas-2.jpg" alt=""></div>
+        <div class="sv-item"><img src="media/floral/floral-5.jpg" alt=""></div>
+        <div class="sv-item"><img src="media/letters/letters-grateful.jpg" alt=""></div>
+        <div class="sv-item"><img src="media/estrelas/estrelas-1.jpg" alt=""></div>
+        <div class="sv-item"><img src="media/floral/floral-1.jpg" alt=""></div>
+        <div class="sv-item"><img src="media/letters/letters-minimalist-1.jpg" alt=""></div>
+        <div class="sv-item"><img src="media/estrelas/estrelas-3.jpg" alt=""></div>
+        <div class="sv-item"><img src="media/floral/floral-3.jpg" alt=""></div>
+        <div class="sv-item"><img src="media/letters/letters-fonts-1.jpg" alt=""></div>
+        <div class="sv-item"><img src="media/estrelas/estrelas-2.jpg" alt=""></div>
+        <div class="sv-item"><img src="media/floral/floral-5.jpg" alt=""></div>
+    </div></div>
+</div>
+
+
+<script>
+    // Inherit theme from main site
+    const saved = localStorage.getItem('theme') ||
+        (window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light');
+    document.documentElement.classList.toggle('dark', saved === 'dark');
+
+    // Scroll velocity marquee
+    (function() {
+        const tracks = document.querySelectorAll('.sv-track');
+        let lastScrollY = window.scrollY;
+        let rawVelocity = 0;
+        let smoothVelocity = 0;
+
+        window.addEventListener('scroll', () => {
+            rawVelocity = window.scrollY - lastScrollY;
+            lastScrollY = window.scrollY;
+        }, { passive: true });
+
+        tracks.forEach(track => {
+            const baseVelocity = parseFloat(track.dataset.velocity || '3');
+            const halfCount = track.children.length / 2;
+            let offset = 0;
+            let direction = baseVelocity > 0 ? 1 : -1;
+            let lastTime = null;
+
+            requestAnimationFrame(function measure() {
+                const itemW = track.querySelector('.sv-item').offsetWidth + 3;
+                const halfWidth = itemW * halfCount;
+
+                function tick(time) {
+                    if (!lastTime) { lastTime = time; requestAnimationFrame(tick); return; }
+                    const delta = Math.min(time - lastTime, 50);
+                    lastTime = time;
+                    smoothVelocity += (rawVelocity - smoothVelocity) * 0.12;
+                    const scrollFactor = Math.min(Math.abs(smoothVelocity) * 0.4, 5);
+                    if (smoothVelocity < -0.5) direction = -1;
+                    else if (smoothVelocity > 0.5) direction = 1;
+                    let move = direction * Math.abs(baseVelocity) * (delta / 1000) * 60;
+                    move += direction * Math.abs(move) * scrollFactor;
+                    offset += move;
+                    offset = ((offset % halfWidth) + halfWidth) % halfWidth;
+                    track.style.transform = `translateX(-${offset}px)`;
+                    requestAnimationFrame(tick);
+                }
+                requestAnimationFrame(tick);
+            });
+        });
+    })();
+
+    document.getElementById('contact-form').addEventListener('submit', (e) => {
+        e.preventDefault();
+        const btn = e.target.querySelector('button[type="submit"]');
+        btn.textContent = 'Request Sent ✓';
+        btn.style.background = 'var(--dark-brown)';
+        btn.disabled = true;
+    });
+</script>
+</body>
+</html>

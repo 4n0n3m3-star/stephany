@@ -1,0 +1,1225 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Stephany Ribeiro — LUMI Atelier</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Tenor+Sans&family=Montserrat:wght@200;300;400;500&display=swap" rel="stylesheet">
+    <style>
+        *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+
+        :root {
+            --cream-light: #FDFAF7;
+            --cream:       #ECD9D0;
+            --blush:       #E6CCBD;
+            --rose-taupe:  #D0B8AC;
+            --taupe:       #B09080;
+            --warm-brown:  #A77049;
+            --dark-brown:  #8C6248;
+            --text:        #2C1A0E;
+            --text-light:  #7A5C48;
+        }
+
+        html { scroll-behavior: smooth; }
+
+        body {
+            background: var(--cream-light);
+            color: var(--text);
+            font-family: 'Montserrat', sans-serif;
+            font-weight: 300;
+            line-height: 1.7;
+            overflow-x: hidden;
+        }
+
+        /* ─── NAV ─────────────────────────────────── */
+        nav {
+            position: fixed;
+            top: 0; left: 0; right: 0;
+            z-index: 100;
+            padding: 32px 64px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            transition: background 0.5s, padding 0.4s, border-color 0.5s;
+        }
+        nav.scrolled {
+            background: rgba(253, 250, 247, 0.92);
+            backdrop-filter: blur(12px);
+            padding: 18px 64px;
+            border-bottom: 1px solid var(--blush);
+        }
+        .nav-logo {
+            font-family: 'Tenor Sans', serif;
+            font-size: 1rem;
+            letter-spacing: 0.18em;
+            text-transform: uppercase;
+            color: var(--cream-light);
+            text-decoration: none;
+            transition: color 0.4s;
+        }
+        nav.scrolled .nav-logo { color: var(--warm-brown); }
+        .nav-links {
+            display: flex;
+            gap: 44px;
+            list-style: none;
+        }
+        .nav-links a {
+            font-size: 0.75rem;
+            letter-spacing: 0.22em;
+            text-transform: uppercase;
+            color: rgba(253, 250, 247, 0.8);
+            text-decoration: none;
+            transition: color 0.3s;
+        }
+        .nav-links a:hover { color: var(--cream-light); }
+        nav.scrolled .nav-links a { color: var(--text-light); }
+        nav.scrolled .nav-links a:hover { color: var(--warm-brown); }
+
+        /* ─── HERO ────────────────────────────────── */
+        .hero {
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: flex-start;
+            justify-content: flex-end;
+            text-align: left;
+            padding: 80px 72px 100px;
+            background: #1a0e06;
+            position: relative;
+            overflow: hidden;
+        }
+        .hero-bg {
+            position: absolute;
+            inset: 0;
+            z-index: 0;
+            pointer-events: none;
+        }
+        .hero-bg video {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            display: block;
+        }
+        .hero-overlay {
+            position: absolute;
+            inset: 0;
+            z-index: 1;
+            background: linear-gradient(135deg, rgba(28,15,6,0.65) 0%, rgba(28,15,6,0.28) 55%, rgba(28,15,6,0.38) 100%);
+            pointer-events: none;
+        }
+        .hero-content {
+            position: relative;
+            z-index: 2;
+            display: flex;
+            flex-direction: column;
+            align-items: flex-start;
+        }
+        .hero-sun {
+            margin-bottom: 28px;
+        }
+        .theme-switch-btn {
+            position: relative;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 32px;
+            height: 32px;
+            border-radius: 50%;
+            border: none;
+            background: transparent;
+            cursor: pointer;
+            color: var(--cream);
+            overflow: hidden;
+            padding: 0;
+            transition: opacity 0.2s;
+        }
+        .theme-switch-btn:hover { opacity: 0.8; }
+        .theme-switch-btn svg {
+            position: absolute;
+            width: 20px;
+            height: 20px;
+            transition: transform 0.3s cubic-bezier(0.34,1.56,0.64,1),
+                        opacity 0.3s cubic-bezier(0.34,1.56,0.64,1);
+        }
+        .theme-switch-btn .icon-sun  { transform: scale(1)   translateY(0);   opacity: 1; }
+        .theme-switch-btn .icon-moon { transform: scale(0.5) translateY(20px); opacity: 0; }
+        .theme-switch-btn.dark .icon-sun  { transform: scale(0.5) translateY(20px); opacity: 0; }
+        .theme-switch-btn.dark .icon-moon { transform: scale(1)   translateY(0);    opacity: 1; }
+        .hero-name {
+            font-family: 'Tenor Sans', serif;
+            font-size: clamp(4rem, 11vw, 10.5rem);
+            font-weight: 300;
+            letter-spacing: 0.12em;
+            text-transform: uppercase;
+            color: var(--cream-light);
+            line-height: 1;
+            margin-bottom: 20px;
+        }
+        .hero-tagline {
+            font-size: 0.82rem;
+            font-weight: 200;
+            letter-spacing: 0.38em;
+            text-transform: uppercase;
+            color: var(--cream);
+            margin-bottom: 52px;
+        }
+        .hero .btn {
+            border-color: var(--cream);
+            color: var(--cream-light);
+        }
+        .hero .btn:hover {
+            background: var(--cream);
+            color: var(--text);
+            border-color: var(--cream);
+        }
+        .btn {
+            display: inline-block;
+            padding: 16px 48px;
+            border: 1px solid var(--warm-brown);
+            color: var(--warm-brown);
+            font-family: 'Montserrat', sans-serif;
+            font-size: 0.65rem;
+            font-weight: 400;
+            letter-spacing: 0.22em;
+            text-transform: uppercase;
+            text-decoration: none;
+            transition: background 0.4s cubic-bezier(0.25,0.46,0.45,0.94),
+                        color 0.4s cubic-bezier(0.25,0.46,0.45,0.94),
+                        border-color 0.4s cubic-bezier(0.25,0.46,0.45,0.94),
+                        transform 0.3s cubic-bezier(0.25,0.46,0.45,0.94);
+            cursor: pointer;
+            background: transparent;
+        }
+        .btn:hover {
+            background: var(--warm-brown);
+            color: var(--cream-light);
+            transform: translateY(-2px);
+        }
+        .btn-filled {
+            background: var(--warm-brown);
+            color: var(--cream-light);
+            border-color: var(--warm-brown);
+        }
+        .btn-filled:hover {
+            background: var(--dark-brown);
+            border-color: var(--dark-brown);
+        }
+        .hero-scroll {
+            position: absolute;
+            bottom: 40px;
+            right: 72px;
+            z-index: 2;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 10px;
+            color: var(--cream);
+            font-size: 0.65rem;
+            letter-spacing: 0.35em;
+            text-transform: uppercase;
+        }
+        .hero-scroll-line {
+            width: 1px;
+            height: 44px;
+            background: linear-gradient(to bottom, var(--cream), transparent);
+            animation: scrollPulse 2.2s ease-in-out infinite;
+        }
+        @keyframes scrollPulse {
+            0%, 100% { opacity: 0.3; transform: scaleY(1); transform-origin: top; }
+            50%       { opacity: 1;   transform: scaleY(1.15); transform-origin: top; }
+        }
+
+        /* ─── SHARED ──────────────────────────────── */
+        section { padding: 110px 72px; }
+
+        .section-label {
+            display: block;
+            font-size: 0.52rem;
+            font-weight: 200;
+            letter-spacing: 0.55em;
+            text-transform: uppercase;
+            color: var(--rose-taupe);
+            margin-bottom: 18px;
+        }
+        .section-title {
+            font-family: 'Tenor Sans', serif;
+            font-size: clamp(3rem, 7vw, 6.5rem);
+            font-weight: 300;
+            color: var(--text);
+            line-height: 1.02;
+        }
+        .section-title em {
+            font-style: italic;
+            color: var(--warm-brown);
+        }
+        .divider {
+            width: 36px;
+            height: 1px;
+            background: var(--rose-taupe);
+            margin: 32px 0;
+        }
+        .divider-center { margin: 32px auto; }
+
+        /* ─── ABOUT ───────────────────────────────── */
+        .about { background: #FDFAF7; padding-top: 80px; padding-bottom: 100px; }
+        .about-top {
+            margin-bottom: 28px;
+        }
+        .about-eyebrow {
+            font-size: 0.65rem;
+            font-weight: 200;
+            letter-spacing: 0.35em;
+            text-transform: uppercase;
+            color: var(--text-light);
+        }
+        .about-rule {
+            width: 100%;
+            height: 1px;
+            background: var(--blush);
+            margin-bottom: 56px;
+        }
+        .about-statement {
+            font-family: 'Tenor Sans', serif;
+            font-size: clamp(2.4rem, 5vw, 6.5rem);
+            font-weight: 300;
+            color: var(--text);
+            line-height: 1.18;
+            letter-spacing: 0.01em;
+        }
+
+        /* ─── SCROLL VELOCITY MARQUEE ─────────────── */
+        .sv-section {
+            background: var(--cream-light);
+            padding: 0;
+            overflow: hidden;
+        }
+        .sv-row {
+            position: relative;
+            overflow: hidden;
+            display: flex;
+        }
+        .sv-row + .sv-row { margin-top: 3px; }
+        .sv-track {
+            display: flex;
+            flex-direction: row;
+            flex-wrap: nowrap;
+            gap: 3px;
+            will-change: transform;
+        }
+        .sv-item {
+            flex: 0 0 auto;
+            width: 18vw;
+            height: 12vw;
+            overflow: hidden;
+        }
+        .sv-item img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            display: block;
+            pointer-events: none;
+        }
+        html.dark .sv-section { background: #130a03; }
+
+        /* ─── PORTFOLIO ───────────────────────────── */
+        .portfolio { background: linear-gradient(180deg, #F5ECE5 0%, #FDFAF7 100%); }
+        .portfolio-header {
+            margin: 0 0 28px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+        .portfolio-grid {
+            margin: 0;
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 3px;
+        }
+        .portfolio-item {
+            aspect-ratio: 2/3;
+            position: relative;
+            overflow: hidden;
+            cursor: pointer;
+        }
+        .portfolio-item:nth-child(1) { background: #ECD9D0; }
+        .portfolio-item:nth-child(2) { background: #E6CCBD; }
+        .portfolio-item:nth-child(3) { background: #D0B8AC; }
+        .portfolio-placeholder {
+            position: absolute;
+            inset: 0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        .portfolio-placeholder svg { opacity: 0.18; }
+        .portfolio-overlay {
+            position: absolute;
+            inset: 0;
+            background: rgba(44, 26, 14, 0);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: background 0.45s;
+        }
+        .portfolio-item:hover .portfolio-overlay { background: rgba(44, 26, 14, 0.52); }
+        .portfolio-overlay-label {
+            font-size: 0.58rem;
+            letter-spacing: 0.3em;
+            text-transform: uppercase;
+            color: white;
+            opacity: 0;
+            transform: translateY(8px);
+            transition: opacity 0.4s, transform 0.4s;
+        }
+        .portfolio-item:hover .portfolio-overlay-label {
+            opacity: 1;
+            transform: translateY(0);
+        }
+        .portfolio-slides {
+            position: absolute;
+            inset: 0;
+        }
+        .portfolio-slide {
+            position: absolute;
+            inset: 0;
+            opacity: 0;
+            transition: opacity 0.9s ease;
+        }
+        .portfolio-slide.active { opacity: 1; }
+        .portfolio-slide img,
+        .portfolio-slide video {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        /* ─── PARALLAX DIVIDER ─────────────────────── */
+        .parallax-divider {
+            height: 110vh;
+            overflow: hidden;
+            position: relative;
+        }
+        .parallax-divider-img {
+            position: absolute;
+            inset: -25% 0;
+            background-image: url('media/RJPHOTOGRAPHY-129.JPG');
+            background-size: cover;
+            background-position: center;
+            will-change: transform;
+        }
+
+        /* ─── STUDIO (dark) ───────────────────────── */
+        .studio {
+            display: flex;
+            min-height: 100vh;
+            padding: 0;
+        }
+        .studio-photo {
+            flex: 0 0 52%;
+            background-image: url('media/DSCF4917.jpg');
+            background-size: cover;
+            background-position: center;
+        }
+        .studio-content {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            padding: 72px;
+            background: var(--text);
+            color: var(--cream-light);
+        }
+        .studio-title {
+            font-family: 'Tenor Sans', serif;
+            font-size: clamp(2.8rem, 4.5vw, 6.5rem);
+            font-weight: 300;
+            color: var(--cream-light);
+            line-height: 1.05;
+            margin-bottom: 40px;
+        }
+        .studio-content p {
+            font-size: 0.9rem;
+            font-weight: 200;
+            color: var(--taupe);
+            line-height: 2.1;
+            margin-bottom: 18px;
+        }
+        .studio-content .divider { background: var(--taupe); margin-bottom: 40px; }
+        .studio-content .btn {
+            display: block;
+            text-align: center;
+            border-color: rgba(253,250,247,0.35);
+            color: var(--cream-light);
+            padding: 18px 0;
+        }
+        .studio-content .btn:hover {
+            background: var(--cream-light);
+            border-color: var(--cream-light);
+            color: var(--text);
+        }
+
+        /* ─── LINKS SECTION ───────────────────────── */
+        .links-section {
+            background: var(--text);
+            padding: 0 72px;
+            text-align: center;
+        }
+        .links-item {
+            padding: 88px 0;
+        }
+        .links-rule {
+            width: 100%;
+            height: 1px;
+            background: rgba(253,250,247,0.1);
+        }
+        .links-label {
+            display: block;
+            font-size: 0.68rem;
+            font-weight: 500;
+            letter-spacing: 0.08em;
+            color: var(--blush);
+            margin-bottom: 20px;
+        }
+        .links-link {
+            font-family: 'Tenor Sans', serif;
+            font-size: clamp(2.2rem, 5vw, 7.5rem);
+            font-weight: 300;
+            color: var(--cream-light);
+            text-decoration: none;
+            line-height: 1;
+            position: relative;
+            display: inline-block;
+        }
+        .links-link::after {
+            content: '';
+            position: absolute;
+            bottom: 4px;
+            left: 0;
+            width: 0;
+            height: 1px;
+            background: var(--cream-light);
+            transition: width 0.5s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+        }
+        .links-link:hover::after { width: 100%; }
+
+        /* ─── CONTACT ─────────────────────────────── */
+        .contact { background: linear-gradient(180deg, #F3E8DF 0%, #FDFAF7 100%); }
+        .contact-inner {
+            text-align: left;
+        }
+        .contact-intro {
+            font-size: 0.75rem;
+            font-weight: 200;
+            color: var(--text-light);
+            line-height: 2.1;
+            margin-bottom: 52px;
+            max-width: 680px;
+        }
+        .contact-form {
+            display: flex;
+            flex-direction: column;
+            gap: 28px;
+            text-align: left;
+        }
+        .form-row {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 28px;
+        }
+        .form-group {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+        .form-group label {
+            font-size: 0.56rem;
+            letter-spacing: 0.28em;
+            text-transform: uppercase;
+            color: var(--text-light);
+        }
+        .form-group input,
+        .form-group textarea,
+        .form-group select {
+            background: transparent;
+            border: none;
+            border-bottom: 1px solid var(--rose-taupe);
+            padding: 10px 0;
+            font-family: 'Montserrat', sans-serif;
+            font-size: 0.84rem;
+            font-weight: 300;
+            color: var(--text);
+            outline: none;
+            transition: border-color 0.3s;
+            -webkit-appearance: none;
+        }
+        .form-group input:focus,
+        .form-group textarea:focus,
+        .form-group select:focus { border-color: var(--warm-brown); }
+        .form-group input::placeholder,
+        .form-group textarea::placeholder { color: var(--rose-taupe); }
+        .form-group textarea { resize: none; height: 96px; }
+        .form-submit { text-align: left; margin-top: 12px; }
+
+        /* ─── FOOTER ──────────────────────────────── */
+        footer {
+            background: var(--text);
+            color: var(--blush);
+            padding: 52px 72px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+        .footer-brand {
+            display: flex;
+            flex-direction: column;
+            gap: 4px;
+        }
+        .footer-name {
+            font-family: 'Tenor Sans', serif;
+            font-size: 1.4rem;
+            letter-spacing: 0.2em;
+            color: var(--cream);
+            text-transform: uppercase;
+        }
+        .footer-sub {
+            font-size: 0.54rem;
+            letter-spacing: 0.3em;
+            text-transform: uppercase;
+            color: var(--blush);
+        }
+        .footer-copy {
+            font-size: 0.55rem;
+            letter-spacing: 0.15em;
+            text-transform: uppercase;
+        }
+        .footer-social {
+            display: flex;
+            flex-direction: column;
+            align-items: flex-end;
+            gap: 10px;
+        }
+        .footer-social a {
+            font-family: 'Tenor Sans', serif;
+            font-size: clamp(1rem, 1.5vw, 1.6rem);
+            font-weight: 300;
+            color: var(--cream-light);
+            text-decoration: none;
+            line-height: 1;
+            position: relative;
+            display: inline-block;
+        }
+        .footer-social a::after {
+            content: '';
+            position: absolute;
+            bottom: -2px;
+            left: 0;
+            width: 0;
+            height: 1px;
+            background: var(--cream-light);
+            transition: width 0.45s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+        }
+        .footer-social a:hover::after { width: 100%; }
+
+        /* ─── FADE-IN ANIMATION ───────────────────── */
+        .fade-up {
+            opacity: 0;
+            transform: translateY(28px);
+            transition: opacity 0.8s ease, transform 0.8s ease;
+        }
+        .fade-up.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        /* ─── RESPONSIVE ──────────────────────────── */
+        /* ─── MOBILE MENU ─────────────────────────── */
+        .nav-menu-btn {
+            display: none;
+            font-size: 0.62rem;
+            letter-spacing: 0.28em;
+            text-transform: uppercase;
+            color: rgba(253, 250, 247, 0.85);
+            background: none;
+            border: none;
+            cursor: pointer;
+            font-family: 'Montserrat', sans-serif;
+            font-weight: 400;
+            padding: 0;
+            transition: color 0.3s;
+        }
+        nav.scrolled .nav-menu-btn { color: var(--text-light); }
+        nav.scrolled .nav-menu-btn:hover { color: var(--warm-brown); }
+
+        .mobile-menu {
+            position: fixed;
+            inset: 0;
+            z-index: 200;
+            background: var(--cream-light);
+            display: flex;
+            flex-direction: column;
+            padding: 28px 32px 48px;
+            transform: translateY(-100%);
+            transition: transform 0.55s cubic-bezier(0.76, 0, 0.24, 1);
+            pointer-events: none;
+        }
+        .mobile-menu.open {
+            transform: translateY(0);
+            pointer-events: all;
+        }
+        .mobile-menu-top {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: auto;
+        }
+        .mobile-menu-brand {
+            font-family: 'Tenor Sans', serif;
+            font-size: 0.9rem;
+            letter-spacing: 0.12em;
+            color: var(--text);
+            text-decoration: none;
+        }
+        .mobile-menu-close {
+            font-size: 0.62rem;
+            letter-spacing: 0.28em;
+            text-transform: uppercase;
+            color: var(--text-light);
+            background: none;
+            border: none;
+            cursor: pointer;
+            font-family: 'Montserrat', sans-serif;
+            font-weight: 400;
+            padding: 0;
+        }
+        .mobile-menu-links {
+            list-style: none;
+            padding: 0;
+            margin: auto 0;
+        }
+        .mobile-menu-links li {
+            overflow: hidden;
+        }
+        .mobile-menu-links a {
+            display: block;
+            font-family: 'Tenor Sans', serif;
+            font-size: clamp(2.8rem, 12vw, 5rem);
+            line-height: 1.15;
+            color: var(--text);
+            text-decoration: none;
+            transition: color 0.25s;
+        }
+        .mobile-menu-links a:hover { color: var(--warm-brown); }
+        .mobile-menu-bottom {
+            border-top: 1px solid var(--blush);
+            padding-top: 28px;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+        }
+        .mobile-menu-bottom-col span {
+            display: block;
+            font-size: 0.55rem;
+            letter-spacing: 0.3em;
+            text-transform: uppercase;
+            color: var(--text-light);
+            margin-bottom: 12px;
+        }
+        .mobile-menu-bottom-col a {
+            display: block;
+            font-size: 0.75rem;
+            letter-spacing: 0.06em;
+            color: var(--text);
+            text-decoration: none;
+            line-height: 2;
+            transition: color 0.25s;
+        }
+        .mobile-menu-bottom-col a:hover { color: var(--warm-brown); }
+        html.dark .mobile-menu {
+            background: #130a03;
+        }
+        html.dark .mobile-menu-brand,
+        html.dark .mobile-menu-links a { color: var(--cream-light); }
+        html.dark .mobile-menu-links a:hover { color: var(--rose-taupe); }
+        html.dark .mobile-menu-bottom { border-color: #3a2418; }
+        html.dark .mobile-menu-bottom-col a { color: var(--cream); }
+        html.dark .mobile-menu-close { color: var(--rose-taupe); }
+
+        @media (max-width: 900px) {
+            nav, nav.scrolled { padding: 20px 28px; }
+            .nav-links { display: none; }
+            .nav-menu-btn { display: block; }
+            section { padding: 80px 28px; }
+
+            .about-inner {
+                grid-template-columns: 1fr;
+                gap: 52px;
+            }
+            .about-image { order: -1; }
+            .about-image-accent { display: none; }
+
+            .portfolio-header {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 24px;
+            }
+            .portfolio-grid { grid-template-columns: repeat(2, 1fr); }
+
+            footer {
+                flex-direction: column;
+                gap: 28px;
+                text-align: center;
+                padding: 44px 28px;
+            }
+            .footer-social { justify-content: center; }
+        }
+        @media (max-width: 480px) {
+            .form-row { grid-template-columns: 1fr; }
+            .portfolio-grid { grid-template-columns: 1fr; }
+        }
+
+        /* ─── DARK MODE ───────────────────────────── */
+        html.dark body { background: #130a03; color: var(--cream); }
+
+        html.dark nav.scrolled {
+            background: rgba(19, 10, 3, 0.92);
+            border-color: #3a2418;
+        }
+
+        html.dark .section-title { color: var(--cream-light); }
+        html.dark .section-label { color: var(--rose-taupe); }
+        html.dark .divider { background: #3a2418; }
+
+        html.dark .about { background: #1a0e06; }
+        html.dark .about-eyebrow { color: var(--rose-taupe); }
+        html.dark .about-rule { background: #3a2418; }
+        html.dark .about-statement { color: var(--cream-light); }
+
+        html.dark .portfolio { background: linear-gradient(180deg, #1e1008 0%, #130a03 100%); }
+        html.dark .portfolio-item:nth-child(1) { background: #361e0c; }
+        html.dark .portfolio-item:nth-child(2) { background: #3a2010; }
+        html.dark .portfolio-item:nth-child(3) { background: #2a1c0e; }
+
+        html.dark .parallax-divider-img { background-image: url('media/RJPHOTOGRAPHY-103.JPG'); }
+
+        html.dark .studio-content { background: #0a0602; }
+        html.dark .links-section { background: #0a0602; }
+
+        html.dark .contact { background: linear-gradient(180deg, #1a1006 0%, #130a03 100%); }
+        html.dark .contact-intro { color: var(--rose-taupe); }
+        html.dark .form-group label { color: var(--rose-taupe); }
+        html.dark .form-group input,
+        html.dark .form-group textarea,
+        html.dark .form-group select {
+            color: var(--cream);
+            border-color: #3a2418;
+        }
+        html.dark .form-group input::placeholder,
+        html.dark .form-group textarea::placeholder { color: #5a3a28; }
+
+        html.dark footer { background: #0a0602; }
+    </style>
+</head>
+<body>
+
+<!-- ─── NAV ──────────────────────────────────────── -->
+<nav id="nav">
+    <a href="#" class="nav-logo">Stephany Ribeiro</a>
+    <ul class="nav-links">
+        <li><a href="#about">About</a></li>
+        <li><a href="portfolio.html">Portfolio</a></li>
+        <li><a href="#studio">Atelier</a></li>
+        <li><a href="book.html">Book</a></li>
+    </ul>
+    <button class="nav-menu-btn" id="menu-open-btn" aria-label="Open menu">Menu</button>
+</nav>
+
+<!-- ─── MOBILE MENU OVERLAY ───────────────────────── -->
+<div class="mobile-menu" id="mobile-menu" aria-hidden="true">
+    <div class="mobile-menu-top">
+        <a href="#" class="mobile-menu-brand" id="menu-brand-link">Stephany Ribeiro</a>
+        <button class="mobile-menu-close" id="menu-close-btn" aria-label="Close menu">Close</button>
+    </div>
+    <ul class="mobile-menu-links">
+        <li><a href="#about" class="menu-link">About</a></li>
+        <li><a href="portfolio.html" class="menu-link">Portfolio</a></li>
+        <li><a href="#studio" class="menu-link">Atelier</a></li>
+        <li><a href="book.html" class="menu-link">Book</a></li>
+    </ul>
+    <div class="mobile-menu-bottom">
+        <div class="mobile-menu-bottom-col">
+            <span>Social</span>
+            <a href="https://www.instagram.com/stephany.tattoo/" target="_blank" rel="noopener">@stephany.tattoo</a>
+        </div>
+        <div class="mobile-menu-bottom-col">
+            <span>Contact</span>
+            <a href="mailto:art@stephanytattoo.com">art@stephanytattoo.com</a>
+        </div>
+    </div>
+</div>
+
+<!-- ─── HERO ──────────────────────────────────────── -->
+<section class="hero" id="home">
+    <!-- Background: 4-panel media grid -->
+    <div class="hero-bg">
+        <video autoplay muted loop playsinline>
+            <source src="media/MX7A1431.mp4" type="video/mp4">
+        </video>
+    </div>
+    <!-- Dark gradient overlay for text legibility -->
+    <div class="hero-overlay"></div>
+
+    <!-- Hero content -->
+    <div class="hero-content">
+        <!-- Theme Switch Button (mirrors components/ui/theme-switch-button.tsx) -->
+        <div class="hero-sun">
+            <button class="theme-switch-btn" id="theme-switch" aria-label="Toggle theme">
+                <!-- Sun icon -->
+                <svg class="icon-sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+                    <circle cx="12" cy="12" r="4"/>
+                    <line x1="12" y1="2"  x2="12" y2="4"/>
+                    <line x1="12" y1="20" x2="12" y2="22"/>
+                    <line x1="2"  y1="12" x2="4"  y2="12"/>
+                    <line x1="20" y1="12" x2="22" y2="12"/>
+                    <line x1="4.22"  y1="4.22"  x2="5.64"  y2="5.64"/>
+                    <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/>
+                    <line x1="19.78" y1="4.22"  x2="18.36" y2="5.64"/>
+                    <line x1="5.64"  y1="18.36" x2="4.22"  y2="19.78"/>
+                </svg>
+                <!-- Moon icon -->
+                <svg class="icon-moon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/>
+                </svg>
+            </button>
+        </div>
+
+        <h1 class="hero-name">Stephany<br>Ribeiro</h1>
+        <p class="hero-tagline">Minimalist · Fineline Tattoo Artist</p>
+        <a href="#contact" class="btn">Book a Consultation</a>
+    </div>
+
+    <div class="hero-scroll">
+        <div class="hero-scroll-line"></div>
+        <span>Scroll</span>
+    </div>
+</section>
+
+<!-- ─── ABOUT ─────────────────────────────────────── -->
+<section class="about" id="about">
+    <div class="about-editorial fade-up">
+        <div class="about-top">
+            <span class="about-eyebrow">Art that lives on your skin</span>
+        </div>
+        <div class="about-rule"></div>
+        <p class="about-statement">Stephany is a fineline tattoo artist who creates delicate and meaningful designs with precision to bring your vision to life — At LUMI Atelier, private and intimate sessions create beauty in a relaxed space.</p>
+    </div>
+</section>
+
+<!-- ─── PORTFOLIO ─────────────────────────────────── -->
+<section class="portfolio" id="portfolio">
+    <div class="portfolio-header fade-up">
+        <span class="about-eyebrow">Selected Works</span>
+        <a href="#contact" class="btn">Commission a Piece</a>
+    </div>
+    <div class="about-rule"></div>
+
+    <div class="portfolio-grid">
+        <div class="portfolio-item">
+            <div class="portfolio-slides">
+                <div class="portfolio-slide active">
+                    <img src="media/letters/letters-grateful.jpg" alt="Fineline script tattoo">
+                </div>
+                <div class="portfolio-slide">
+                    <img src="media/letters/letters-minimalist-1.jpg" alt="Minimalist tattoo series">
+                </div>
+                <div class="portfolio-slide">
+                    <img src="media/letters/letters-minimalist-2.jpg" alt="Minimalist tattoo series">
+                </div>
+                <div class="portfolio-slide">
+                    <video autoplay muted loop playsinline>
+                        <source src="media/letters/letters.mp4" type="video/mp4">
+                    </video>
+                </div>
+                <div class="portfolio-slide">
+                    <img src="media/letters/letters-fonts-1.jpg" alt="Font style tattoo">
+                </div>
+                <div class="portfolio-slide">
+                    <img src="media/letters/letters-fonts-2.jpg" alt="Font style tattoo">
+                </div>
+            </div>
+            <div class="portfolio-overlay"><span class="portfolio-overlay-label">Fineline · Script</span></div>
+        </div>
+        <div class="portfolio-item">
+            <div class="portfolio-slides">
+                <div class="portfolio-slide active">
+                    <img src="media/estrelas/estrelas-1.jpg" alt="Fineline abstract tattoo">
+                </div>
+                <div class="portfolio-slide">
+                    <img src="media/estrelas/estrelas-2.jpg" alt="Fineline abstract tattoo">
+                </div>
+                <div class="portfolio-slide">
+                    <img src="media/estrelas/estrelas-3.jpg" alt="Fineline abstract tattoo">
+                </div>
+                <div class="portfolio-slide">
+                    <video autoplay muted loop playsinline>
+                        <source src="media/estrelas/estrelas-1.mp4" type="video/mp4">
+                    </video>
+                </div>
+                <div class="portfolio-slide">
+                    <img src="media/estrelas/estrelas-4.jpg" alt="Fineline abstract tattoo">
+                </div>
+                <div class="portfolio-slide">
+                    <video autoplay muted loop playsinline>
+                        <source src="media/estrelas/estrelas-2.mp4" type="video/mp4">
+                    </video>
+                </div>
+            </div>
+            <div class="portfolio-overlay"><span class="portfolio-overlay-label">Fineline · Abstract</span></div>
+        </div>
+        <div class="portfolio-item">
+            <div class="portfolio-slides">
+                <div class="portfolio-slide active">
+                    <img src="media/floral/floral-1.jpg" alt="Fineline floral tattoo">
+                </div>
+                <div class="portfolio-slide">
+                    <img src="media/floral/floral-2.jpg" alt="Fineline floral tattoo">
+                </div>
+                <div class="portfolio-slide">
+                    <img src="media/floral/floral-3.jpg" alt="Fineline floral tattoo">
+                </div>
+                <div class="portfolio-slide">
+                    <img src="media/floral/floral-4.jpg" alt="Fineline floral tattoo">
+                </div>
+                <div class="portfolio-slide">
+                    <img src="media/floral/floral-5.jpg" alt="Fineline floral tattoo">
+                </div>
+                <div class="portfolio-slide">
+                    <img src="media/floral/floral-6.jpg" alt="Fineline floral tattoo">
+                </div>
+            </div>
+            <div class="portfolio-overlay"><span class="portfolio-overlay-label">Fineline · Floral</span></div>
+        </div>
+    </div>
+</section>
+
+<!-- ─── PARALLAX DIVIDER ──────────────────────────── -->
+<div class="parallax-divider">
+    <div class="parallax-divider-img" id="parallax-img"></div>
+</div>
+
+<!-- ─── STUDIO ─────────────────────────────────────── -->
+<section class="studio" id="studio">
+    <div class="studio-photo"></div>
+    <div class="studio-content fade-up">
+        <div>
+            <h2 class="studio-title">LUMI Atelier</h2>
+            <div class="divider"></div>
+            <p>LUMI is more than a studio — it is a sanctuary. A private atelier where every detail has been considered, from the lighting to the music, to ensure your experience is as meaningful as the art itself.</p>
+            <p>By appointment only. One client at a time. Because you deserve undivided presence.</p>
+        </div>
+        <a href="#contact" class="btn">Book Your Appointment</a>
+    </div>
+</section>
+
+<!-- ─── LINKS ─────────────────────────────────────── -->
+<section class="links-section">
+    <div class="links-item fade-up">
+        <span class="links-label">Bookings &amp; Enquiries ↗</span>
+        <a href="mailto:art@stephanytattoo.com" class="links-link">art@stephanytattoo.com</a>
+    </div>
+    <div class="links-rule"></div>
+    <div class="links-item fade-up">
+        <span class="links-label">Instagram ↗</span>
+        <a href="https://www.instagram.com/stephany.tattoo/" target="_blank" rel="noopener" class="links-link">@stephany.tattoo</a>
+    </div>
+</section>
+
+<!-- ─── SCROLL VELOCITY MARQUEE ──────────────────── -->
+<div class="sv-section">
+    <div class="sv-row"><div class="sv-track" data-velocity="1.8">
+        <div class="sv-item"><img src="media/letters/letters-grateful.jpg" alt=""></div>
+        <div class="sv-item"><img src="media/estrelas/estrelas-1.jpg" alt=""></div>
+        <div class="sv-item"><img src="media/floral/floral-1.jpg" alt=""></div>
+        <div class="sv-item"><img src="media/letters/letters-minimalist-1.jpg" alt=""></div>
+        <div class="sv-item"><img src="media/estrelas/estrelas-3.jpg" alt=""></div>
+        <div class="sv-item"><img src="media/floral/floral-3.jpg" alt=""></div>
+        <div class="sv-item"><img src="media/letters/letters-fonts-1.jpg" alt=""></div>
+        <div class="sv-item"><img src="media/estrelas/estrelas-2.jpg" alt=""></div>
+        <div class="sv-item"><img src="media/floral/floral-5.jpg" alt=""></div>
+        <!-- duplicated for seamless loop -->
+        <div class="sv-item"><img src="media/letters/letters-grateful.jpg" alt=""></div>
+        <div class="sv-item"><img src="media/estrelas/estrelas-1.jpg" alt=""></div>
+        <div class="sv-item"><img src="media/floral/floral-1.jpg" alt=""></div>
+        <div class="sv-item"><img src="media/letters/letters-minimalist-1.jpg" alt=""></div>
+        <div class="sv-item"><img src="media/estrelas/estrelas-3.jpg" alt=""></div>
+        <div class="sv-item"><img src="media/floral/floral-3.jpg" alt=""></div>
+        <div class="sv-item"><img src="media/letters/letters-fonts-1.jpg" alt=""></div>
+        <div class="sv-item"><img src="media/estrelas/estrelas-2.jpg" alt=""></div>
+        <div class="sv-item"><img src="media/floral/floral-5.jpg" alt=""></div>
+    </div></div>
+</div>
+
+<!-- ─── CONTACT ────────────────────────────────────── -->
+<section class="contact" id="contact">
+    <div class="contact-inner fade-up">
+        <span class="about-eyebrow">Book your session</span>
+        <div class="about-rule"></div>
+        <p class="about-statement">I accept a limited number of clients each month to ensure every piece receives the attention it deserves.</p>
+        <a href="book.html" class="btn" style="margin-top:56px;display:inline-block;">Book your session</a>
+    </div>
+</section>
+
+<!-- ─── FOOTER ─────────────────────────────────────── -->
+<footer>
+    <div class="footer-brand">
+        <div class="footer-name">Stephany Ribeiro</div>
+        <div class="footer-sub">LUMI Atelier · Fineline Tattoo</div>
+    </div>
+    <div class="footer-copy">© 2025 LUMI Atelier · All rights reserved</div>
+    <div class="footer-social">
+        <a href="https://www.instagram.com/stephany.tattoo/" target="_blank" rel="noopener">@stephany.tattoo</a>
+        <a href="mailto:art@stephanytattoo.com">art@stephanytattoo.com</a>
+    </div>
+</footer>
+
+<script>
+    // Nav scroll effect
+    const nav = document.getElementById('nav');
+    window.addEventListener('scroll', () => {
+        nav.classList.toggle('scrolled', window.scrollY > 60);
+    });
+
+    // Mobile menu
+    const mobileMenu = document.getElementById('mobile-menu');
+    document.getElementById('menu-open-btn').addEventListener('click', () => {
+        mobileMenu.classList.add('open');
+        mobileMenu.setAttribute('aria-hidden', 'false');
+        document.body.style.overflow = 'hidden';
+    });
+    function closeMenu() {
+        mobileMenu.classList.remove('open');
+        mobileMenu.setAttribute('aria-hidden', 'true');
+        document.body.style.overflow = '';
+    }
+    document.getElementById('menu-close-btn').addEventListener('click', closeMenu);
+    document.querySelectorAll('.menu-link').forEach(a => a.addEventListener('click', closeMenu));
+    document.getElementById('menu-brand-link').addEventListener('click', closeMenu);
+
+    // Fade-up on scroll
+    const fadeEls = document.querySelectorAll('.fade-up');
+    const observer = new IntersectionObserver((entries) => {
+        entries.forEach(e => {
+            if (e.isIntersecting) {
+                e.target.classList.add('visible');
+                observer.unobserve(e.target);
+            }
+        });
+    }, { threshold: 0.12 });
+    fadeEls.forEach(el => observer.observe(el));
+
+    // Theme switch (mirrors ThemeSwitch component in components/ui/theme-switch-button.tsx)
+    const themeBtn = document.getElementById('theme-switch');
+    const heroVideo  = document.querySelector('.hero-bg video');
+    const heroSource = heroVideo.querySelector('source');
+    const VIDEOS = {
+        light: 'media/MX7A1431.mp4',
+        dark:  'media/bbbcc92e-0501-4406-9e3e-358a09309a9a.mp4'
+    };
+
+    function applyTheme(isDark) {
+        document.documentElement.classList.toggle('dark', isDark);
+        themeBtn.classList.toggle('dark', isDark);
+        heroSource.src = isDark ? VIDEOS.dark : VIDEOS.light;
+        heroVideo.load();
+    }
+
+    const savedTheme = localStorage.getItem('theme') ||
+        (window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light');
+    applyTheme(savedTheme === 'dark');
+
+    themeBtn.addEventListener('click', () => {
+        const isDark = !themeBtn.classList.contains('dark');
+        applyTheme(isDark);
+        localStorage.setItem('theme', isDark ? 'dark' : 'light');
+    });
+
+    // Parallax divider
+    const parallaxImg = document.getElementById('parallax-img');
+    function updateParallax() {
+        const rect = parallaxImg.parentElement.getBoundingClientRect();
+        const progress = -rect.top / (window.innerHeight + rect.height);
+        parallaxImg.style.transform = `translateY(${progress * 28}%)`;
+    }
+    window.addEventListener('scroll', updateParallax, { passive: true });
+    updateParallax();
+
+    // Portfolio slideshows (each container runs independently)
+    document.querySelectorAll('.portfolio-slides').forEach((container, i) => {
+        const slides = container.querySelectorAll('.portfolio-slide');
+        if (slides.length < 2) return;
+        let current = 0;
+        setTimeout(() => {
+            setInterval(() => {
+                slides[current].classList.remove('active');
+                current = (current + 1) % slides.length;
+                slides[current].classList.add('active');
+            }, 4000);
+        }, i * 1200); // stagger start so they don't advance in sync
+    });
+
+    // Scroll velocity marquee (mirrors ScrollVelocity component in components/ui/scroll-velocity.tsx)
+    (function() {
+        const tracks = document.querySelectorAll('.sv-track');
+        let lastScrollY = window.scrollY;
+        let rawVelocity = 0;
+        let smoothVelocity = 0;
+
+        window.addEventListener('scroll', () => {
+            rawVelocity = window.scrollY - lastScrollY;
+            lastScrollY = window.scrollY;
+        }, { passive: true });
+
+        tracks.forEach(track => {
+            const baseVelocity = parseFloat(track.dataset.velocity || '3');
+            const halfCount = track.children.length / 2;
+            let offset = 0;
+            let direction = baseVelocity > 0 ? 1 : -1;
+            let lastTime = null;
+
+            // measure half-width after first paint
+            requestAnimationFrame(function measure() {
+                const itemW = track.querySelector('.sv-item').offsetWidth + 3; // +gap
+                const halfWidth = itemW * halfCount;
+
+                function tick(time) {
+                    if (!lastTime) { lastTime = time; requestAnimationFrame(tick); return; }
+                    const delta = Math.min(time - lastTime, 50);
+                    lastTime = time;
+
+                    // smooth the raw scroll velocity
+                    smoothVelocity += (rawVelocity - smoothVelocity) * 0.12;
+
+                    const scrollFactor = Math.min(Math.abs(smoothVelocity) * 0.4, 5);
+                    if (smoothVelocity < -0.5) direction = -1;
+                    else if (smoothVelocity > 0.5) direction = 1;
+
+                    let move = direction * Math.abs(baseVelocity) * (delta / 1000) * 60;
+                    move += direction * Math.abs(move) * scrollFactor;
+                    offset += move;
+
+                    // wrap between 0 and halfWidth
+                    offset = ((offset % halfWidth) + halfWidth) % halfWidth;
+                    track.style.transform = `translateX(-${offset}px)`;
+
+                    requestAnimationFrame(tick);
+                }
+                requestAnimationFrame(tick);
+            });
+        });
+    })();
+
+
+</script>
+</body>
+</html>
