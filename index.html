@@ -602,7 +602,7 @@
         }
         .footer-social a {
             font-family: 'Tenor Sans', serif;
-            font-size: clamp(1rem, 1.5vw, 1.6rem);
+            font-size: clamp(1rem, 2vw, 1.6rem);
             font-weight: 300;
             color: var(--cream-light);
             text-decoration: none;
@@ -747,36 +747,97 @@
         html.dark .mobile-menu-close { color: var(--rose-taupe); }
 
         @media (max-width: 900px) {
-            nav, nav.scrolled { padding: 20px 28px; }
+            nav, nav.scrolled { padding: 20px 24px; }
             .nav-links { display: none; }
             .nav-menu-btn { display: block; }
-            section { padding: 80px 28px; }
 
-            .about-inner {
-                grid-template-columns: 1fr;
-                gap: 52px;
+            /* ── Sections base ── */
+            section { padding: 72px 24px; }
+            .hero {
+                padding: 64px 24px 80px;
+                min-height: 100svh;
             }
+            .hero-scroll { display: none; }
+            .hero-name { letter-spacing: 0.06em; }
+            .hero-tagline {
+                font-size: 0.72rem;
+                letter-spacing: 0.15em;
+                margin-bottom: 40px;
+            }
+
+            /* ── About ── */
+            .about { padding-top: 64px; padding-bottom: 72px; }
+            .about-inner { grid-template-columns: 1fr; gap: 40px; }
             .about-image { order: -1; }
             .about-image-accent { display: none; }
+            .about-statement { font-size: clamp(1.8rem, 7vw, 4rem); }
 
+            /* ── Portfolio ── */
             .portfolio-header {
                 flex-direction: column;
                 align-items: flex-start;
-                gap: 24px;
+                gap: 20px;
             }
             .portfolio-grid { grid-template-columns: repeat(2, 1fr); }
 
+            /* ── Parallax divider ── */
+            .parallax-divider { height: 60vw; min-height: 280px; }
+
+            /* ── Studio — stack vertically ── */
+            .studio {
+                flex-direction: column;
+                min-height: auto;
+            }
+            .studio-photo {
+                flex: none;
+                height: 60vw;
+                min-height: 260px;
+            }
+            .studio-content {
+                padding: 48px 24px 52px;
+            }
+            .studio-title { font-size: clamp(2rem, 7vw, 4rem); }
+            .studio-content p { font-size: 0.85rem; }
+
+            /* ── Links section ── */
+            .links-section { padding: 0 24px; }
+            .links-item { padding: 56px 0; }
+            .links-link { font-size: clamp(1.5rem, 7.5vw, 4rem); }
+
+            /* ── Contact ── */
+            .contact { padding-left: 24px; padding-right: 24px; }
+
+            /* ── Scroll velocity marquee ── */
+            .sv-item { width: 30vw; height: 20vw; }
+
+            /* ── Footer ── */
             footer {
                 flex-direction: column;
-                gap: 28px;
+                gap: 32px;
                 text-align: center;
-                padding: 44px 28px;
+                padding: 44px 24px;
             }
-            .footer-social { justify-content: center; }
+            .footer-social {
+                align-items: center;
+                justify-content: center;
+            }
+            .footer-social a { font-size: 1.1rem; }
         }
+
         @media (max-width: 480px) {
+            section { padding: 60px 20px; }
+            .hero { padding: 52px 20px 72px; }
+            .hero-name {
+                font-size: clamp(2.4rem, 11.5vw, 5rem);
+                letter-spacing: 0.05em;
+            }
+            .about-statement { font-size: clamp(1.6rem, 8.5vw, 3rem); }
             .form-row { grid-template-columns: 1fr; }
             .portfolio-grid { grid-template-columns: 1fr; }
+            .links-section { padding: 0 20px; }
+            .links-link { font-size: clamp(1.3rem, 8.5vw, 3rem); }
+            .studio-photo { height: 70vw; }
+            .sv-item { width: 40vw; height: 27vw; }
         }
 
         /* ─── DARK MODE ───────────────────────────── */
