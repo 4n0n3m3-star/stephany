@@ -336,25 +336,28 @@
     <div class="rule"></div>
     <h1 class="page-title">Tell me about<br>your vision.</h1>
 
-    <form class="contact-form" id="contact-form">
+    <form class="contact-form" id="contact-form" action="https://api.web3forms.com/submit" method="POST">
+        <input type="hidden" name="access_key" value="17ecc826-9257-4057-86e9-15bec8251701">
+        <input type="hidden" name="subject" value="New Tattoo Request — LUMI Atelier">
+        <input type="hidden" name="redirect" value="false">
         <div class="form-row">
             <div class="form-group">
                 <label for="name">Full Name</label>
-                <input type="text" id="name" placeholder="Your name" required>
+                <input type="text" id="name" name="name" placeholder="Your name" required>
             </div>
             <div class="form-group">
                 <label for="email">Email</label>
-                <input type="email" id="email" placeholder="your@email.com" required>
+                <input type="email" id="email" name="email" placeholder="your@email.com" required>
             </div>
         </div>
         <div class="form-row">
             <div class="form-group">
                 <label for="placement">Placement</label>
-                <input type="text" id="placement" placeholder="Where on the body?">
+                <input type="text" id="placement" name="placement" placeholder="Where on the body?">
             </div>
             <div class="form-group">
                 <label for="size">Approximate Size</label>
-                <select id="size">
+                <select id="size" name="size">
                     <option value="" disabled selected>Select size</option>
                     <option>Small (2–5 cm)</option>
                     <option>Medium (5–10 cm)</option>
@@ -365,7 +368,7 @@
         </div>
         <div class="form-group">
             <label for="idea">Your Idea</label>
-            <textarea id="idea" placeholder="Describe your tattoo idea, inspiration, references..." required></textarea>
+            <textarea id="idea" name="idea" placeholder="Describe your tattoo idea, inspiration, references..." required></textarea>
         </div>
         <div class="form-submit">
             <button type="submit" class="btn btn-filled">Send Request</button>
@@ -458,12 +461,21 @@
         });
     })();
 
-    document.getElementById('contact-form').addEventListener('submit', (e) => {
+    document.getElementById('contact-form').addEventListener('submit', async (e) => {
         e.preventDefault();
-        const btn = e.target.querySelector('button[type="submit"]');
-        btn.textContent = 'Request Sent ✓';
-        btn.style.background = 'var(--dark-brown)';
+        const form = e.target;
+        const btn = form.querySelector('button[type="submit"]');
+        btn.textContent = 'Sending…';
         btn.disabled = true;
+        const res = await fetch(form.action, { method: 'POST', body: new FormData(form), headers: { 'Accept': 'application/json' } });
+        if (res.ok) {
+            btn.textContent = 'Request Sent ✓';
+            btn.style.background = 'var(--dark-brown)';
+            form.reset();
+        } else {
+            btn.textContent = 'Error — Try Again';
+            btn.disabled = false;
+        }
     });
 </script>
   <script src="/_vercel/speed-insights/script.js" defer></script>
