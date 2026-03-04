@@ -262,6 +262,32 @@
         html.dark .lang-btn { color: var(--rose-taupe); border-color: #5a3a28; }
         html.dark .lang-btn:hover { color: var(--cream); border-color: var(--rose-taupe); }
 
+        /* ─── PAGE LOADER ───────────────────────────── */
+        #page-loader {
+            position: fixed;
+            inset: 0;
+            z-index: 999;
+            background: #FDFAF7;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            pointer-events: all;
+            transition: opacity 0.6s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+        }
+        #page-loader.out {
+            opacity: 0;
+            pointer-events: none;
+        }
+        #page-loader img {
+            width: 88px;
+            mix-blend-mode: multiply;
+            animation: loaderBreath 1.6s ease-in-out infinite;
+        }
+        @keyframes loaderBreath {
+            0%, 100% { transform: scale(0.9);  opacity: 0.5; }
+            50%       { transform: scale(1.02); opacity: 1;   }
+        }
+
         /* ─── SCROLL VELOCITY MARQUEE ─────────────── */
         .sv-section { background: var(--cream-light); padding: 0; overflow: hidden; }
         .sv-row { position: relative; overflow: hidden; display: flex; }
@@ -339,6 +365,11 @@
     </style>
 </head>
 <body>
+
+<!-- ─── PAGE LOADER ──────────────────────────────── -->
+<div id="page-loader">
+    <img src="/media/christmas-stars.png" alt="">
+</div>
 
 <nav>
     <a href="/" class="nav-back">
@@ -435,6 +466,22 @@
 
 
 <script>
+    // ─── Page loader ──────────────────────────────
+    (function() {
+        const loader = document.getElementById('page-loader');
+        setTimeout(() => { loader.classList.add('out'); }, 480);
+        document.querySelectorAll('a[href]').forEach(link => {
+            const href = link.getAttribute('href');
+            if (href && href !== '#' && !href.startsWith('#') && !href.startsWith('mailto:') && !href.startsWith('http')) {
+                link.addEventListener('click', (e) => {
+                    e.preventDefault();
+                    loader.classList.remove('out');
+                    setTimeout(() => { window.location.href = href; }, 500);
+                });
+            }
+        });
+    })();
+
     // ─── i18n ──────────────────────────────────────
     const i18n = {
         pt: {
