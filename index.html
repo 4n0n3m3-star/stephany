@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="pt">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -904,6 +904,32 @@
         html.dark .form-group textarea::placeholder { color: #5a3a28; }
 
         html.dark footer { background: #0a0602; }
+
+        /* ─── LANG BTN ────────────────────────────── */
+        .nav-right {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+        }
+        .lang-btn {
+            font-size: 0.56rem;
+            letter-spacing: 0.2em;
+            text-transform: uppercase;
+            color: rgba(253, 250, 247, 0.65);
+            background: none;
+            border: 1px solid rgba(253, 250, 247, 0.22);
+            border-radius: 2px;
+            padding: 5px 9px;
+            cursor: pointer;
+            font-family: 'Montserrat', sans-serif;
+            font-weight: 400;
+            transition: color 0.3s, border-color 0.3s;
+        }
+        nav.scrolled .lang-btn { color: var(--text-light); border-color: var(--rose-taupe); }
+        .lang-btn:hover { color: var(--cream-light); border-color: rgba(253,250,247,0.55); }
+        nav.scrolled .lang-btn:hover { color: var(--warm-brown); border-color: var(--warm-brown); }
+        html.dark nav.scrolled .lang-btn { color: var(--rose-taupe); border-color: #5a3a28; }
+        html.dark nav.scrolled .lang-btn:hover { color: var(--cream); border-color: var(--rose-taupe); }
     </style>
 </head>
 <body>
@@ -912,33 +938,36 @@
 <nav id="nav">
     <a href="#" class="nav-logo">Stephany Ribeiro</a>
     <ul class="nav-links">
-        <li><a href="#about">About</a></li>
-        <li><a href="/portfolio">Portfolio</a></li>
-        <li><a href="#studio">Atelier</a></li>
-        <li><a href="/book">Book</a></li>
+        <li><a href="#about" data-i18n="nav-about">Sobre</a></li>
+        <li><a href="/portfolio" data-i18n="nav-portfolio">Portfólio</a></li>
+        <li><a href="#studio" data-i18n="nav-atelier">Atelier</a></li>
+        <li><a href="/book" data-i18n="nav-book">Marcar</a></li>
     </ul>
-    <button class="nav-menu-btn" id="menu-open-btn" aria-label="Open menu">Menu</button>
+    <div class="nav-right">
+        <button class="lang-btn" id="lang-switch" aria-label="Mudar idioma">EN</button>
+        <button class="nav-menu-btn" id="menu-open-btn" aria-label="Open menu" data-i18n="nav-menu">Menu</button>
+    </div>
 </nav>
 
 <!-- ─── MOBILE MENU OVERLAY ───────────────────────── -->
 <div class="mobile-menu" id="mobile-menu" aria-hidden="true">
     <div class="mobile-menu-top">
         <a href="#" class="mobile-menu-brand" id="menu-brand-link">Stephany Ribeiro</a>
-        <button class="mobile-menu-close" id="menu-close-btn" aria-label="Close menu">Close</button>
+        <button class="mobile-menu-close" id="menu-close-btn" aria-label="Close menu" data-i18n="nav-close">Fechar</button>
     </div>
     <ul class="mobile-menu-links">
-        <li><a href="#about" class="menu-link">About</a></li>
-        <li><a href="/portfolio" class="menu-link">Portfolio</a></li>
-        <li><a href="#studio" class="menu-link">Atelier</a></li>
-        <li><a href="/book" class="menu-link">Book</a></li>
+        <li><a href="#about" class="menu-link" data-i18n="nav-about">Sobre</a></li>
+        <li><a href="/portfolio" class="menu-link" data-i18n="nav-portfolio">Portfólio</a></li>
+        <li><a href="#studio" class="menu-link" data-i18n="nav-atelier">Atelier</a></li>
+        <li><a href="/book" class="menu-link" data-i18n="nav-book">Marcar</a></li>
     </ul>
     <div class="mobile-menu-bottom">
         <div class="mobile-menu-bottom-col">
-            <span>Social</span>
+            <span data-i18n="mobile-social">Redes Sociais</span>
             <a href="https://www.instagram.com/stephany.tattoo/" target="_blank" rel="noopener">@stephany.tattoo</a>
         </div>
         <div class="mobile-menu-bottom-col">
-            <span>Contact</span>
+            <span data-i18n="mobile-contact">Contacto</span>
             <a href="mailto:art@stephanytattoo.com">art@stephanytattoo.com</a>
         </div>
     </div>
@@ -980,13 +1009,13 @@
         </div>
 
         <h1 class="hero-name">Stephany<br>Ribeiro</h1>
-        <p class="hero-tagline">Minimalist · Fineline Tattoo Artist</p>
-        <a href="#contact" class="btn">Book a Consultation</a>
+        <p class="hero-tagline" data-i18n="hero-tagline">Minimalista · Artista de Tatuagem Fineline</p>
+        <a href="#contact" class="btn" data-i18n="hero-cta">Marcar Consulta</a>
     </div>
 
     <div class="hero-scroll">
         <div class="hero-scroll-line"></div>
-        <span>Scroll</span>
+        <span data-i18n="hero-scroll">Rolar</span>
     </div>
 </section>
 
@@ -994,18 +1023,18 @@
 <section class="about" id="about">
     <div class="about-editorial fade-up">
         <div class="about-top">
-            <span class="about-eyebrow">Art that lives on your skin</span>
+            <span class="about-eyebrow" data-i18n="about-eyebrow">Arte que vive na tua pele</span>
         </div>
         <div class="about-rule"></div>
-        <p class="about-statement">Stephany is a fineline tattoo artist who creates delicate and meaningful designs with precision to bring your vision to life — At LUMI Atelier, private and intimate sessions create beauty in a relaxed space.</p>
+        <p class="about-statement" data-i18n="about-statement">Stephany é uma artista de tatuagem fineline que cria designs delicados e significativos com precisão para dar vida à tua visão — no LUMI Atelier, sessões privadas e íntimas criam beleza num espaço tranquilo.</p>
     </div>
 </section>
 
 <!-- ─── PORTFOLIO ─────────────────────────────────── -->
 <section class="portfolio" id="portfolio">
     <div class="portfolio-header fade-up">
-        <span class="about-eyebrow">Selected Works</span>
-        <a href="#contact" class="btn">Commission a Piece</a>
+        <span class="about-eyebrow" data-i18n="portfolio-eyebrow">Trabalhos Selecionados</span>
+        <a href="#contact" class="btn" data-i18n="portfolio-cta">Encomendar uma Peça</a>
     </div>
     <div class="about-rule"></div>
 
@@ -1100,22 +1129,22 @@
         <div class="studio-text fade-up">
             <h2 class="studio-title">LUMI Atelier</h2>
             <div class="divider"></div>
-            <p>LUMI is more than a studio — it is a sanctuary. A private atelier where every detail has been considered, from the lighting to the music, to ensure your experience is as meaningful as the art itself.</p>
-            <p>By appointment only. One client at a time. Because you deserve undivided presence.</p>
+            <p data-i18n="studio-p1">O LUMI é mais do que um estúdio — é um santuário. Um atelier privado onde cada detalhe foi cuidadosamente pensado, da iluminação à música, para garantir que a tua experiência seja tão significativa quanto a própria arte.</p>
+            <p data-i18n="studio-p2">Apenas com marcação. Um cliente de cada vez. Porque mereces atenção total.</p>
         </div>
-        <a href="#contact" class="btn">Book Your Appointment</a>
+        <a href="#contact" class="btn" data-i18n="studio-btn">Marcar Consulta</a>
     </div>
 </section>
 
 <!-- ─── LINKS ─────────────────────────────────────── -->
 <section class="links-section">
     <div class="links-item fade-up">
-        <span class="links-label">Bookings &amp; Enquiries ↗</span>
+        <span class="links-label" data-i18n="links-bookings">Marcações &amp; Contacto ↗</span>
         <a href="mailto:art@stephanytattoo.com" class="links-link">art@stephanytattoo.com</a>
     </div>
     <div class="links-rule"></div>
     <div class="links-item fade-up">
-        <span class="links-label">Instagram ↗</span>
+        <span class="links-label" data-i18n="links-instagram">Instagram ↗</span>
         <a href="https://www.instagram.com/stephany.tattoo/" target="_blank" rel="noopener" class="links-link">@stephany.tattoo</a>
     </div>
 </section>
@@ -1148,10 +1177,10 @@
 <!-- ─── CONTACT ────────────────────────────────────── -->
 <section class="contact" id="contact">
     <div class="contact-inner fade-up">
-        <span class="about-eyebrow">Book your session</span>
+        <span class="about-eyebrow" data-i18n="contact-eyebrow">Marcar sessão</span>
         <div class="about-rule"></div>
-        <p class="about-statement">I accept a limited number of clients each month to ensure every piece receives the attention it deserves.</p>
-        <a href="/book" class="btn" style="margin-top:56px;display:inline-block;">Book your session</a>
+        <p class="about-statement" data-i18n="contact-statement">Aceito um número limitado de clientes por mês para garantir que cada peça recebe a atenção que merece.</p>
+        <a href="/book" class="btn" style="margin-top:56px;display:inline-block;" data-i18n="contact-btn">Marcar sessão</a>
     </div>
 </section>
 
@@ -1160,7 +1189,7 @@
     <div class="footer-brand">
         <div class="footer-name">Stephany Ribeiro</div>
     </div>
-    <div class="footer-copy">© 2026 STEPHANY RIBEIRO · All rights reserved</div>
+    <div class="footer-copy" data-i18n="footer-copy">© 2026 STEPHANY RIBEIRO · Todos os direitos reservados</div>
     <div class="footer-social">
         <a href="https://www.instagram.com/stephany.tattoo/" target="_blank" rel="noopener">@stephany.tattoo</a>
         <a href="mailto:art@stephanytattoo.com">art@stephanytattoo.com</a>
@@ -1248,6 +1277,63 @@
             }, 4000);
         }, i * 1200); // stagger start so they don't advance in sync
     });
+
+    // ─── i18n ──────────────────────────────────────
+    const i18n = {
+        pt: {
+            'nav-about': 'Sobre', 'nav-portfolio': 'Portfólio', 'nav-atelier': 'Atelier', 'nav-book': 'Marcar',
+            'nav-menu': 'Menu', 'nav-close': 'Fechar',
+            'mobile-social': 'Redes Sociais', 'mobile-contact': 'Contacto',
+            'hero-tagline': 'Minimalista · Artista de Tatuagem Fineline',
+            'hero-cta': 'Marcar Consulta', 'hero-scroll': 'Rolar',
+            'about-eyebrow': 'Arte que vive na tua pele',
+            'about-statement': 'Stephany é uma artista de tatuagem fineline que cria designs delicados e significativos com precisão para dar vida à tua visão — no LUMI Atelier, sessões privadas e íntimas criam beleza num espaço tranquilo.',
+            'portfolio-eyebrow': 'Trabalhos Selecionados', 'portfolio-cta': 'Encomendar uma Peça',
+            'studio-p1': 'O LUMI é mais do que um estúdio — é um santuário. Um atelier privado onde cada detalhe foi cuidadosamente pensado, da iluminação à música, para garantir que a tua experiência seja tão significativa quanto a própria arte.',
+            'studio-p2': 'Apenas com marcação. Um cliente de cada vez. Porque mereces atenção total.',
+            'studio-btn': 'Marcar Consulta',
+            'links-bookings': 'Marcações &amp; Contacto ↗', 'links-instagram': 'Instagram ↗',
+            'contact-eyebrow': 'Marcar sessão',
+            'contact-statement': 'Aceito um número limitado de clientes por mês para garantir que cada peça recebe a atenção que merece.',
+            'contact-btn': 'Marcar sessão',
+            'footer-copy': '© 2026 STEPHANY RIBEIRO · Todos os direitos reservados',
+        },
+        en: {
+            'nav-about': 'About', 'nav-portfolio': 'Portfolio', 'nav-atelier': 'Atelier', 'nav-book': 'Book',
+            'nav-menu': 'Menu', 'nav-close': 'Close',
+            'mobile-social': 'Social', 'mobile-contact': 'Contact',
+            'hero-tagline': 'Minimalist · Fineline Tattoo Artist',
+            'hero-cta': 'Book a Consultation', 'hero-scroll': 'Scroll',
+            'about-eyebrow': 'Art that lives on your skin',
+            'about-statement': 'Stephany is a fineline tattoo artist who creates delicate and meaningful designs with precision to bring your vision to life — At LUMI Atelier, private and intimate sessions create beauty in a relaxed space.',
+            'portfolio-eyebrow': 'Selected Works', 'portfolio-cta': 'Commission a Piece',
+            'studio-p1': 'LUMI is more than a studio — it is a sanctuary. A private atelier where every detail has been considered, from the lighting to the music, to ensure your experience is as meaningful as the art itself.',
+            'studio-p2': 'By appointment only. One client at a time. Because you deserve undivided presence.',
+            'studio-btn': 'Book Your Appointment',
+            'links-bookings': 'Bookings &amp; Enquiries ↗', 'links-instagram': 'Instagram ↗',
+            'contact-eyebrow': 'Book your session',
+            'contact-statement': 'I accept a limited number of clients each month to ensure every piece receives the attention it deserves.',
+            'contact-btn': 'Book your session',
+            'footer-copy': '© 2026 STEPHANY RIBEIRO · All rights reserved',
+        }
+    };
+    function applyLang(lang) {
+        const t = i18n[lang];
+        document.documentElement.lang = lang;
+        document.querySelectorAll('[data-i18n]').forEach(el => {
+            const v = t[el.dataset.i18n]; if (v !== undefined) el.innerHTML = v;
+        });
+        const btn = document.getElementById('lang-switch');
+        if (btn) btn.textContent = lang === 'pt' ? 'EN' : 'PT';
+        localStorage.setItem('lang', lang);
+    }
+    (function() {
+        const lang = localStorage.getItem('lang') || 'pt';
+        applyLang(lang);
+        document.getElementById('lang-switch').addEventListener('click', () => {
+            applyLang((localStorage.getItem('lang') || 'pt') === 'pt' ? 'en' : 'pt');
+        });
+    })();
 
     // Scroll velocity marquee (mirrors ScrollVelocity component in components/ui/scroll-velocity.tsx)
     (function() {
