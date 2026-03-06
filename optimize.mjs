@@ -27,7 +27,7 @@ let totalBefore = 0, totalAfter = 0;
 for (const imgPath of images) {
     const webpPath = imgPath.replace(/\.(jpg|jpeg|JPG|JPEG)$/, '.webp');
     const { size: before } = await stat(imgPath);
-    await sharp(imgPath).webp({ quality: QUALITY }).toFile(webpPath);
+    await sharp(imgPath).rotate().webp({ quality: QUALITY }).toFile(webpPath);
     const { size: after } = await stat(webpPath);
     totalBefore += before;
     totalAfter += after;
