@@ -582,16 +582,10 @@
         }
         .footer-name {
             font-family: 'Tenor Sans', serif;
-            font-size: 1.4rem;
+            font-size: clamp(1.8rem, 4vw, 2.8rem);
             letter-spacing: 0.2em;
             color: var(--cream);
             text-transform: uppercase;
-        }
-        .footer-sub {
-            font-size: 0.54rem;
-            letter-spacing: 0.3em;
-            text-transform: uppercase;
-            color: var(--blush);
         }
         .footer-copy {
             font-size: 0.55rem;
@@ -600,31 +594,18 @@
         }
         .footer-social {
             display: flex;
-            flex-direction: column;
-            align-items: flex-end;
-            gap: 10px;
+            flex-direction: row;
+            align-items: center;
+            gap: 24px;
         }
-        .footer-social a {
-            font-family: 'Tenor Sans', serif;
-            font-size: clamp(1rem, 2vw, 1.6rem);
-            font-weight: 300;
-            color: var(--cream-light);
-            text-decoration: none;
-            line-height: 1;
-            position: relative;
-            display: inline-block;
+        .footer-icon {
+            color: var(--blush);
+            display: flex;
+            align-items: center;
+            transition: color 0.3s;
         }
-        .footer-social a::after {
-            content: '';
-            position: absolute;
-            bottom: -2px;
-            left: 0;
-            width: 0;
-            height: 1px;
-            background: var(--cream-light);
-            transition: width 0.45s cubic-bezier(0.25, 0.46, 0.45, 0.94);
-        }
-        .footer-social a:hover::after { width: 100%; }
+        .footer-icon:hover { color: var(--cream-light); }
+        .footer-icon svg { width: 18px; height: 18px; stroke: currentColor; fill: none; stroke-width: 1.4; }
 
         /* ─── FADE-IN ANIMATION ───────────────────── */
         .fade-up {
@@ -844,7 +825,6 @@
                 align-items: center;
                 justify-content: center;
             }
-            .footer-social a { font-size: 1.1rem; }
         }
 
         @media (max-width: 480px) {
@@ -1259,8 +1239,12 @@
     </div>
     <div class="footer-copy" data-i18n="footer-copy">© 2026 STEPHANY RIBEIRO · Todos os direitos reservados</div>
     <div class="footer-social">
-        <a href="https://www.instagram.com/stephany.tattoo/" target="_blank" rel="noopener">@stephany.tattoo</a>
-        <a href="mailto:art@stephanytattoo.com">art@stephanytattoo.com</a>
+        <a href="https://www.instagram.com/stephany.tattoo/" target="_blank" rel="noopener" class="footer-icon" aria-label="Instagram">
+            <svg viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="2" width="20" height="20" rx="5" ry="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.5" cy="6.5" r="0.5" fill="currentColor" stroke="none"/></svg>
+        </a>
+        <a href="mailto:art@stephanytattoo.com" class="footer-icon" aria-label="Email">
+            <svg viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="4" width="20" height="16" rx="2"/><polyline points="2,4 12,13 22,4"/></svg>
+        </a>
     </div>
 </footer>
 
