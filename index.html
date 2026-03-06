@@ -392,7 +392,12 @@
             transition: opacity 0.9s ease;
         }
         .portfolio-slide.active { opacity: 1; }
-        .portfolio-slide img,
+        .portfolio-slide img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transform: rotate(90deg);
+        }
         .portfolio-slide video {
             width: 100%;
             height: 100%;
