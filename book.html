@@ -1258,58 +1258,87 @@
         hint.textContent = names;
     });
 
+    const CLOUDINARY_CLOUD = 'drlwglj6i';
+    const CLOUDINARY_PRESET = 'stephany';
+
+    async function uploadToCloudinary(file) {
+        const fd = new FormData();
+        fd.append('file', file);
+        fd.append('upload_preset', CLOUDINARY_PRESET);
+        const res = await fetch(`https://api.cloudinary.com/v1_1/${CLOUDINARY_CLOUD}/image/upload`, { method: 'POST', body: fd });
+        const data = await res.json();
+        if (!data.secure_url) throw new Error('Upload failed: ' + (data.error?.message || 'unknown'));
+        return data.secure_url;
+    }
+
     document.getElementById('contact-form').addEventListener('submit', async (e) => {
         e.preventDefault();
         const form = e.target;
         const btn = form.querySelector('button[type="submit"]');
         const lang = localStorage.getItem('lang') || 'pt';
-        btn.textContent = i18n[lang]['sending'];
         btn.disabled = true;
 
         const fd = new FormData(form);
-
-        // Build formatted message
         const get = k => fd.get(k) || '—';
         const schedules = fd.getAll('schedule');
         const files = form.querySelector('#references').files;
-        const fileNames = files.length ? Array.from(files).map(f => f.name).join(', ') : '—';
         const zone = get('zone');
         const zoneCustom = fd.get('zone_custom');
         const firstTattoo = get('first_tattoo');
         const concerns = fd.get('concerns');
 
+        // Upload images to Cloudinary
+        let imageUrls = [];
+        if (files.length > 0) {
+            btn.textContent = lang === 'pt' ? 'A carregar imagens...' : 'Uploading images...';
+            try {
+                imageUrls = await Promise.all(Array.from(files).map(uploadToCloudinary));
+            } catch (err) {
+                btn.textContent = i18n[lang]['error'];
+                btn.disabled = false;
+                return;
+            }
+        }
+
+        btn.textContent = i18n[lang]['sending'];
+
+        const refLines = imageUrls.length
+            ? imageUrls.map((url, i) => `Imagem ${i + 1}: ${url}`)
+            : ['—'];
+
         const message = [
             '━━━ CLIENTE ━━━',
-            `Nome:       ${get('name')}`,
-            `Email:      ${get('email')}`,
-            `Telemóvel:  ${get('phone')}`,
-            `Cidade:     ${get('city')}`,
+            `Nome:        ${get('name')}`,
+            `Email:       ${get('email')}`,
+            `Telemóvel:   ${get('phone')}`,
+            `Cidade:      ${get('city')}`,
             '',
             '━━━ TATUAGEM ━━━',
-            `Ideia:      ${get('idea')}`,
-            `Zona:       ${zone}${zoneCustom ? ' — ' + zoneCustom : ''}`,
-            `Tamanho:    ${get('size')} cm`,
+            `Ideia:       ${get('idea')}`,
+            `Zona:        ${zone}${zoneCustom ? ' — ' + zoneCustom : ''}`,
+            `Tamanho:     ${get('size')} cm`,
             `1ª tatuagem: ${firstTattoo}`,
-            ...(firstTattoo === 'Sim' && concerns ? [`Dúvidas:    ${concerns}`] : []),
+            ...(firstTattoo === 'Sim' && concerns ? [`Dúvidas:     ${concerns}`] : []),
             '',
             '━━━ DISPONIBILIDADE ━━━',
-            `Horário:    ${schedules.length ? schedules.join(', ') : '—'}`,
+            `Horário:     ${schedules.length ? schedules.join(', ') : '—'}`,
             '',
             '━━━ SAÚDE ━━━',
-            `Saúde:      ${get('health')}`,
+            `Saúde:       ${get('health')}`,
             '',
             '━━━ OBSERVAÇÕES ━━━',
             get('notes'),
             '',
             '━━━ REFERÊNCIAS ━━━',
-            `Ficheiros:  ${fileNames}`,
+            ...refLines,
             '',
             '━━━ CONSENTIMENTOS ━━━',
-            `Tatuagem:   ${fd.get('consent_tattoo') ? 'Aceite' : 'Não aceite'}`,
-            `Marketing:  ${fd.get('consent_marketing') ? 'Aceite' : 'Não aceite'}`,
+            `Tatuagem:    ${fd.get('consent_tattoo') ? 'Aceite' : 'Não aceite'}`,
+            `Marketing:   ${fd.get('consent_marketing') ? 'Aceite' : 'Não aceite'}`,
         ].join('\n');
 
         fd.set('message', message);
+        fd.delete('attachment');
 
         try {
             const res = await fetch(form.action, { method: 'POST', body: fd, headers: { 'Accept': 'application/json' } });
