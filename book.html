@@ -494,10 +494,15 @@
             font-weight: 400;
             padding: 0;
         }
+        .mobile-menu-center {
+            display: flex;
+            flex-direction: column;
+            margin: auto 0;
+        }
+        .menu-theme-btn { display: none; }
         .mobile-menu-links {
             list-style: none;
             padding: 0;
-            margin: auto 0;
         }
         .mobile-menu-links li { overflow: hidden; }
         .mobile-menu-links a {
@@ -510,17 +515,17 @@
             transition: color 0.25s;
         }
         .mobile-menu-links a:hover { color: var(--warm-brown); }
+        .mobile-menu-lang-row { padding-bottom: 20px; }
         .mobile-menu-bottom {
             border-top: 1px solid var(--blush);
             margin-left: calc(-1 * var(--mp));
             margin-right: calc(-1 * var(--mp));
             padding: 28px var(--mp) 0;
             display: grid;
-            grid-template-columns: 1fr 1fr 1fr;
+            grid-template-columns: 1fr 1fr;
             gap: 20px;
         }
-        .mobile-menu-bottom-col:nth-child(2) { text-align: center; }
-        .mobile-menu-bottom-col:nth-child(3) { text-align: right; }
+        .mobile-menu-bottom-col:nth-child(2) { text-align: right; }
         .mobile-menu-bottom-col span {
             display: block;
             font-size: 0.55rem;
@@ -688,6 +693,9 @@
         @media (max-width: 600px) {
             .page { padding: 120px 24px 80px; }
             nav { padding: 20px 24px; }
+            .nav-brand { font-size: 0.72rem; letter-spacing: 0.08em; }
+            .theme-switch-btn { display: none; }
+            .menu-theme-btn { display: flex; margin-bottom: 12px; align-self: flex-start; }
             .form-row { grid-template-columns: 1fr; }
             .links-section { padding: 0 20px; }
             .links-item { padding: 44px 0; }
@@ -734,17 +742,23 @@
         <a href="/" class="mobile-menu-brand" id="menu-brand-link">Stephany Ribeiro</a>
         <button class="mobile-menu-close" id="menu-close-btn" aria-label="Close menu" data-i18n="nav-close">Fechar</button>
     </div>
-    <ul class="mobile-menu-links">
-        <li><a href="/" class="menu-link" data-i18n="nav-home">Início</a></li>
-        <li><a href="/portfolio" class="menu-link" data-i18n="nav-portfolio">Portfólio</a></li>
-    </ul>
+    <div class="mobile-menu-center">
+        <button class="theme-switch-btn menu-theme-btn" id="theme-switch-menu" aria-label="Toggle theme">
+            <svg class="icon-sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="4"/><line x1="12" y1="2" x2="12" y2="4"/><line x1="12" y1="20" x2="12" y2="22"/><line x1="2" y1="12" x2="4" y2="12"/><line x1="20" y1="12" x2="22" y2="12"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="19.78" y1="4.22" x2="18.36" y2="5.64"/><line x1="5.64" y1="18.36" x2="4.22" y2="19.78"/></svg>
+            <svg class="icon-moon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>
+        </button>
+        <ul class="mobile-menu-links">
+            <li><a href="/" class="menu-link" data-i18n="nav-home">Início</a></li>
+            <li><a href="/portfolio" class="menu-link" data-i18n="nav-portfolio">Portfólio</a></li>
+        </ul>
+    </div>
+    <div class="mobile-menu-lang-row">
+        <button class="lang-btn" id="lang-switch" aria-label="Mudar idioma">EN</button>
+    </div>
     <div class="mobile-menu-bottom">
         <div class="mobile-menu-bottom-col">
             <span data-i18n="mobile-social">Redes Sociais</span>
             <a href="https://www.instagram.com/stephany.tattoo/" target="_blank" rel="noopener">@stephany.tattoo</a>
-        </div>
-        <div class="mobile-menu-bottom-col">
-            <button class="lang-btn" id="lang-switch" aria-label="Mudar idioma">EN</button>
         </div>
         <div class="mobile-menu-bottom-col">
             <span data-i18n="mobile-contact">Contacto</span>
@@ -1178,13 +1192,16 @@
 
     // Theme switch
     const themeBtn = document.getElementById('theme-switch');
+    const themeBtnMenu = document.getElementById('theme-switch-menu');
     function applyTheme(isDark) {
         document.documentElement.classList.toggle('dark', isDark);
         themeBtn.classList.toggle('dark', isDark);
+        if (themeBtnMenu) themeBtnMenu.classList.toggle('dark', isDark);
         localStorage.setItem('theme', isDark ? 'dark' : 'light');
     }
     applyTheme(localStorage.getItem('theme') === 'dark');
     themeBtn.addEventListener('click', () => applyTheme(!themeBtn.classList.contains('dark')));
+    if (themeBtnMenu) themeBtnMenu.addEventListener('click', () => applyTheme(!themeBtn.classList.contains('dark')));
 
     // Conditional: zona "Outro"
     document.querySelectorAll('input[name="zone"]').forEach(radio => {
