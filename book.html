@@ -1377,6 +1377,29 @@
                     body: JSON.stringify({ name: get('name'), email: fd.get('email') || '', lang }),
                 }).catch(() => {});
 
+                // Log submission to Google Sheets
+                fetch('https://script.google.com/macros/s/AKfycbwaMIQjRQnFTdiKFx9TJvup5vdI-q9sz5TWZHl3b5kyPCeoUfOfh19XtWyPpXDaynBYXw/exec', {
+                    method: 'POST',
+                    mode: 'no-cors',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({
+                        name: get('name'),
+                        email: fd.get('email') || '',
+                        phone: get('phone'),
+                        city: get('city'),
+                        zone: zone + (zoneCustom ? ' — ' + zoneCustom : ''),
+                        size: get('size'),
+                        first_tattoo: firstTattoo,
+                        schedule: schedules.length ? schedules.join(', ') : '—',
+                        idea: get('idea'),
+                        health: get('health'),
+                        notes: get('notes'),
+                        references: imageUrls.length ? imageUrls.join(', ') : '—',
+                        consent_tattoo: fd.get('consent_tattoo') ? 'Aceite' : 'Não aceite',
+                        consent_marketing: fd.get('consent_marketing') ? 'Aceite' : 'Não aceite',
+                    }),
+                }).catch(() => {});
+
                 form.reset();
                 document.querySelector('.file-label span').textContent = i18n[lang]['label-references-btn'];
                 document.querySelector('.file-hint').textContent = i18n[lang]['label-references-hint'];
