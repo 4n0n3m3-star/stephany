@@ -1369,6 +1369,14 @@
             if (data.success) {
                 btn.textContent = i18n[lang]['sent'];
                 btn.style.background = 'var(--dark-brown)';
+
+                // Send confirmation email to client
+                fetch('/api/confirm', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ name: get('name'), email: fd.get('email') || '', lang }),
+                }).catch(() => {});
+
                 form.reset();
                 document.querySelector('.file-label span').textContent = i18n[lang]['label-references-btn'];
                 document.querySelector('.file-hint').textContent = i18n[lang]['label-references-hint'];
