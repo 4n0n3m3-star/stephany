@@ -6,11 +6,15 @@ export default async function handler(req, res) {
     }
 
     try {
-        await fetch(SHEET_URL, {
+        const response = await fetch(SHEET_URL, {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify(req.body),
         });
+        const text = await response.text();
+        console.log('Sheet response status:', response.status);
+        console.log('Sheet response body:', text);
+        console.log('Sheet req.body:', JSON.stringify(req.body));
         return res.status(200).json({ ok: true });
     } catch (err) {
         console.error('Sheet error:', err);
