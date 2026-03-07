@@ -35,8 +35,8 @@ export default async function handler(req, res) {
         <!-- Header -->
         <tr>
           <td style="background:#2C1A0E;padding:40px 48px;text-align:center;">
-            <p style="margin:0;font-size:11px;font-weight:400;letter-spacing:0.28em;text-transform:uppercase;color:#ECD9D0;">Stephany Ribeiro</p>
-            <p style="margin:10px 0 0;font-size:9px;letter-spacing:0.22em;text-transform:uppercase;color:#B09080;">${isPt ? 'Arte que vive na tua pele' : 'Art that lives on your skin'}</p>
+            <p style="margin:0;font-size:14px;font-weight:400;letter-spacing:0.28em;text-transform:uppercase;color:#ECD9D0;">Stephany Ribeiro</p>
+            <p style="margin:10px 0 0;font-size:8px;letter-spacing:0.22em;text-transform:uppercase;color:#B09080;">${isPt ? 'Arte que vive na tua pele' : 'Art that lives on your skin'}</p>
           </td>
         </tr>
 
