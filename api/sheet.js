@@ -11,10 +11,6 @@ export default async function handler(req, res) {
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify(req.body),
         });
-        const text = await response.text();
-        console.log('Sheet response status:', response.status);
-        console.log('Sheet response body:', text);
-        console.log('Sheet req.body:', JSON.stringify(req.body));
         return res.status(200).json({ ok: true });
     } catch (err) {
         console.error('Sheet error:', err);
