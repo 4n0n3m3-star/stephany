@@ -1378,9 +1378,8 @@
                 }).catch(() => {});
 
                 // Log submission to Google Sheets
-                fetch('https://script.google.com/macros/s/AKfycbwaMIQjRQnFTdiKFx9TJvup5vdI-q9sz5TWZHl3b5kyPCeoUfOfh19XtWyPpXDaynBYXw/exec', {
+                fetch('/api/sheet', {
                     method: 'POST',
-                    mode: 'no-cors',
                     headers: { 'Content-Type': 'application/json' },
                     body: JSON.stringify({
                         name: get('name'),
