@@ -7,7 +7,7 @@ export default async function handler(req, res) {
         return res.status(405).json({ error: 'Method not allowed' });
     }
 
-    const { type, name, email, lang, budget, session_url, message, reason } = req.body;
+    const { type, name, email, lang, budget, session_url, reason } = req.body;
 
     if (!email || !name || !type) {
         return res.status(400).json({ error: 'Missing fields' });
@@ -21,7 +21,7 @@ export default async function handler(req, res) {
         html = buildBudgetEmail({ isPt, name, budget, session_url });
     } else if (type === 'Mais Detalhes') {
         subject = isPt ? '✨ Preciso de mais detalhes — Stephany Ribeiro' : '✨ A few more details needed — Stephany Ribeiro';
-        html = buildDetailsEmail({ isPt, name, message });
+        html = buildDetailsEmail({ isPt, name });
     } else if (type === 'Recusado') {
         subject = isPt ? '✨ O teu pedido — Stephany Ribeiro' : '✨ Your request — Stephany Ribeiro';
         html = buildRejectionEmail({ isPt, name, reason });
@@ -139,10 +139,18 @@ function buildBudgetEmail({ isPt, name, budget, session_url }) {
     `);
 }
 
-function buildDetailsEmail({ isPt, name, message }) {
+function buildDetailsEmail({ isPt, name }) {
     const para1 = isPt
         ? 'Obrigada pelo teu pedido. Analisei a tua ideia, mas precisaria de alguns detalhes adicionais antes de poder avançar.'
         : "Thank you for your request. I've reviewed your idea carefully, but I'd need a few more details before moving forward.";
+
+    const bullet1 = isPt
+        ? 'Uma descrição mais detalhada da ideia e do estilo de tatuagem que imaginas.'
+        : 'A more detailed description of the idea and the tattoo style you have in mind.';
+
+    const bullet2 = isPt
+        ? 'Mais imagens de inspiração (fotos de tatuagens, ilustrações, referências visuais).'
+        : 'More inspiration images (tattoo photos, illustrations, visual references).';
 
     const para3 = isPt
         ? 'Responde a este email com as informações pedidas e volto a entrar em contacto em breve.'
@@ -150,7 +158,11 @@ function buildDetailsEmail({ isPt, name, message }) {
 
     return buildEmail(isPt, name, `
         <p style="margin:0 0 20px;font-size:14px;color:#2C1A0E;line-height:1.8;font-weight:300;">${para1}</p>
-        <p style="margin:0 0 32px;font-size:14px;color:#7A5C48;line-height:1.8;font-weight:300;">${message}</p>
+        <p style="margin:0 0 8px;font-size:14px;color:#7A5C48;line-height:1.8;font-weight:300;">${isPt ? 'Precisaria que me enviasses:' : "I'd need you to send me:"}</p>
+        <ul style="margin:0 0 32px;padding-left:20px;font-size:14px;color:#7A5C48;line-height:2;font-weight:300;">
+          <li>${bullet1}</li>
+          <li>${bullet2}</li>
+        </ul>
         <p style="margin:0 0 48px;font-size:14px;color:#7A5C48;line-height:1.8;font-weight:300;">${para3}</p>
     `);
 }
