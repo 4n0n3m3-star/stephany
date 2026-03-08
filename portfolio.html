@@ -3,7 +3,12 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Stephany Ribeiro - Portfolio</title>
+    <title>Portfolio — Stephany Ribeiro Tattoo</title>
+    <meta name="description" content="Portfolio of fineline tattoo work by Stephany Ribeiro. Florals, scripts, botanical, Disney sleeves, symbolic pieces — LUMI Atelier, Portugal.">
+    <meta property="og:title" content="Portfolio — Stephany Ribeiro Tattoo">
+    <meta property="og:description" content="Fineline tattoo portfolio — florals, scripts, botanical, symbolic pieces by Stephany Ribeiro at LUMI Atelier.">
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://stephanytattoo.com/portfolio">
     <link rel="icon" type="image/png" href="/media/christmas-stars.png">
     <meta property="og:image" content="https://stephanytattoo.com/media/christmas-stars.png">
     <meta name="twitter:card" content="summary_large_image">
@@ -27,6 +32,11 @@
         }
 
         html { scroll-behavior: smooth; }
+
+        :focus-visible {
+            outline: 2px solid var(--warm-brown);
+            outline-offset: 3px;
+        }
 
         body {
             background: var(--cream-light);
@@ -597,6 +607,35 @@
         update();
     })();
 </script>
+  <!-- Cookie Consent by Osano -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/cookieconsent@3/build/cookieconsent.min.css" />
+  <script src="https://cdn.jsdelivr.net/npm/cookieconsent@3/build/cookieconsent.min.js" defer></script>
+  <script>
+    window.addEventListener('load', function(){
+      const lang = localStorage.getItem('lang') || 'pt';
+      const msgs = {
+        pt: { message: 'Este site usa cookies para melhorar a tua experiência.', dismiss: 'Entendi', link: 'Saber mais', href: 'https://www.termsfeed.com/blog/cookies/' },
+        en: { message: 'This website uses cookies to improve your experience.', dismiss: 'Got it', link: 'Learn more', href: 'https://www.termsfeed.com/blog/cookies/' }
+      };
+      const m = msgs[lang] || msgs.pt;
+      window.cookieconsent.initialise({
+        palette: {
+          popup:  { background: '#2C1A0E', text: '#ECD9D0' },
+          button: { background: '#A77049', text: '#FDFAF7' }
+        },
+        position: 'bottom-left',
+        content: { message: m.message, dismiss: m.dismiss, link: m.link, href: m.href }
+      });
+    });
+  </script>
+  <style>
+    .cc-window { font-family: 'Montserrat', sans-serif; font-weight: 300; font-size: 0.82rem; border-radius: 12px; margin: 16px; box-shadow: 0 8px 32px rgba(44,26,14,0.25), 0 2px 8px rgba(44,26,14,0.12); border: 1px solid rgba(167,112,73,0.2); }
+    .cc-btn { font-family: 'Montserrat', sans-serif; font-weight: 400; letter-spacing: 0.06em; border-radius: 6px; transition: transform 0.2s cubic-bezier(0.34,1.56,0.64,1), opacity 0.2s; }
+    .cc-btn:hover { transform: translateY(-1px); opacity: 0.92; }
+    .cc-btn:active { transform: translateY(0); }
+    .cc-link { color: #ECD9D0; text-decoration: underline; text-underline-offset: 2px; }
+    .cc-link:hover { color: #FDFAF7; }
+  </style>
   <script src="/_vercel/speed-insights/script.js" defer></script>
 
 </body>

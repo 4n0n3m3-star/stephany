@@ -31,9 +31,14 @@ const server = http.createServer((req, res) => {
   try { urlPath = decodeURIComponent(urlPath); } catch {}
   if (urlPath === '/') urlPath = '/index.html';
 
-  const filePath = path.join(__dirname, urlPath);
+  let filePath = path.join(__dirname, urlPath);
   const ext = path.extname(filePath).toLowerCase();
-  const contentType = MIME[ext] || 'application/octet-stream';
+
+  // Clean URLs: /book → /book.html (matches Vercel cleanUrls: true)
+  if (!ext) filePath += '.html';
+
+  const finalExt = path.extname(filePath).toLowerCase();
+  const contentType = MIME[finalExt] || 'application/octet-stream';
 
   fs.readFile(filePath, (err, data) => {
     if (err) {

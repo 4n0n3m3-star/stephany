@@ -1,8 +1,14 @@
-const SHEET_URL = 'https://script.google.com/macros/s/AKfycbwaMIQjRQnFTdiKFx9TJvup5vdI-q9sz5TWZHl3b5kyPCeoUfOfh19XtWyPpXDaynBYXw/exec';
+const SHEET_URL = process.env.GOOGLE_SHEET_URL
+    || 'https://script.google.com/macros/s/AKfycbwaMIQjRQnFTdiKFx9TJvup5vdI-q9sz5TWZHl3b5kyPCeoUfOfh19XtWyPpXDaynBYXw/exec';
 
 export default async function handler(req, res) {
     if (req.method !== 'POST') {
         return res.status(405).json({ error: 'Method not allowed' });
+    }
+
+    const { name, email } = req.body || {};
+    if (!name || !email) {
+        return res.status(400).json({ error: 'Missing required fields: name, email' });
     }
 
     try {
