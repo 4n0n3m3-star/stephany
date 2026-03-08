@@ -32,7 +32,6 @@ export default async function handler(req, res) {
     <td align="center">
       <table width="560" cellpadding="0" cellspacing="0" role="presentation" style="max-width:560px;width:100%;background:#FDFAF7;">
 
-        <!-- Header -->
         <tr>
           <td style="background:#2C1A0E;padding:40px 48px;text-align:center;">
             <p style="margin:0;font-size:14px;font-weight:400;letter-spacing:0.28em;text-transform:uppercase;color:#ECD9D0;">Stephany Ribeiro</p>
@@ -40,7 +39,6 @@ export default async function handler(req, res) {
           </td>
         </tr>
 
-        <!-- Body -->
         <tr>
           <td style="padding:52px 48px 8px;">
             <p style="margin:0 0 6px;font-size:10px;letter-spacing:0.3em;text-transform:uppercase;color:#B09080;">${isPt ? 'Olá' : 'Hello'}</p>
@@ -48,18 +46,18 @@ export default async function handler(req, res) {
             <div style="width:32px;height:1px;background:#D0B8AC;margin:0 0 32px;"></div>
             <p style="margin:0 0 20px;font-size:14px;color:#2C1A0E;line-height:1.8;font-weight:300;">
               ${isPt
-                ? 'Obrigada por confiares em mim com esta peça. Recebi o teu pedido e fico muito feliz em poder fazer parte deste momento.'
-                : 'Thank you for trusting me with this piece. I received your request and I\'m truly honoured to be part of this moment.'}
+                ? 'Que bom receber o teu pedido! Fico muito feliz por confiares em mim para criar esta peça — é sempre especial saber que alguém quer levar a minha arte na pele.'
+                : "I'm so happy to receive your request! It truly means a lot that you trust me to create this piece — it's always special knowing someone wants to carry my art on their skin."}
             </p>
             <p style="margin:0 0 20px;font-size:14px;color:#7A5C48;line-height:1.8;font-weight:300;">
               ${isPt
-                ? 'Vou analisar a tua ideia com toda a atenção que merece e entro em contacto em breve para conversarmos sobre os próximos passos.'
-                : 'I\'ll give your idea all the attention it deserves and reach out soon to talk through next steps together.'}
+                ? 'Vou dedicar toda a atenção à tua ideia e entro em contacto em breve com os próximos passos. Normalmente respondo dentro de 2–3 dias úteis.'
+                : "I'll dedicate my full attention to your idea and get back to you with next steps soon. I usually respond within 2–3 business days."}
             </p>
             <p style="margin:0 0 40px;font-size:14px;color:#7A5C48;line-height:1.8;font-weight:300;">
               ${isPt
-                ? 'Enquanto isso, podes ver mais do meu trabalho no Instagram. Estou à tua disposição para qualquer dúvida.'
-                : 'In the meantime, feel free to browse more of my work on Instagram. I\'m here if you have any questions.'}
+                ? 'Enquanto isso, espreita mais do meu trabalho no Instagram. Se tiveres alguma dúvida urgente, podes sempre enviar-me mensagem diretamente por lá ou responder a este email.'
+                : "In the meantime, feel free to check out more of my work on Instagram. If you have any urgent questions, you can always message me directly there or reply to this email."}
             </p>
             <table cellpadding="0" cellspacing="0" role="presentation" style="margin-bottom:48px;">
               <tr>
@@ -73,12 +71,10 @@ export default async function handler(req, res) {
           </td>
         </tr>
 
-        <!-- Divider -->
         <tr>
           <td style="padding:0 48px;"><div style="height:1px;background:#ECD9D0;"></div></td>
         </tr>
 
-        <!-- Footer -->
         <tr>
           <td style="padding:32px 48px 40px;">
             <p style="margin:0 0 2px;font-size:13px;color:#2C1A0E;font-weight:400;">Stephany Ribeiro</p>
@@ -87,7 +83,6 @@ export default async function handler(req, res) {
           </td>
         </tr>
 
-        <!-- Fine print -->
         <tr>
           <td style="padding:0 48px 32px;">
             <p style="margin:0;font-size:10px;color:#B09080;line-height:1.6;">

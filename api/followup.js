@@ -131,6 +131,23 @@ function btn(href, label) {
           </table>`;
 }
 
+function formatEta(raw, isPt) {
+    if (!raw) return '';
+    const str = String(raw);
+    // If it looks like an ISO date, format it nicely
+    if (str.match(/^\d{4}-\d{2}-\d{2}/)) {
+        const d = new Date(str);
+        return d.toLocaleDateString(isPt ? 'pt-PT' : 'en-GB', { day: 'numeric', month: 'long', year: 'numeric' });
+    }
+    return str;
+}
+
+function directContact(isPt) {
+    return isPt
+        ? 'Se precisares de alguma coisa, podes sempre responder a este email ou enviar-me mensagem diretamente no <a href="https://www.instagram.com/stephany.tattoo/" style="color:#A77049;text-decoration:underline;">Instagram</a>. Estou aqui para ti!'
+        : 'If you need anything, you can always reply to this email or message me directly on <a href="https://www.instagram.com/stephany.tattoo/" style="color:#A77049;text-decoration:underline;">Instagram</a>. I\'m here for you!';
+}
+
 function preSessionTips(isPt) {
     const tips = isPt ? [
         'Dormir bem na noite anterior',
@@ -147,7 +164,7 @@ function preSessionTips(isPt) {
         'Wear comfortable clothing with easy access to the tattoo area',
         'Bring a snack and water (especially for longer sessions)',
     ];
-    const title = isPt ? 'Recomendações pré-sessão:' : 'Pre-session tips:';
+    const title = isPt ? 'Preparei algumas recomendações para ti:' : "Here are a few tips to prepare:";
     return `
         <p style="margin:0 0 8px;font-size:14px;color:#2C1A0E;line-height:1.8;font-weight:400;">${title}</p>
         <ul style="margin:0 0 32px;padding-left:20px;font-size:14px;color:#7A5C48;line-height:2.2;font-weight:300;">
@@ -161,16 +178,16 @@ function lumiLink(isPt) {
         : 'I\'ll be waiting for you at <a href="https://maps.app.goo.gl/zNsyDdv1vJyKyro19" style="color:#A77049;text-decoration:underline;">LUMI Atelier</a>! ✨';
 }
 
-/* ── Step 4a: Budget quote (no deposit info) ── */
+/* ── Step 4a: Budget quote ── */
 
 function buildBudgetEmail({ isPt, name, budget }) {
     const para1 = isPt
-        ? 'Analisei a tua ideia com toda a atenção e preparei o teu orçamento.'
-        : "I've carefully reviewed your idea and prepared your quote.";
+        ? 'Adorei a tua ideia! Dediquei toda a atenção a analisá-la e preparei o teu orçamento com muito carinho.'
+        : "I loved your idea! I've given it my full attention and prepared your quote with care.";
 
     const para2 = isPt
-        ? 'Caso queiras avançar, responde a este email ou envia-me mensagem no <a href="https://www.instagram.com/stephany.tattoo/" style="color:#A77049;text-decoration:underline;">Instagram</a>.'
-        : 'If you\'d like to proceed, reply to this email or send me a message on <a href="https://www.instagram.com/stephany.tattoo/" style="color:#A77049;text-decoration:underline;">Instagram</a>.';
+        ? 'Se quiseres avançar, basta responder a este email ou enviar-me mensagem no <a href="https://www.instagram.com/stephany.tattoo/" style="color:#A77049;text-decoration:underline;">Instagram</a>. Vou adorar criar esta peça para ti!'
+        : 'If you\'d like to go ahead, just reply to this email or message me on <a href="https://www.instagram.com/stephany.tattoo/" style="color:#A77049;text-decoration:underline;">Instagram</a>. I would love to create this piece for you!';
 
     return buildEmail(isPt, name, `
         <p style="margin:0 0 24px;font-size:14px;color:#2C1A0E;line-height:1.8;font-weight:300;">${para1}</p>
@@ -190,20 +207,20 @@ function buildBudgetEmail({ isPt, name, budget }) {
 
 function buildDetailsEmail({ isPt, name }) {
     const para1 = isPt
-        ? 'Obrigada pelo teu pedido. Analisei a tua ideia, mas precisaria de alguns detalhes adicionais antes de poder avançar.'
-        : "Thank you for your request. I've reviewed your idea carefully, but I'd need a few more details before moving forward.";
+        ? 'Muito obrigada pelo teu pedido! Já estive a analisar a tua ideia e estou entusiasmada, mas precisaria de mais alguns detalhes para conseguir criar algo realmente especial para ti.'
+        : "Thank you so much for your request! I've been looking at your idea and I'm excited, but I'd need a few more details to create something truly special for you.";
 
     const bullet1 = isPt
-        ? 'Uma descrição mais detalhada da ideia e do estilo de tatuagem que imaginas.'
-        : 'A more detailed description of the idea and the tattoo style you have in mind.';
+        ? 'Uma descrição mais detalhada da ideia e do estilo de tatuagem que imaginas'
+        : 'A more detailed description of the idea and the tattoo style you have in mind';
 
     const bullet2 = isPt
-        ? 'Mais imagens de inspiração (fotos de tatuagens, ilustrações, referências visuais).'
-        : 'More inspiration images (tattoo photos, illustrations, visual references).';
+        ? 'Mais imagens de inspiração (fotos de tatuagens, ilustrações, referências visuais)'
+        : 'More inspiration images (tattoo photos, illustrations, visual references)';
 
     const para3 = isPt
-        ? 'Responde a este email com as informações pedidas e volto a entrar em contacto em breve.'
-        : "Reply to this email with the requested information and I'll be back in touch soon.";
+        ? 'Responde diretamente a este email ou, se preferires, envia-me mensagem no <a href="https://www.instagram.com/stephany.tattoo/" style="color:#A77049;text-decoration:underline;">Instagram</a> — o que for mais fácil para ti. Mal posso esperar para ver mais!'
+        : 'Just reply to this email or, if you prefer, send me a message on <a href="https://www.instagram.com/stephany.tattoo/" style="color:#A77049;text-decoration:underline;">Instagram</a> — whatever is easier for you. Can\'t wait to see more!';
 
     return buildEmail(isPt, name, `
         <p style="margin:0 0 20px;font-size:14px;color:#2C1A0E;line-height:1.8;font-weight:300;">${para1}</p>
@@ -220,26 +237,26 @@ function buildDetailsEmail({ isPt, name }) {
 
 function buildRejectionEmail({ isPt, name, reason }) {
     const intro = isPt
-        ? 'Obrigada por teres pensado em mim para esta peça. Analisei o teu pedido com atenção.'
-        : "Thank you for considering me for this piece. I've looked carefully at your request.";
+        ? 'Antes de mais, muito obrigada por teres pensado em mim para esta peça. Significa muito que tenhas confiado no meu trabalho.'
+        : "First of all, thank you so much for thinking of me for this piece. It truly means a lot that you trusted my work.";
 
     const closing = isPt
-        ? 'Desejo-te boa sorte na tua procura pelo artista certo.'
-        : 'I wish you all the best in finding the right artist for this piece.';
+        ? 'Desejo-te toda a sorte do mundo na procura pelo artista certo. Se no futuro tiveres outra ideia que se enquadre no meu estilo, a minha porta está sempre aberta!'
+        : 'I wish you all the best in finding the right artist. If in the future you have another idea that fits my style, my door is always open!';
 
     let reasonText;
     if (reason === 'Fora do meu estilo') {
         reasonText = isPt
-            ? 'Infelizmente, este projeto não se enquadra no meu estilo artístico atual. Para te garantir o melhor resultado possível, prefiro não avançar com este pedido.'
-            : "Unfortunately, this project isn't a fit for my current artistic style. To ensure you get the best possible result, I prefer not to move forward.";
+            ? 'Após analisar tudo com carinho, sinto que este projeto não se enquadra no meu estilo artístico atual. Quero ser honesta contigo porque mereces o melhor resultado possível, e sei que outro artista poderá dar vida a esta ideia de uma forma incrível.'
+            : "After careful consideration, I feel this project isn't the best fit for my current artistic style. I want to be honest with you because you deserve the best possible result, and I know another artist could bring this idea to life beautifully.";
     } else if (reason === 'Não consigo fazer cover') {
         reasonText = isPt
-            ? 'Após analisar a tatuagem existente, não me é possível garantir um resultado satisfatório numa cover neste caso específico. Prefiro ser honesta contigo do que arriscar um resultado que não te faria justiça.'
-            : "After reviewing the existing tattoo, I'm not confident I can guarantee a satisfying result for a cover-up in this particular case. I prefer honesty over a result that wouldn't do you justice.";
+            ? 'Após analisar a tatuagem existente com toda a atenção, não me sinto confortável em garantir um resultado que esteja à altura do que mereces. Prefiro ser transparente contigo do que arriscar algo que não te deixe 100% feliz.'
+            : "After carefully examining the existing tattoo, I don't feel confident I can deliver a result that lives up to what you deserve. I'd rather be transparent with you than risk something that wouldn't make you 100% happy.";
     } else {
         reasonText = isPt
-            ? 'Neste momento a minha agenda não tem disponibilidade para novas marcações com a urgência que procuras. Podes ficar atento às minhas redes sociais para futuras aberturas de agenda.'
-            : "At this time, my schedule doesn't have availability for new bookings with the urgency you're looking for. Keep an eye on my social media for future schedule openings.";
+            ? 'Neste momento a minha agenda está bastante preenchida e infelizmente não tenho disponibilidade. Mas podes sempre acompanhar-me no <a href="https://www.instagram.com/stephany.tattoo/" style="color:#A77049;text-decoration:underline;">Instagram</a> para saberes quando abrir novas vagas — adorava poder trabalhar contigo no futuro!'
+            : "My schedule is quite full right now and unfortunately I don't have availability. But you can always follow me on <a href=\"https://www.instagram.com/stephany.tattoo/\" style=\"color:#A77049;text-decoration:underline;\">Instagram</a> to know when I open new spots — I'd love to work with you in the future!";
     }
 
     return buildEmail(isPt, name, `
@@ -252,17 +269,19 @@ function buildRejectionEmail({ isPt, name, reason }) {
 /* ── Step 5: Budget accepted → deposit request + sketch ETA ── */
 
 function buildDepositRequestEmail({ isPt, name, budget, eta }) {
+    const formattedEta = formatEta(eta, isPt);
+
     const para1 = isPt
-        ? 'Fico muito feliz que queiras avançar com esta peça!'
-        : "I'm so happy you'd like to move forward with this piece!";
+        ? 'Estou tão feliz que queiras avançar! Vai ser um prazer enorme criar esta peça para ti.'
+        : "I'm so happy you want to go ahead! It's going to be an absolute pleasure creating this piece for you.";
 
     const etaText = isPt
-        ? `O esboço final ficará pronto até <strong>${eta}</strong>.`
-        : `The final sketch will be ready by <strong>${eta}</strong>.`;
+        ? `Vou começar a trabalhar no teu esboço e terá-lo pronto até <strong>${formattedEta}</strong>. Mal posso esperar para te mostrar!`
+        : `I'll start working on your sketch and have it ready by <strong>${formattedEta}</strong>. Can't wait to show you!`;
 
     const para2 = isPt
-        ? `Para dar início ao trabalho da tua tatuagem, peço um depósito de <strong>20€</strong> via MB Way para o número <strong>932 558 951</strong>. O depósito é não reembolsável e a sessão só fica confirmada após a sua receção.`
-        : `To get started on your tattoo, a non-refundable deposit of <strong>20€</strong> is required via MB Way to <strong>932 558 951</strong>. Your session is only confirmed once the deposit is received.`;
+        ? 'Para dar início ao trabalho da tua tatuagem, peço um depósito de <strong>20€</strong> via MB Way para o número <strong>932 558 951</strong>. O depósito é não reembolsável e a sessão só fica confirmada após a sua receção.'
+        : 'To get started on your tattoo, a non-refundable deposit of <strong>20€</strong> is required via MB Way to <strong>932 558 951</strong>. Your session is only confirmed once the deposit is received.';
 
     return buildEmail(isPt, name, `
         <p style="margin:0 0 20px;font-size:14px;color:#2C1A0E;line-height:1.8;font-weight:300;">${para1}</p>
@@ -275,7 +294,8 @@ function buildDepositRequestEmail({ isPt, name, budget, eta }) {
           </tr>
         </table>
         <p style="margin:0 0 20px;font-size:14px;color:#7A5C48;line-height:1.8;font-weight:300;">${etaText}</p>
-        <p style="margin:0 0 48px;font-size:14px;color:#7A5C48;line-height:1.8;font-weight:300;">${para2}</p>
+        <p style="margin:0 0 20px;font-size:14px;color:#7A5C48;line-height:1.8;font-weight:300;">${para2}</p>
+        <p style="margin:0 0 48px;font-size:14px;color:#7A5C48;line-height:1.8;font-weight:300;">${directContact(isPt)}</p>
     `);
 }
 
@@ -283,18 +303,23 @@ function buildDepositRequestEmail({ isPt, name, budget, eta }) {
 
 function buildSketchEmail({ isPt, name, sketch_url, duration, session_url }) {
     const para1 = isPt
-        ? 'O teu esboço está pronto! Espero que gostes tanto quanto eu.'
-        : "Your sketch is ready! I hope you love it as much as I do.";
+        ? 'O teu esboço está pronto e estou muito orgulhosa do resultado! Espero que gostes tanto quanto eu — criei-o a pensar em ti.'
+        : "Your sketch is ready and I'm so proud of how it turned out! I hope you love it as much as I do — I created it with you in mind.";
 
     const durationText = isPt
-        ? `A sessão tem duração estimada de <strong>${duration}</strong>. Marca o dia que te der mais jeito:`
+        ? `A sessão tem duração estimada de <strong>${duration}</strong>. Escolhe o dia que te der mais jeito no link abaixo:`
         : `The session has an estimated duration of <strong>${duration}</strong>. Pick the day that works best for you:`;
+
+    const para3 = isPt
+        ? 'Se tiveres alguma dúvida sobre o esboço ou quiseres ajustar algum detalhe, não hesites em falar comigo — responde a este email ou envia mensagem no <a href="https://www.instagram.com/stephany.tattoo/" style="color:#A77049;text-decoration:underline;">Instagram</a>.'
+        : 'If you have any questions about the sketch or want to adjust any detail, don\'t hesitate to reach out — reply to this email or message me on <a href="https://www.instagram.com/stephany.tattoo/" style="color:#A77049;text-decoration:underline;">Instagram</a>.';
 
     return buildEmail(isPt, name, `
         <p style="margin:0 0 24px;font-size:14px;color:#2C1A0E;line-height:1.8;font-weight:300;">${para1}</p>
         <img src="${sketch_url}" alt="Sketch" style="width:100%;max-width:464px;border-radius:4px;margin:0 0 28px;display:block;" />
         <p style="margin:0 0 24px;font-size:14px;color:#7A5C48;line-height:1.8;font-weight:300;">${durationText}</p>
         ${btn(session_url, isPt ? 'Marcar Sessão' : 'Book Session')}
+        <p style="margin:0 0 48px;font-size:14px;color:#7A5C48;line-height:1.8;font-weight:300;">${para3}</p>
     `);
 }
 
@@ -302,8 +327,8 @@ function buildSketchEmail({ isPt, name, sketch_url, duration, session_url }) {
 
 function buildSessionEmail({ isPt, name, session_date, duration }) {
     const para1 = isPt
-        ? 'A tua sessão está confirmada! Aqui ficam os detalhes:'
-        : "Your session is confirmed! Here are the details:";
+        ? 'A tua sessão está oficialmente confirmada! Estou muito entusiasmada para te conhecer e dar vida a esta peça.'
+        : "Your session is officially confirmed! I'm so excited to meet you and bring this piece to life.";
 
     return buildEmail(isPt, name, `
         <p style="margin:0 0 24px;font-size:14px;color:#2C1A0E;line-height:1.8;font-weight:300;">${para1}</p>
@@ -318,7 +343,8 @@ function buildSessionEmail({ isPt, name, session_date, duration }) {
           </tr>
         </table>
         ${preSessionTips(isPt)}
-        <p style="margin:0 0 48px;font-size:14px;color:#2C1A0E;line-height:1.8;font-weight:300;">${lumiLink(isPt)}</p>
+        <p style="margin:0 0 20px;font-size:14px;color:#2C1A0E;line-height:1.8;font-weight:300;">${lumiLink(isPt)}</p>
+        <p style="margin:0 0 48px;font-size:14px;color:#7A5C48;line-height:1.8;font-weight:300;">${directContact(isPt)}</p>
     `);
 }
 
@@ -326,8 +352,12 @@ function buildSessionEmail({ isPt, name, session_date, duration }) {
 
 function buildReminderEmail({ isPt, name, session_date, duration }) {
     const para1 = isPt
-        ? 'Só para lembrar: a tua sessão é <strong>amanhã</strong>!'
-        : "Just a friendly reminder: your session is <strong>tomorrow</strong>!";
+        ? 'O grande dia está quase a chegar! Só te queria lembrar que a tua sessão é <strong>amanhã</strong>.'
+        : "The big day is almost here! Just a friendly reminder that your session is <strong>tomorrow</strong>.";
+
+    const para2 = isPt
+        ? 'Estou ansiosa por te receber e criar algo lindo juntas!'
+        : "I can't wait to welcome you and create something beautiful together!";
 
     return buildEmail(isPt, name, `
         <p style="margin:0 0 24px;font-size:14px;color:#2C1A0E;line-height:1.8;font-weight:300;">${para1}</p>
@@ -342,7 +372,8 @@ function buildReminderEmail({ isPt, name, session_date, duration }) {
           </tr>
         </table>
         ${preSessionTips(isPt)}
-        <p style="margin:0 0 48px;font-size:14px;color:#2C1A0E;line-height:1.8;font-weight:300;">${lumiLink(isPt)}</p>
+        <p style="margin:0 0 20px;font-size:14px;color:#2C1A0E;line-height:1.8;font-weight:300;">${lumiLink(isPt)}</p>
+        <p style="margin:0 0 48px;font-size:14px;color:#7A5C48;line-height:1.8;font-weight:300;">${para2}</p>
     `);
 }
 
@@ -350,8 +381,8 @@ function buildReminderEmail({ isPt, name, session_date, duration }) {
 
 function buildAftercareEmail({ isPt, name }) {
     const para1 = isPt
-        ? 'Espero que tenhas adorado a experiência! Foi um prazer trabalhar contigo.'
-        : "I hope you loved the experience! It was a pleasure working with you.";
+        ? 'Espero que tenhas adorado a experiência tanto quanto eu! Foi um prazer enorme trabalhar contigo e ver esta peça ganhar vida na tua pele.'
+        : "I hope you loved the experience as much as I did! It was an absolute pleasure working with you and seeing this piece come to life on your skin.";
 
     const tips = isPt ? [
         'Manter a película protetora durante 2–4 horas',
@@ -371,11 +402,15 @@ function buildAftercareEmail({ isPt, name }) {
         'Don\'t wear tight clothing over the area for the first few days',
     ];
 
-    const careTitle = isPt ? 'Cuidados pós-tatuagem:' : 'Aftercare guide:';
+    const careTitle = isPt ? 'Para que a tua tatuagem cicatrize na perfeição, segue estes cuidados:' : 'To make sure your tattoo heals beautifully, follow these steps:';
+
+    const para2 = isPt
+        ? 'Se tiveres qualquer dúvida durante a cicatrização, não hesites — envia-me mensagem no <a href="https://www.instagram.com/stephany.tattoo/" style="color:#A77049;text-decoration:underline;">Instagram</a> ou responde a este email. Estou sempre aqui para te ajudar!'
+        : 'If you have any concerns during healing, don\'t hesitate — message me on <a href="https://www.instagram.com/stephany.tattoo/" style="color:#A77049;text-decoration:underline;">Instagram</a> or reply to this email. I\'m always here to help!';
 
     const reviewText = isPt
-        ? 'Se gostaste da experiência, significa muito para mim se puderes deixar uma avaliação:'
-        : 'If you enjoyed the experience, it would mean the world to me if you could leave a review:';
+        ? 'Se gostaste da experiência, ficava muito feliz se pudesses deixar uma palavrinha — significa imenso para mim e para o crescimento do atelier:'
+        : 'If you enjoyed the experience, it would make my day if you could leave a few words — it means the world to me and helps the studio grow:';
 
     return buildEmail(isPt, name, `
         <p style="margin:0 0 24px;font-size:14px;color:#2C1A0E;line-height:1.8;font-weight:300;">${para1}</p>
@@ -383,6 +418,7 @@ function buildAftercareEmail({ isPt, name }) {
         <ul style="margin:0 0 32px;padding-left:20px;font-size:14px;color:#7A5C48;line-height:2.2;font-weight:300;">
           ${tips.map(t => `<li>${t}</li>`).join('\n          ')}
         </ul>
+        <p style="margin:0 0 24px;font-size:14px;color:#7A5C48;line-height:1.8;font-weight:300;">${para2}</p>
         <p style="margin:0 0 20px;font-size:14px;color:#7A5C48;line-height:1.8;font-weight:300;">${reviewText}</p>
         ${btn('https://share.google/XwF5Gg3xCGjqV1AZ2', isPt ? 'Deixar Avaliação' : 'Leave a Review')}
     `);
