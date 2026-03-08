@@ -16,8 +16,8 @@ export default async function handler(req, res) {
     const isPt = lang !== 'en';
 
     const subject = isPt
-        ? 'Recebi o teu pedido — Stephany Ribeiro'
-        : 'I received your request — Stephany Ribeiro';
+        ? '✨ Recebi o teu pedido — Stephany Ribeiro'
+        : '✨ I received your request — Stephany Ribeiro';
 
     const html = `<!DOCTYPE html>
 <html lang="${isPt ? 'pt' : 'en'}">
@@ -107,7 +107,7 @@ export default async function handler(req, res) {
 
     try {
         await resend.emails.send({
-            from: 'Stephany Ribeiro <art@stephanytattoo.com>',
+            from: 'Stephany Ribeiro - LUMI Atelier <art@stephanytattoo.com>',
             to: email,
             subject,
             html,

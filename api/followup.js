@@ -17,16 +17,16 @@ export default async function handler(req, res) {
     let subject, html;
 
     if (type === 'Orçamento') {
-        subject = isPt ? 'O teu orçamento — Stephany Ribeiro' : 'Your quote — Stephany Ribeiro';
+        subject = isPt ? '✨ O teu orçamento — Stephany Ribeiro' : '✨ Your quote — Stephany Ribeiro';
         html = buildBudgetEmail({ isPt, name, budget, session_url });
     } else if (type === 'Mais Detalhes') {
-        subject = isPt ? 'Preciso de mais detalhes — Stephany Ribeiro' : 'A few more details needed — Stephany Ribeiro';
+        subject = isPt ? '✨ Preciso de mais detalhes — Stephany Ribeiro' : '✨ A few more details needed — Stephany Ribeiro';
         html = buildDetailsEmail({ isPt, name, message });
     } else if (type === 'Recusado') {
-        subject = isPt ? 'O teu pedido — Stephany Ribeiro' : 'Your request — Stephany Ribeiro';
+        subject = isPt ? '✨ O teu pedido — Stephany Ribeiro' : '✨ Your request — Stephany Ribeiro';
         html = buildRejectionEmail({ isPt, name, reason });
     } else if (type === 'deposito') {
-        subject = isPt ? 'Depósito recebido — Sessão confirmada' : 'Deposit received — Session confirmed';
+        subject = isPt ? '✨ Depósito recebido — Sessão confirmada' : '✨ Deposit received — Session confirmed';
         html = buildDepositEmail({ isPt, name });
     } else {
         return res.status(400).json({ error: 'Invalid type' });
@@ -34,7 +34,7 @@ export default async function handler(req, res) {
 
     try {
         await resend.emails.send({
-            from: 'Stephany Ribeiro <art@stephanytattoo.com>',
+            from: 'Stephany Ribeiro - LUMI Atelier <art@stephanytattoo.com>',
             to: email,
             subject,
             html,
@@ -195,8 +195,13 @@ function buildDepositEmail({ isPt, name }) {
         ? 'Fico muito feliz por trabalhar contigo em breve. Qualquer dúvida, estou à tua disposição.'
         : "I'm truly looking forward to working with you. Feel free to reach out if you have any questions.";
 
+    const para3 = isPt
+        ? 'Espero por ti no <a href="https://maps.app.goo.gl/zNsyDdv1vJyKyro19" style="color:#A77049;text-decoration:underline;">LUMI Atelier</a>!'
+        : 'I\'ll be waiting for you at <a href="https://maps.app.goo.gl/zNsyDdv1vJyKyro19" style="color:#A77049;text-decoration:underline;">LUMI Atelier</a>!';
+
     return buildEmail(isPt, name, `
         <p style="margin:0 0 20px;font-size:14px;color:#2C1A0E;line-height:1.8;font-weight:300;">${para1}</p>
-        <p style="margin:0 0 48px;font-size:14px;color:#7A5C48;line-height:1.8;font-weight:300;">${para2}</p>
+        <p style="margin:0 0 20px;font-size:14px;color:#7A5C48;line-height:1.8;font-weight:300;">${para2}</p>
+        <p style="margin:0 0 48px;font-size:14px;color:#2C1A0E;line-height:1.8;font-weight:300;">${para3}</p>
     `);
 }
