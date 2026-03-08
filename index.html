@@ -47,6 +47,20 @@
             overflow-x: hidden;
         }
 
+        /* ─── GRAIN TEXTURE OVERLAY ──────────────────── */
+        body::before {
+            content: '';
+            position: fixed;
+            inset: 0;
+            z-index: 9000;
+            pointer-events: none;
+            opacity: 0.028;
+            background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+            background-repeat: repeat;
+            background-size: 180px;
+        }
+        html.dark body::before { opacity: 0.04; }
+
         /* ─── NAV ─────────────────────────────────── */
         nav {
             position: fixed;
@@ -602,6 +616,40 @@
             letter-spacing: 0.15em;
             text-transform: uppercase;
         }
+        .footer-mid {
+            display: flex;
+            gap: 36px;
+            align-items: center;
+        }
+        .footer-link {
+            font-size: 0.62rem;
+            letter-spacing: 0.18em;
+            text-transform: uppercase;
+            color: var(--taupe);
+            text-decoration: none;
+            transition: color 0.3s;
+        }
+        .footer-link:hover { color: var(--cream-light); }
+        .footer-cta {
+            display: inline-block;
+            padding: 14px 36px;
+            border: 1px solid rgba(253,250,247,0.3);
+            color: var(--cream-light);
+            font-family: 'Montserrat', sans-serif;
+            font-size: 0.6rem;
+            font-weight: 400;
+            letter-spacing: 0.2em;
+            text-transform: uppercase;
+            text-decoration: none;
+            transition: background 0.4s, color 0.4s, border-color 0.4s, transform 0.3s;
+        }
+        .footer-cta:hover {
+            background: var(--cream-light);
+            border-color: var(--cream-light);
+            color: var(--text);
+            transform: translateY(-2px);
+        }
+        .footer-cta:active { transform: translateY(0); }
         .footer-social {
             display: flex;
             flex-direction: row;
@@ -832,6 +880,11 @@
                 padding: 44px 24px;
             }
             .footer-name { font-size: 1.1rem; letter-spacing: 0.12em; white-space: nowrap; }
+            .footer-mid {
+                flex-wrap: wrap;
+                justify-content: center;
+                gap: 20px;
+            }
             .footer-social {
                 align-items: center;
                 justify-content: center;
@@ -1059,7 +1112,7 @@
     </div>
     <div class="about-rule"></div>
 
-    <div class="portfolio-grid">
+    <div class="portfolio-grid fade-up">
         <div class="portfolio-item">
             <div class="portfolio-slides">
                 <div class="portfolio-slide active">
@@ -1249,6 +1302,12 @@
         <div class="footer-name">Stephany Ribeiro</div>
         <div class="footer-copy" data-i18n="footer-copy">© 2026 STEPHANY RIBEIRO · Todos os direitos reservados</div>
     </div>
+    <div class="footer-mid">
+        <a href="#about" class="footer-link" data-i18n="nav-about">Sobre</a>
+        <a href="/portfolio" class="footer-link" data-i18n="nav-portfolio">Portfólio</a>
+        <a href="https://lumiatelierpt.com" target="_blank" rel="noopener" class="footer-link">Atelier</a>
+        <a href="/book" class="footer-cta" data-i18n="footer-cta">Marcar Sessão</a>
+    </div>
     <div class="footer-social">
         <a href="https://www.instagram.com/stephany.tattoo/" target="_blank" rel="noopener" class="footer-icon" aria-label="Instagram">
             <svg viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="2" width="20" height="20" rx="5" ry="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.5" cy="6.5" r="0.5" fill="currentColor" stroke="none"/></svg>
@@ -1360,6 +1419,7 @@
             'contact-statement': 'Aceito um número limitado de clientes por mês para garantir que cada peça recebe a atenção que merece.',
             'contact-btn': 'Marcar sessão',
             'footer-copy': '© 2026 STEPHANY RIBEIRO · Todos os direitos reservados',
+            'footer-cta': 'Marcar Sessão',
         },
         en: {
             'nav-about': 'About', 'nav-portfolio': 'Portfolio', 'nav-atelier': 'Atelier', 'nav-book': 'Book',
@@ -1378,6 +1438,7 @@
             'contact-statement': 'I accept a limited number of clients each month to ensure every piece receives the attention it deserves.',
             'contact-btn': 'Book your session',
             'footer-copy': '© 2026 STEPHANY RIBEIRO · All rights reserved',
+            'footer-cta': 'Book a Session',
         }
     };
     function applyLang(lang) {
@@ -1497,6 +1558,10 @@
     .cc-btn:active { transform: translateY(0); }
     .cc-link { color: #ECD9D0; text-decoration: underline; text-underline-offset: 2px; }
     .cc-link:hover { color: #FDFAF7; }
+    @media (max-width: 600px) {
+        .cc-window { font-size: 0.72rem; margin: 10px; padding: 14px 18px; }
+        .cc-btn { font-size: 0.68rem; padding: 8px 16px; }
+    }
   </style>
   <script src="/_vercel/speed-insights/script.js" defer></script>
 </body>

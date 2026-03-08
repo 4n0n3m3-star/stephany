@@ -47,6 +47,19 @@
             overflow-x: hidden;
         }
 
+        /* ─── GRAIN TEXTURE OVERLAY ──────────────────── */
+        body::before {
+            content: '';
+            position: fixed;
+            inset: 0;
+            z-index: 9000;
+            pointer-events: none;
+            opacity: 0.028;
+            background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+            background-repeat: repeat;
+            background-size: 180px;
+        }
+
         /* ─── NAV ─────────────────────────────────────── */
         nav {
             position: fixed;
@@ -81,32 +94,214 @@
             text-decoration: none;
         }
 
-        /* ─── PORTFOLIO GRID ──────────────────────────── */
-        .portfolio-grid-section {
-            padding: 96px 16px 160px;
-            overflow: hidden;
-        }
-        .portfolio-grid {
-            display: grid;
-            grid-template-columns: 1fr 1fr 1fr;
+        /* ─── PORTFOLIO HEADER ───────────────────────── */
+        .portfolio-header {
+            padding: 120px 64px 0;
             max-width: 1600px;
             margin: 0 auto;
-            gap: 12px;
         }
-        .portfolio-col { display: grid; gap: 12px; align-content: start; }
-        .portfolio-item { overflow: hidden; border-radius: 4px; }
-        .portfolio-item img {
+        .portfolio-title {
+            font-family: 'Tenor Sans', serif;
+            font-size: clamp(2.4rem, 5vw, 4.5rem);
+            font-weight: 300;
+            color: var(--text);
+            line-height: 1.05;
+            letter-spacing: -0.02em;
+            margin-bottom: 12px;
+            opacity: 0;
+            transform: translateY(20px);
+            animation: fadeIn 0.8s 0.2s forwards;
+        }
+        .portfolio-subtitle {
+            font-size: 0.78rem;
+            font-weight: 200;
+            color: var(--text-light);
+            letter-spacing: 0.08em;
+            margin-bottom: 40px;
+            opacity: 0;
+            transform: translateY(16px);
+            animation: fadeIn 0.7s 0.35s forwards;
+        }
+
+        /* ─── CATEGORY FILTER ────────────────────────── */
+        .filter-bar {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+            margin-bottom: 48px;
+            opacity: 0;
+            transform: translateY(14px);
+            animation: fadeIn 0.7s 0.5s forwards;
+        }
+        .filter-btn {
+            font-family: 'Montserrat', sans-serif;
+            font-size: 0.62rem;
+            font-weight: 400;
+            letter-spacing: 0.18em;
+            text-transform: uppercase;
+            padding: 10px 22px;
+            border: 1px solid var(--rose-taupe);
+            border-radius: 100px;
+            background: transparent;
+            color: var(--text-light);
+            cursor: pointer;
+            transition: background 0.35s cubic-bezier(0.25,0.46,0.45,0.94),
+                        color 0.35s cubic-bezier(0.25,0.46,0.45,0.94),
+                        border-color 0.35s cubic-bezier(0.25,0.46,0.45,0.94),
+                        transform 0.25s cubic-bezier(0.34,1.56,0.64,1);
+        }
+        .filter-btn:hover {
+            border-color: var(--warm-brown);
+            color: var(--warm-brown);
+            transform: translateY(-1px);
+        }
+        .filter-btn:active { transform: translateY(0); }
+        .filter-btn.active {
+            background: var(--warm-brown);
+            border-color: var(--warm-brown);
+            color: var(--cream-light);
+        }
+        .filter-btn.active:hover {
+            background: var(--dark-brown);
+            border-color: var(--dark-brown);
+            color: var(--cream-light);
+        }
+
+        /* ─── MASONRY GRID ───────────────────────────── */
+        .masonry {
+            padding: 0 64px 80px;
+            max-width: 1600px;
+            margin: 0 auto;
+            columns: 3;
+            column-gap: 16px;
+        }
+        .masonry-item {
+            break-inside: avoid;
+            margin-bottom: 16px;
+            border-radius: 8px;
+            overflow: hidden;
+            position: relative;
+            cursor: pointer;
+            opacity: 0;
+            transform: translateY(24px) scale(0.97);
+            transition: opacity 0.6s cubic-bezier(0.25,0.46,0.45,0.94),
+                        transform 0.6s cubic-bezier(0.25,0.46,0.45,0.94);
+        }
+        .masonry-item.visible {
+            opacity: 1;
+            transform: translateY(0) scale(1);
+        }
+        .masonry-item.hiding {
+            opacity: 0;
+            transform: scale(0.92);
+            position: absolute;
+            pointer-events: none;
+        }
+        .masonry-item img {
             width: 100%;
-            height: 55vw;
-            max-height: 680px;
-            min-height: 320px;
-            object-fit: cover;
-            object-position: center;
             display: block;
+            transition: transform 0.6s cubic-bezier(0.25,0.46,0.45,0.94);
         }
-        .col-1 .portfolio-item,
-        .col-3 .portfolio-item {
-            will-change: transform;
+        .masonry-item:hover img {
+            transform: scale(1.04);
+        }
+        .masonry-overlay {
+            position: absolute;
+            inset: 0;
+            background: linear-gradient(0deg, rgba(44,26,14,0.65) 0%, rgba(44,26,14,0) 50%);
+            opacity: 0;
+            transition: opacity 0.4s;
+            display: flex;
+            align-items: flex-end;
+            padding: 24px;
+        }
+        .masonry-item:hover .masonry-overlay {
+            opacity: 1;
+        }
+        .masonry-label {
+            font-size: 0.6rem;
+            font-weight: 400;
+            letter-spacing: 0.22em;
+            text-transform: uppercase;
+            color: var(--cream-light);
+            transform: translateY(6px);
+            transition: transform 0.4s cubic-bezier(0.25,0.46,0.45,0.94);
+        }
+        .masonry-item:hover .masonry-label {
+            transform: translateY(0);
+        }
+
+        /* ─── LIGHTBOX ───────────────────────────────── */
+        .lightbox {
+            position: fixed;
+            inset: 0;
+            z-index: 500;
+            background: rgba(44,26,14,0.92);
+            backdrop-filter: blur(20px);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity 0.4s cubic-bezier(0.25,0.46,0.45,0.94);
+            cursor: pointer;
+        }
+        .lightbox.open {
+            opacity: 1;
+            pointer-events: all;
+        }
+        .lightbox img {
+            max-width: 85vw;
+            max-height: 85vh;
+            object-fit: contain;
+            border-radius: 6px;
+            box-shadow: 0 24px 80px rgba(0,0,0,0.5);
+            transform: scale(0.9);
+            transition: transform 0.45s cubic-bezier(0.34,1.56,0.64,1);
+        }
+        .lightbox.open img {
+            transform: scale(1);
+        }
+        .lightbox-close {
+            position: absolute;
+            top: 32px;
+            right: 40px;
+            font-family: 'Montserrat', sans-serif;
+            font-size: 0.62rem;
+            letter-spacing: 0.28em;
+            text-transform: uppercase;
+            color: var(--cream);
+            background: none;
+            border: none;
+            cursor: pointer;
+            transition: color 0.3s;
+        }
+        .lightbox-close:hover { color: var(--cream-light); }
+        .lightbox-nav {
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+            background: none;
+            border: none;
+            color: var(--cream);
+            cursor: pointer;
+            padding: 20px;
+            transition: color 0.3s, transform 0.3s;
+        }
+        .lightbox-nav:hover { color: var(--cream-light); }
+        .lightbox-nav svg { width: 28px; height: 28px; }
+        .lightbox-prev { left: 24px; }
+        .lightbox-next { right: 24px; }
+        .lightbox-prev:hover { transform: translateY(-50%) translateX(-3px); }
+        .lightbox-next:hover { transform: translateY(-50%) translateX(3px); }
+        .lightbox-counter {
+            position: absolute;
+            bottom: 32px;
+            left: 50%;
+            transform: translateX(-50%);
+            font-size: 0.65rem;
+            letter-spacing: 0.2em;
+            color: var(--taupe);
         }
 
         /* ─── LINKS SECTION ───────────────────────── */
@@ -151,8 +346,70 @@
         }
         .links-link:hover::after { width: 100%; }
 
+        /* ─── FOOTER ─────────────────────────────────── */
+        .portfolio-footer {
+            background: var(--text);
+            color: var(--blush);
+            padding: 52px 72px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+        .footer-brand {
+            display: flex;
+            flex-direction: column;
+            gap: 4px;
+        }
+        .footer-name {
+            font-family: 'Tenor Sans', serif;
+            font-size: clamp(1.2rem, 2.5vw, 1.8rem);
+            letter-spacing: 0.2em;
+            color: var(--cream);
+            text-transform: uppercase;
+        }
+        .footer-copy {
+            font-size: 0.55rem;
+            letter-spacing: 0.15em;
+            text-transform: uppercase;
+        }
+        .footer-links {
+            display: flex;
+            gap: 36px;
+            align-items: center;
+        }
+        .footer-link {
+            font-size: 0.62rem;
+            letter-spacing: 0.18em;
+            text-transform: uppercase;
+            color: var(--taupe);
+            text-decoration: none;
+            transition: color 0.3s;
+        }
+        .footer-link:hover { color: var(--cream-light); }
+        .footer-cta {
+            display: inline-block;
+            padding: 14px 36px;
+            border: 1px solid rgba(253,250,247,0.3);
+            color: var(--cream-light);
+            font-family: 'Montserrat', sans-serif;
+            font-size: 0.6rem;
+            font-weight: 400;
+            letter-spacing: 0.2em;
+            text-transform: uppercase;
+            text-decoration: none;
+            transition: background 0.4s, color 0.4s, border-color 0.4s, transform 0.3s;
+        }
+        .footer-cta:hover {
+            background: var(--cream-light);
+            border-color: var(--cream-light);
+            color: var(--text);
+            transform: translateY(-2px);
+        }
+        .footer-cta:active { transform: translateY(0); }
+
         /* ─── DARK MODE ───────────────────────────────── */
         html.dark body { background: #130a03; color: var(--cream); }
+        html.dark body::before { opacity: 0.04; }
         html.dark nav {
             background: rgba(19,10,3,0.92);
             border-color: #3a2418;
@@ -160,7 +417,13 @@
         html.dark .nav-back { color: var(--rose-taupe); }
         html.dark .nav-back:hover { color: var(--warm-brown); }
         html.dark .nav-brand { color: var(--cream-light); }
+        html.dark .portfolio-title { color: var(--cream-light); }
+        html.dark .portfolio-subtitle { color: var(--taupe); }
+        html.dark .filter-btn { border-color: #5a3a28; color: var(--taupe); }
+        html.dark .filter-btn:hover { border-color: var(--warm-brown); color: var(--warm-brown); }
+        html.dark .filter-btn.active { background: var(--warm-brown); border-color: var(--warm-brown); color: var(--cream-light); }
         html.dark .links-section { background: #0a0602; }
+        html.dark .portfolio-footer { background: #0a0602; }
 
         /* ─── MOBILE MENU ─────────────────────────── */
         .nav-menu-btn {
@@ -348,28 +611,68 @@
             width: 48px;
             animation: loaderBreath 1.6s ease-in-out infinite;
         }
+
         @keyframes loaderBreath {
             0%, 100% { transform: scale(0.9);  opacity: 0.5; }
             50%       { transform: scale(1.02); opacity: 1;   }
         }
+        @keyframes fadeIn {
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* ─── IMAGE COUNT BADGE ──────────────────────── */
+        .img-count {
+            position: absolute;
+            top: 16px;
+            right: 16px;
+            font-size: 0.55rem;
+            font-weight: 400;
+            letter-spacing: 0.12em;
+            color: var(--cream-light);
+            background: rgba(44,26,14,0.55);
+            backdrop-filter: blur(8px);
+            padding: 5px 10px;
+            border-radius: 100px;
+            opacity: 0;
+            transform: translateY(-4px);
+            transition: opacity 0.35s, transform 0.35s;
+        }
+        .masonry-item:hover .img-count {
+            opacity: 1;
+            transform: translateY(0);
+        }
 
         @media (max-width: 900px) {
-            .portfolio-grid { grid-template-columns: 1fr 1fr; gap: 8px; }
-            .col-3 { display: none; }
-            .portfolio-item img { height: 60vw; max-height: none; }
+            .masonry { columns: 2; padding: 0 24px 60px; column-gap: 10px; }
+            .masonry-item { margin-bottom: 10px; border-radius: 6px; }
+            .portfolio-header { padding: 100px 24px 0; }
+            .filter-bar { gap: 6px; }
+            .filter-btn { padding: 8px 16px; font-size: 0.56rem; }
+            .links-section { padding: 0 24px; }
+            .links-item { padding: 56px 0; }
+            .links-link { font-size: clamp(1.2rem, 5.5vw, 4rem); }
+            .portfolio-footer {
+                flex-direction: column;
+                gap: 28px;
+                text-align: center;
+                padding: 44px 24px;
+            }
+            .footer-links { flex-wrap: wrap; justify-content: center; gap: 20px; }
         }
         @media (max-width: 600px) {
             nav { padding: 20px 24px; }
             .nav-brand { font-size: 0.72rem; letter-spacing: 0.08em; }
             .theme-switch-btn { display: none; }
             .menu-theme-btn { display: flex; margin-bottom: 12px; align-self: flex-start; }
-            .portfolio-grid-section { padding: 80px 8px 32px; }
-            .portfolio-grid { grid-template-columns: 1fr; gap: 8px; }
-            .col-2, .col-3 { display: none; }
-            .portfolio-item img { height: 80vw; }
+            .masonry { columns: 2; padding: 0 12px 40px; column-gap: 8px; }
+            .masonry-item { margin-bottom: 8px; border-radius: 4px; }
+            .portfolio-header { padding: 88px 12px 0; }
+            .portfolio-title { font-size: clamp(1.8rem, 8vw, 3rem); }
+            .filter-btn { padding: 7px 14px; font-size: 0.52rem; letter-spacing: 0.12em; }
             .links-section { padding: 0 20px; }
             .links-item { padding: 44px 0; }
             .links-link { font-size: clamp(1rem, 5.2vw, 1.8rem); }
+            .lightbox-nav { display: none; }
         }
     </style>
 </head>
@@ -427,55 +730,166 @@
     </div>
 </div>
 
-<!-- ─── PARALLAX GRID ──────────────────────────── -->
-<section class="portfolio-grid-section" id="grid-section">
-    <div class="portfolio-grid">
+<!-- ─── PORTFOLIO HEADER + FILTERS ─────────────────── -->
+<div class="portfolio-header">
+    <h1 class="portfolio-title" data-i18n="portfolio-title">Portfólio</h1>
+    <p class="portfolio-subtitle" data-i18n="portfolio-subtitle">Uma seleção de trabalhos fineline — cada peça é única e feita com dedicação.</p>
 
-        <!-- Column 1 — scrolls left + up + rotates CCW -->
-        <div class="portfolio-col col-1" id="col-1">
-            <div class="portfolio-item"><img loading="lazy" decoding="async" src="media/instagram/01_fine_line_florals/DSCF1474.webp" alt="Fine line floral tattoo"></div>
-            <div class="portfolio-item"><img loading="lazy" decoding="async" src="media/instagram/01_fine_line_florals/DSCF7825.webp" alt="Fine line floral tattoo"></div>
-            <div class="portfolio-item"><img loading="lazy" decoding="async" src="media/instagram/02_words_and_scripts/DSCF7986.webp" alt="Script tattoo"></div>
-            <div class="portfolio-item"><img loading="lazy" decoding="async" src="media/instagram/04_emotional_meaningful/DSCF7772.webp" alt="Meaningful tattoo"></div>
-            <div class="portfolio-item"><img loading="lazy" decoding="async" src="media/instagram/05_disney_sleeve/DSCF7994.webp" alt="Disney sleeve tattoo"></div>
-            <div class="portfolio-item"><img loading="lazy" decoding="async" src="media/instagram/05_disney_sleeve/DSCF8003.webp" alt="Disney sleeve tattoo"></div>
-            <div class="portfolio-item"><img loading="lazy" decoding="async" src="media/instagram/06_botanical_nature/DSCF6214.webp" alt="Botanical tattoo"></div>
-            <div class="portfolio-item"><img loading="lazy" decoding="async" src="media/instagram/07_bold_statement/DSCF7944.webp" alt="Bold statement tattoo"></div>
-            <div class="portfolio-item"><img loading="lazy" decoding="async" src="media/instagram/08_symbolic_mystical/DSCF7155.webp" alt="Symbolic tattoo"></div>
-            <div class="portfolio-item"><img loading="lazy" decoding="async" src="media/instagram/09_lifestyle_variety/DSCF1390.webp" alt="Lifestyle tattoo"></div>
-        </div>
-
-        <!-- Column 2 — static -->
-        <div class="portfolio-col col-2">
-            <div class="portfolio-item"><img loading="lazy" decoding="async" src="media/instagram/01_fine_line_florals/DSCF7146.webp" alt="Fine line floral tattoo"></div>
-            <div class="portfolio-item"><img loading="lazy" decoding="async" src="media/instagram/02_words_and_scripts/DSCF7940.webp" alt="Script tattoo"></div>
-            <div class="portfolio-item"><img loading="lazy" decoding="async" src="media/instagram/02_words_and_scripts/DSCF8026.webp" alt="Script tattoo"></div>
-            <div class="portfolio-item"><img loading="lazy" decoding="async" src="media/instagram/04_emotional_meaningful/DSCF8023.webp" alt="Meaningful tattoo"></div>
-            <div class="portfolio-item"><img loading="lazy" decoding="async" src="media/instagram/05_disney_sleeve/DSCF8001.webp" alt="Disney sleeve tattoo"></div>
-            <div class="portfolio-item"><img loading="lazy" decoding="async" src="media/instagram/05_disney_sleeve/DSCF8004.webp" alt="Disney sleeve tattoo"></div>
-            <div class="portfolio-item"><img loading="lazy" decoding="async" src="media/instagram/06_botanical_nature/DSCF8102.webp" alt="Botanical tattoo"></div>
-            <div class="portfolio-item"><img loading="lazy" decoding="async" src="media/instagram/07_bold_statement/DSCF8089.webp" alt="Bold statement tattoo"></div>
-            <div class="portfolio-item"><img loading="lazy" decoding="async" src="media/instagram/08_symbolic_mystical/DSCF7997.webp" alt="Symbolic tattoo"></div>
-            <div class="portfolio-item"><img loading="lazy" decoding="async" src="media/instagram/09_lifestyle_variety/DSCF1514.webp" alt="Lifestyle tattoo"></div>
-            <div class="portfolio-item"><img loading="lazy" decoding="async" src="media/instagram/09_lifestyle_variety/DSCF8103.webp" alt="Lifestyle tattoo"></div>
-        </div>
-
-        <!-- Column 3 — scrolls right + up + rotates CW -->
-        <div class="portfolio-col col-3" id="col-3">
-            <div class="portfolio-item"><img loading="lazy" decoding="async" src="media/instagram/01_fine_line_florals/DSCF7796.webp" alt="Fine line floral tattoo"></div>
-            <div class="portfolio-item"><img loading="lazy" decoding="async" src="media/instagram/02_words_and_scripts/DSCF7943.webp" alt="Script tattoo"></div>
-            <div class="portfolio-item"><img loading="lazy" decoding="async" src="media/instagram/02_words_and_scripts/DSCF8030.webp" alt="Script tattoo"></div>
-            <div class="portfolio-item"><img loading="lazy" decoding="async" src="media/instagram/05_disney_sleeve/DSCF7992.webp" alt="Disney sleeve tattoo"></div>
-            <div class="portfolio-item"><img loading="lazy" decoding="async" src="media/instagram/05_disney_sleeve/DSCF8002.webp" alt="Disney sleeve tattoo"></div>
-            <div class="portfolio-item"><img loading="lazy" decoding="async" src="media/instagram/06_botanical_nature/DSCF1498.webp" alt="Botanical tattoo"></div>
-            <div class="portfolio-item"><img loading="lazy" decoding="async" src="media/instagram/07_bold_statement/DSCF4328.webp" alt="Bold statement tattoo"></div>
-            <div class="portfolio-item"><img loading="lazy" decoding="async" src="media/instagram/08_symbolic_mystical/DSCF7039.webp" alt="Symbolic tattoo"></div>
-            <div class="portfolio-item"><img loading="lazy" decoding="async" src="media/instagram/08_symbolic_mystical/DSCF8018.webp" alt="Symbolic tattoo"></div>
-            <div class="portfolio-item"><img loading="lazy" decoding="async" src="media/instagram/09_lifestyle_variety/DSCF7978.webp" alt="Lifestyle tattoo"></div>
-        </div>
-
+    <div class="filter-bar">
+        <button class="filter-btn active" data-filter="all" data-i18n="filter-all">Todos</button>
+        <button class="filter-btn" data-filter="floral" data-i18n="filter-floral">Florais</button>
+        <button class="filter-btn" data-filter="script" data-i18n="filter-script">Lettering</button>
+        <button class="filter-btn" data-filter="disney" data-i18n="filter-disney">Disney</button>
+        <button class="filter-btn" data-filter="botanical" data-i18n="filter-botanical">Botânico</button>
+        <button class="filter-btn" data-filter="symbolic" data-i18n="filter-symbolic">Simbólico</button>
+        <button class="filter-btn" data-filter="bold" data-i18n="filter-bold">Statement</button>
+        <button class="filter-btn" data-filter="emotional" data-i18n="filter-emotional">Emocional</button>
+        <button class="filter-btn" data-filter="lifestyle" data-i18n="filter-lifestyle">Lifestyle</button>
     </div>
-</section>
+</div>
+
+<!-- ─── MASONRY GRID ───────────────────────────────── -->
+<div class="masonry" id="masonry">
+    <!-- Fine Line Florals -->
+    <div class="masonry-item" data-cat="floral">
+        <img loading="lazy" decoding="async" src="media/instagram/01_fine_line_florals/DSCF1474.webp" alt="Fine line floral tattoo">
+        <div class="masonry-overlay"><span class="masonry-label" data-i18n-cat="floral">Fineline · Floral</span></div>
+    </div>
+    <div class="masonry-item" data-cat="floral">
+        <img loading="lazy" decoding="async" src="media/instagram/01_fine_line_florals/DSCF7146.webp" alt="Fine line floral tattoo">
+        <div class="masonry-overlay"><span class="masonry-label" data-i18n-cat="floral">Fineline · Floral</span></div>
+    </div>
+    <div class="masonry-item" data-cat="floral">
+        <img loading="lazy" decoding="async" src="media/instagram/01_fine_line_florals/DSCF7796.webp" alt="Fine line floral tattoo">
+        <div class="masonry-overlay"><span class="masonry-label" data-i18n-cat="floral">Fineline · Floral</span></div>
+    </div>
+    <div class="masonry-item" data-cat="floral">
+        <img loading="lazy" decoding="async" src="media/instagram/01_fine_line_florals/DSCF7825.webp" alt="Fine line floral tattoo">
+        <div class="masonry-overlay"><span class="masonry-label" data-i18n-cat="floral">Fineline · Floral</span></div>
+    </div>
+
+    <!-- Words & Scripts -->
+    <div class="masonry-item" data-cat="script">
+        <img loading="lazy" decoding="async" src="media/instagram/02_words_and_scripts/DSCF7940.webp" alt="Script tattoo">
+        <div class="masonry-overlay"><span class="masonry-label" data-i18n-cat="script">Fineline · Script</span></div>
+    </div>
+    <div class="masonry-item" data-cat="script">
+        <img loading="lazy" decoding="async" src="media/instagram/02_words_and_scripts/DSCF7943.webp" alt="Script tattoo">
+        <div class="masonry-overlay"><span class="masonry-label" data-i18n-cat="script">Fineline · Script</span></div>
+    </div>
+    <div class="masonry-item" data-cat="script">
+        <img loading="lazy" decoding="async" src="media/instagram/02_words_and_scripts/DSCF7986.webp" alt="Script tattoo">
+        <div class="masonry-overlay"><span class="masonry-label" data-i18n-cat="script">Fineline · Script</span></div>
+    </div>
+    <div class="masonry-item" data-cat="script">
+        <img loading="lazy" decoding="async" src="media/instagram/02_words_and_scripts/DSCF8026.webp" alt="Script tattoo">
+        <div class="masonry-overlay"><span class="masonry-label" data-i18n-cat="script">Fineline · Script</span></div>
+    </div>
+    <div class="masonry-item" data-cat="script">
+        <img loading="lazy" decoding="async" src="media/instagram/02_words_and_scripts/DSCF8030.webp" alt="Script tattoo">
+        <div class="masonry-overlay"><span class="masonry-label" data-i18n-cat="script">Fineline · Script</span></div>
+    </div>
+
+    <!-- Emotional / Meaningful -->
+    <div class="masonry-item" data-cat="emotional">
+        <img loading="lazy" decoding="async" src="media/instagram/04_emotional_meaningful/DSCF7772.webp" alt="Meaningful tattoo">
+        <div class="masonry-overlay"><span class="masonry-label" data-i18n-cat="emotional">Emocional</span></div>
+    </div>
+    <div class="masonry-item" data-cat="emotional">
+        <img loading="lazy" decoding="async" src="media/instagram/04_emotional_meaningful/DSCF8023.webp" alt="Meaningful tattoo">
+        <div class="masonry-overlay"><span class="masonry-label" data-i18n-cat="emotional">Emocional</span></div>
+    </div>
+
+    <!-- Disney Sleeve -->
+    <div class="masonry-item" data-cat="disney">
+        <img loading="lazy" decoding="async" src="media/instagram/05_disney_sleeve/DSCF7992.webp" alt="Disney sleeve tattoo">
+        <div class="masonry-overlay"><span class="masonry-label" data-i18n-cat="disney">Disney · Sleeve</span></div>
+    </div>
+    <div class="masonry-item" data-cat="disney">
+        <img loading="lazy" decoding="async" src="media/instagram/05_disney_sleeve/DSCF7994.webp" alt="Disney sleeve tattoo">
+        <div class="masonry-overlay"><span class="masonry-label" data-i18n-cat="disney">Disney · Sleeve</span></div>
+    </div>
+    <div class="masonry-item" data-cat="disney">
+        <img loading="lazy" decoding="async" src="media/instagram/05_disney_sleeve/DSCF8001.webp" alt="Disney sleeve tattoo">
+        <div class="masonry-overlay"><span class="masonry-label" data-i18n-cat="disney">Disney · Sleeve</span></div>
+    </div>
+    <div class="masonry-item" data-cat="disney">
+        <img loading="lazy" decoding="async" src="media/instagram/05_disney_sleeve/DSCF8002.webp" alt="Disney sleeve tattoo">
+        <div class="masonry-overlay"><span class="masonry-label" data-i18n-cat="disney">Disney · Sleeve</span></div>
+    </div>
+    <div class="masonry-item" data-cat="disney">
+        <img loading="lazy" decoding="async" src="media/instagram/05_disney_sleeve/DSCF8003.webp" alt="Disney sleeve tattoo">
+        <div class="masonry-overlay"><span class="masonry-label" data-i18n-cat="disney">Disney · Sleeve</span></div>
+    </div>
+    <div class="masonry-item" data-cat="disney">
+        <img loading="lazy" decoding="async" src="media/instagram/05_disney_sleeve/DSCF8004.webp" alt="Disney sleeve tattoo">
+        <div class="masonry-overlay"><span class="masonry-label" data-i18n-cat="disney">Disney · Sleeve</span></div>
+    </div>
+
+    <!-- Botanical / Nature -->
+    <div class="masonry-item" data-cat="botanical">
+        <img loading="lazy" decoding="async" src="media/instagram/06_botanical_nature/DSCF1498.webp" alt="Botanical tattoo">
+        <div class="masonry-overlay"><span class="masonry-label" data-i18n-cat="botanical">Botânico</span></div>
+    </div>
+    <div class="masonry-item" data-cat="botanical">
+        <img loading="lazy" decoding="async" src="media/instagram/06_botanical_nature/DSCF6214.webp" alt="Botanical tattoo">
+        <div class="masonry-overlay"><span class="masonry-label" data-i18n-cat="botanical">Botânico</span></div>
+    </div>
+    <div class="masonry-item" data-cat="botanical">
+        <img loading="lazy" decoding="async" src="media/instagram/06_botanical_nature/DSCF8102.webp" alt="Botanical tattoo">
+        <div class="masonry-overlay"><span class="masonry-label" data-i18n-cat="botanical">Botânico</span></div>
+    </div>
+
+    <!-- Bold Statement -->
+    <div class="masonry-item" data-cat="bold">
+        <img loading="lazy" decoding="async" src="media/instagram/07_bold_statement/DSCF4328.webp" alt="Bold statement tattoo">
+        <div class="masonry-overlay"><span class="masonry-label" data-i18n-cat="bold">Statement</span></div>
+    </div>
+    <div class="masonry-item" data-cat="bold">
+        <img loading="lazy" decoding="async" src="media/instagram/07_bold_statement/DSCF7944.webp" alt="Bold statement tattoo">
+        <div class="masonry-overlay"><span class="masonry-label" data-i18n-cat="bold">Statement</span></div>
+    </div>
+    <div class="masonry-item" data-cat="bold">
+        <img loading="lazy" decoding="async" src="media/instagram/07_bold_statement/DSCF8089.webp" alt="Bold statement tattoo">
+        <div class="masonry-overlay"><span class="masonry-label" data-i18n-cat="bold">Statement</span></div>
+    </div>
+
+    <!-- Symbolic / Mystical -->
+    <div class="masonry-item" data-cat="symbolic">
+        <img loading="lazy" decoding="async" src="media/instagram/08_symbolic_mystical/DSCF7039.webp" alt="Symbolic tattoo">
+        <div class="masonry-overlay"><span class="masonry-label" data-i18n-cat="symbolic">Simbólico</span></div>
+    </div>
+    <div class="masonry-item" data-cat="symbolic">
+        <img loading="lazy" decoding="async" src="media/instagram/08_symbolic_mystical/DSCF7155.webp" alt="Symbolic tattoo">
+        <div class="masonry-overlay"><span class="masonry-label" data-i18n-cat="symbolic">Simbólico</span></div>
+    </div>
+    <div class="masonry-item" data-cat="symbolic">
+        <img loading="lazy" decoding="async" src="media/instagram/08_symbolic_mystical/DSCF7997.webp" alt="Symbolic tattoo">
+        <div class="masonry-overlay"><span class="masonry-label" data-i18n-cat="symbolic">Simbólico</span></div>
+    </div>
+    <div class="masonry-item" data-cat="symbolic">
+        <img loading="lazy" decoding="async" src="media/instagram/08_symbolic_mystical/DSCF8018.webp" alt="Symbolic tattoo">
+        <div class="masonry-overlay"><span class="masonry-label" data-i18n-cat="symbolic">Simbólico</span></div>
+    </div>
+
+    <!-- Lifestyle / Variety -->
+    <div class="masonry-item" data-cat="lifestyle">
+        <img loading="lazy" decoding="async" src="media/instagram/09_lifestyle_variety/DSCF1390.webp" alt="Lifestyle tattoo">
+        <div class="masonry-overlay"><span class="masonry-label" data-i18n-cat="lifestyle">Lifestyle</span></div>
+    </div>
+    <div class="masonry-item" data-cat="lifestyle">
+        <img loading="lazy" decoding="async" src="media/instagram/09_lifestyle_variety/DSCF1514.webp" alt="Lifestyle tattoo">
+        <div class="masonry-overlay"><span class="masonry-label" data-i18n-cat="lifestyle">Lifestyle</span></div>
+    </div>
+    <div class="masonry-item" data-cat="lifestyle">
+        <img loading="lazy" decoding="async" src="media/instagram/09_lifestyle_variety/DSCF7978.webp" alt="Lifestyle tattoo">
+        <div class="masonry-overlay"><span class="masonry-label" data-i18n-cat="lifestyle">Lifestyle</span></div>
+    </div>
+    <div class="masonry-item" data-cat="lifestyle">
+        <img loading="lazy" decoding="async" src="media/instagram/09_lifestyle_variety/DSCF8103.webp" alt="Lifestyle tattoo">
+        <div class="masonry-overlay"><span class="masonry-label" data-i18n-cat="lifestyle">Lifestyle</span></div>
+    </div>
+</div>
 
 <!-- ─── LINKS ─────────────────────────────────────── -->
 <section class="links-section">
@@ -489,6 +903,33 @@
         <a href="https://www.instagram.com/stephany.tattoo/" target="_blank" rel="noopener" class="links-link">@stephany.tattoo</a>
     </div>
 </section>
+
+<!-- ─── FOOTER ─────────────────────────────────────── -->
+<footer class="portfolio-footer">
+    <div class="footer-brand">
+        <div class="footer-name">Stephany Ribeiro</div>
+        <div class="footer-copy" data-i18n="footer-copy">© 2026 STEPHANY RIBEIRO · Todos os direitos reservados</div>
+    </div>
+    <div class="footer-links">
+        <a href="/" class="footer-link" data-i18n="footer-home">Início</a>
+        <a href="/portfolio" class="footer-link" data-i18n="footer-portfolio">Portfólio</a>
+        <a href="https://lumiatelierpt.com" target="_blank" rel="noopener" class="footer-link">Atelier</a>
+        <a href="/book" class="footer-cta" data-i18n="footer-book">Marcar Sessão</a>
+    </div>
+</footer>
+
+<!-- ─── LIGHTBOX ───────────────────────────────────── -->
+<div class="lightbox" id="lightbox">
+    <button class="lightbox-close" aria-label="Close">ESC</button>
+    <button class="lightbox-nav lightbox-prev" aria-label="Previous">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M15 18L9 12L15 6"/></svg>
+    </button>
+    <img src="" alt="">
+    <button class="lightbox-nav lightbox-next" aria-label="Next">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M9 6L15 12L9 18"/></svg>
+    </button>
+    <div class="lightbox-counter"></div>
+</div>
 
 <script>
     // ─── Page loader ──────────────────────────────
@@ -507,21 +948,144 @@
         });
     })();
 
+    // ─── Masonry reveal on scroll ────────────────
+    (function() {
+        const items = document.querySelectorAll('.masonry-item');
+        const obs = new IntersectionObserver((entries) => {
+            entries.forEach((e, i) => {
+                if (e.isIntersecting) {
+                    setTimeout(() => e.target.classList.add('visible'), i * 60);
+                    obs.unobserve(e.target);
+                }
+            });
+        }, { threshold: 0.08 });
+        items.forEach(el => obs.observe(el));
+    })();
+
+    // ─── Category filter ─────────────────────────
+    (function() {
+        const btns = document.querySelectorAll('.filter-btn');
+        const items = document.querySelectorAll('.masonry-item');
+        let current = 'all';
+
+        btns.forEach(btn => {
+            btn.addEventListener('click', () => {
+                const filter = btn.dataset.filter;
+                if (filter === current) return;
+                current = filter;
+
+                btns.forEach(b => b.classList.remove('active'));
+                btn.classList.add('active');
+
+                items.forEach(item => {
+                    const cat = item.dataset.cat;
+                    const show = filter === 'all' || cat === filter;
+                    if (show) {
+                        item.style.display = '';
+                        // Re-trigger reveal
+                        requestAnimationFrame(() => {
+                            item.classList.remove('visible');
+                            requestAnimationFrame(() => item.classList.add('visible'));
+                        });
+                    } else {
+                        item.style.display = 'none';
+                    }
+                });
+            });
+        });
+    })();
+
+    // ─── Lightbox ────────────────────────────────
+    (function() {
+        const lightbox = document.getElementById('lightbox');
+        const lbImg = lightbox.querySelector('img');
+        const counter = lightbox.querySelector('.lightbox-counter');
+        let visibleItems = [];
+        let currentIdx = 0;
+
+        function getVisibleItems() {
+            return Array.from(document.querySelectorAll('.masonry-item')).filter(i => i.style.display !== 'none');
+        }
+
+        function openLightbox(idx) {
+            visibleItems = getVisibleItems();
+            currentIdx = idx;
+            showImage();
+            lightbox.classList.add('open');
+            document.body.style.overflow = 'hidden';
+        }
+
+        function closeLightbox() {
+            lightbox.classList.remove('open');
+            document.body.style.overflow = '';
+        }
+
+        function showImage() {
+            const img = visibleItems[currentIdx].querySelector('img');
+            lbImg.src = img.src;
+            lbImg.alt = img.alt;
+            counter.textContent = `${currentIdx + 1} / ${visibleItems.length}`;
+        }
+
+        function next() {
+            currentIdx = (currentIdx + 1) % visibleItems.length;
+            showImage();
+        }
+        function prev() {
+            currentIdx = (currentIdx - 1 + visibleItems.length) % visibleItems.length;
+            showImage();
+        }
+
+        document.querySelectorAll('.masonry-item').forEach(item => {
+            item.addEventListener('click', () => {
+                const vis = getVisibleItems();
+                const idx = vis.indexOf(item);
+                if (idx !== -1) openLightbox(idx);
+            });
+        });
+
+        lightbox.querySelector('.lightbox-close').addEventListener('click', closeLightbox);
+        lightbox.querySelector('.lightbox-prev').addEventListener('click', (e) => { e.stopPropagation(); prev(); });
+        lightbox.querySelector('.lightbox-next').addEventListener('click', (e) => { e.stopPropagation(); next(); });
+        lightbox.addEventListener('click', (e) => { if (e.target === lightbox) closeLightbox(); });
+
+        document.addEventListener('keydown', (e) => {
+            if (!lightbox.classList.contains('open')) return;
+            if (e.key === 'Escape') closeLightbox();
+            if (e.key === 'ArrowRight') next();
+            if (e.key === 'ArrowLeft') prev();
+        });
+    })();
+
     // ─── i18n ──────────────────────────────────────
     const i18n = {
         pt: {
             'back': 'Voltar',
             'nav-menu': 'Menu', 'nav-close': 'Fechar',
             'nav-home': 'Início', 'nav-book': 'Marcar',
-            'mobile-social': 'Redes Sociais', 'mobile-contact': 'Contacto', 'mobile-lang': 'Idioma',
+            'mobile-social': 'Redes Sociais', 'mobile-contact': 'Contacto',
+            'portfolio-title': 'Portfólio',
+            'portfolio-subtitle': 'Uma seleção de trabalhos fineline — cada peça é única e feita com dedicação.',
+            'filter-all': 'Todos', 'filter-floral': 'Florais', 'filter-script': 'Lettering',
+            'filter-disney': 'Disney', 'filter-botanical': 'Botânico', 'filter-symbolic': 'Simbólico',
+            'filter-bold': 'Statement', 'filter-emotional': 'Emocional', 'filter-lifestyle': 'Lifestyle',
             'links-bookings': 'Marcações &amp; Contacto ↗', 'links-instagram': 'Instagram ↗',
+            'footer-copy': '© 2026 STEPHANY RIBEIRO · Todos os direitos reservados',
+            'footer-home': 'Início', 'footer-portfolio': 'Portfólio', 'footer-book': 'Marcar Sessão',
         },
         en: {
             'back': 'Back',
             'nav-menu': 'Menu', 'nav-close': 'Close',
             'nav-home': 'Home', 'nav-book': 'Book',
-            'mobile-social': 'Social', 'mobile-contact': 'Contact', 'mobile-lang': 'Language',
+            'mobile-social': 'Social', 'mobile-contact': 'Contact',
+            'portfolio-title': 'Portfolio',
+            'portfolio-subtitle': 'A selection of fineline work — every piece is unique and crafted with care.',
+            'filter-all': 'All', 'filter-floral': 'Florals', 'filter-script': 'Lettering',
+            'filter-disney': 'Disney', 'filter-botanical': 'Botanical', 'filter-symbolic': 'Symbolic',
+            'filter-bold': 'Statement', 'filter-emotional': 'Emotional', 'filter-lifestyle': 'Lifestyle',
             'links-bookings': 'Bookings &amp; Enquiries ↗', 'links-instagram': 'Instagram ↗',
+            'footer-copy': '© 2026 STEPHANY RIBEIRO · All rights reserved',
+            'footer-home': 'Home', 'footer-portfolio': 'Portfolio', 'footer-book': 'Book a Session',
         }
     };
     function applyLang(lang) {
@@ -568,44 +1132,6 @@
     applyTheme(localStorage.getItem('theme') === 'dark');
     themeBtn.addEventListener('click', () => applyTheme(!themeBtn.classList.contains('dark')));
     if (themeBtnMenu) themeBtnMenu.addEventListener('click', () => applyTheme(!themeBtn.classList.contains('dark')));
-
-    // Parallax grid — mirrors ParallaxScrollSecond framer-motion behaviour
-    // Column 1: y(0→-200), x(0→-200), rotateZ(0→-20)
-    // Column 3: y(0→-200), x(0→+200), rotateZ(0→+20)
-    (function () {
-        const section = document.getElementById('grid-section');
-        const col1Items = document.querySelectorAll('#col-1 .portfolio-item');
-        const col3Items = document.querySelectorAll('#col-3 .portfolio-item');
-
-        function update() {
-            if (window.innerWidth <= 900) {
-                col1Items.forEach(el => { el.style.transform = ''; });
-                col3Items.forEach(el => { el.style.transform = ''; });
-                return;
-            }
-
-            const rect = section.getBoundingClientRect();
-            // progress: 0 when section top hits viewport bottom, 1 when section bottom hits viewport top
-            const total = rect.height + window.innerHeight;
-            const progress = Math.max(0, Math.min(1, (window.innerHeight - rect.top) / total));
-
-            const ty  = progress * -200;
-            const tx1 = progress * -200;
-            const tx3 = progress *  200;
-            const rz1 = progress * -20;
-            const rz3 = progress *  20;
-
-            col1Items.forEach(el => {
-                el.style.transform = `translateY(${ty}px) translateX(${tx1}px) rotateZ(${rz1}deg)`;
-            });
-            col3Items.forEach(el => {
-                el.style.transform = `translateY(${ty}px) translateX(${tx3}px) rotateZ(${rz3}deg)`;
-            });
-        }
-
-        window.addEventListener('scroll', update, { passive: true });
-        update();
-    })();
 </script>
   <!-- Cookie Consent by Osano -->
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/cookieconsent@3/build/cookieconsent.min.css" />
@@ -635,6 +1161,10 @@
     .cc-btn:active { transform: translateY(0); }
     .cc-link { color: #ECD9D0; text-decoration: underline; text-underline-offset: 2px; }
     .cc-link:hover { color: #FDFAF7; }
+    @media (max-width: 600px) {
+        .cc-window { font-size: 0.72rem; margin: 10px; padding: 14px 18px; }
+        .cc-btn { font-size: 0.68rem; padding: 8px 16px; }
+    }
   </style>
   <script src="/_vercel/speed-insights/script.js" defer></script>
 
