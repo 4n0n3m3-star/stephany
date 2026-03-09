@@ -27,7 +27,10 @@ export default async function handler(req, res) {
         html = buildRejectionEmail({ isPt, name, reason });
     } else if (type === 'deposito') {
         subject = isPt ? '✨ Próximos passos — Stephany Ribeiro' : '✨ Next steps — Stephany Ribeiro';
-        html = buildDepositRequestEmail({ isPt, name, budget, eta });
+        html = buildDepositRequestEmail({ isPt, name, budget });
+    } else if (type === 'deposito_confirmado') {
+        subject = isPt ? '✨ Depósito confirmado — Stephany Ribeiro' : '✨ Deposit confirmed — Stephany Ribeiro';
+        html = buildDepositConfirmedEmail({ isPt, name, eta });
     } else if (type === 'esboço') {
         subject = isPt ? '✨ O teu esboço está pronto!' : '✨ Your sketch is ready!';
         html = buildSketchEmail({ isPt, name, sketch_url, duration, session_url });
@@ -268,16 +271,10 @@ function buildRejectionEmail({ isPt, name, reason }) {
 
 /* ── Step 5: Budget accepted → deposit request + sketch ETA ── */
 
-function buildDepositRequestEmail({ isPt, name, budget, eta }) {
-    const formattedEta = formatEta(eta, isPt);
-
+function buildDepositRequestEmail({ isPt, name, budget }) {
     const para1 = isPt
         ? 'Estou tão feliz que queiras avançar! Vai ser um prazer enorme criar esta peça para ti.'
         : "I'm so happy you want to go ahead! It's going to be an absolute pleasure creating this piece for you.";
-
-    const etaText = isPt
-        ? `Vou começar a trabalhar no teu esboço e terá-lo pronto até <strong>${formattedEta}</strong>. Mal posso esperar para te mostrar!`
-        : `I'll start working on your sketch and have it ready by <strong>${formattedEta}</strong>. Can't wait to show you!`;
 
     const para2 = isPt
         ? 'Para dar início ao trabalho da tua tatuagem, peço um depósito de <strong>20€</strong> via MB Way para o número <strong>932 558 951</strong>. O depósito é não reembolsável e a sessão só fica confirmada após a sua receção.'
@@ -293,13 +290,32 @@ function buildDepositRequestEmail({ isPt, name, budget, eta }) {
             </td>
           </tr>
         </table>
-        <p style="margin:0 0 20px;font-size:14px;color:#7A5C48;line-height:1.8;font-weight:300;">${etaText}</p>
         <p style="margin:0 0 20px;font-size:14px;color:#7A5C48;line-height:1.8;font-weight:300;">${para2}</p>
         <p style="margin:0 0 48px;font-size:14px;color:#7A5C48;line-height:1.8;font-weight:300;">${directContact(isPt)}</p>
     `);
 }
 
-/* ── Step 6: Sketch ready + Calendly booking ── */
+/* ── Step 5b: Deposit confirmed + sketch ETA ── */
+
+function buildDepositConfirmedEmail({ isPt, name, eta }) {
+    const formattedEta = formatEta(eta, isPt);
+
+    const para1 = isPt
+        ? 'O teu depósito foi recebido com sucesso! Muito obrigada — está tudo confirmado do teu lado.'
+        : "Your deposit has been received! Thank you so much — everything is confirmed on your end.";
+
+    const etaText = isPt
+        ? `Vou começar a trabalhar no teu esboço e tê-lo pronto até <strong>${formattedEta}</strong>. Mal posso esperar para te mostrar!`
+        : `I'll start working on your sketch and have it ready by <strong>${formattedEta}</strong>. Can't wait to show you!`;
+
+    return buildEmail(isPt, name, `
+        <p style="margin:0 0 20px;font-size:14px;color:#2C1A0E;line-height:1.8;font-weight:300;">${para1}</p>
+        <p style="margin:0 0 20px;font-size:14px;color:#7A5C48;line-height:1.8;font-weight:300;">${etaText}</p>
+        <p style="margin:0 0 48px;font-size:14px;color:#7A5C48;line-height:1.8;font-weight:300;">${directContact(isPt)}</p>
+    `);
+}
+
+/* ── Step 6: Sketch ready + Cal.com booking ── */
 
 function buildSketchEmail({ isPt, name, sketch_url, duration, session_url }) {
     const para1 = isPt
