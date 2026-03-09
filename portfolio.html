@@ -60,39 +60,51 @@
             background-size: 180px;
         }
 
-        /* ─── NAV ─────────────────────────────────────── */
-        nav {
-            position: fixed;
-            top: 0; left: 0; right: 0;
-            z-index: 100;
-            padding: 28px 64px;
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            background: rgba(253,250,247,0.92);
-            backdrop-filter: blur(12px);
-            border-bottom: 1px solid var(--blush);
-        }
-        .nav-back {
-            font-size: 0.62rem;
-            letter-spacing: 0.28em;
-            text-transform: uppercase;
-            color: var(--text-light);
-            text-decoration: none;
-            display: flex;
-            align-items: center;
-            gap: 10px;
-            transition: color 0.3s;
-        }
-        .nav-back:hover { color: var(--warm-brown); }
-        .nav-back svg { width: 14px; height: 14px; }
-        .nav-brand {
-            font-family: 'Tenor Sans', serif;
-            font-size: 0.9rem;
-            letter-spacing: 0.12em;
-            color: var(--text);
-            text-decoration: none;
-        }
+/* ─── NAV ─────────────────────────────────────── */
+nav {
+    position: fixed;
+    top: 0; left: 0; right: 0;
+    z-index: 100;
+    padding: 18px 64px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    background: linear-gradient(
+        to bottom,
+        rgba(253,250,247, 0.92) 0%,
+        rgba(253,250,247, 0.22) 58%,
+        rgba(253,250,247, 0) 100%
+    );
+    backdrop-filter: blur(16px) saturate(1.3);
+    -webkit-backdrop-filter: blur(16px) saturate(1.3);
+    transition: all 0.5s ease;
+    border-bottom: none;
+}
+.nav-logo {
+    font-family: 'Tenor Sans', serif;
+    font-size: 1rem;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: var(--warm-brown);
+    text-decoration: none;
+    transition: color 0.4s ease;
+}
+.nav-links {
+    display: flex;
+    gap: 44px;
+    list-style: none;
+}
+.nav-links a {
+    font-size: 0.75rem;
+    letter-spacing: 0.22em;
+    text-transform: uppercase;
+    color: var(--text-light);
+    text-decoration: none;
+    transition: color 0.35s ease;
+}
+.nav-links a:hover {
+    color: var(--warm-brown);
+}
 
         /* ─── PORTFOLIO HEADER ───────────────────────── */
         .portfolio-header {
@@ -411,12 +423,18 @@
         html.dark body { background: #130a03; color: var(--cream); }
         html.dark body::before { opacity: 0.04; }
         html.dark nav {
-            background: rgba(19,10,3,0.92);
-            border-color: #3a2418;
+            background: linear-gradient(
+                to bottom,
+                rgba(19,10,3, 0.92) 0%,
+                rgba(19,10,3, 0.22) 58%,
+                rgba(19,10,3, 0) 100%
+            );
+            backdrop-filter: blur(16px) saturate(1.3);
+            -webkit-backdrop-filter: blur(16px) saturate(1.3);
         }
-        html.dark .nav-back { color: var(--rose-taupe); }
-        html.dark .nav-back:hover { color: var(--warm-brown); }
-        html.dark .nav-brand { color: var(--cream-light); }
+        html.dark .nav-logo { color: var(--rose-taupe); }
+        html.dark .nav-links a { color: var(--taupe); }
+        html.dark .nav-links a:hover { color: var(--rose-taupe); }
         html.dark .portfolio-title { color: var(--cream-light); }
         html.dark .portfolio-subtitle { color: var(--taupe); }
         html.dark .filter-btn { border-color: #5a3a28; color: var(--taupe); }
@@ -427,6 +445,7 @@
 
         /* ─── MOBILE MENU ─────────────────────────── */
         .nav-menu-btn {
+            display: none;
             font-size: 0.62rem;
             letter-spacing: 0.28em;
             text-transform: uppercase;
@@ -444,14 +463,17 @@
             position: fixed;
             inset: 0;
             z-index: 200;
-            background: var(--cream-light);
+            background: rgba(253, 250, 247, 0.62);
+            backdrop-filter: blur(20px) saturate(1.25);
+            -webkit-backdrop-filter: blur(20px) saturate(1.25);
             display: flex;
             flex-direction: column;
-            --mp: clamp(32px, 8vw, 120px);
-            padding: 28px var(--mp) 48px;
+            padding: 28px 32px 48px;
             transform: translateY(-100%);
             transition: transform 0.55s cubic-bezier(0.76, 0, 0.24, 1);
             pointer-events: none;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.12);
+            border-bottom: 1px solid rgba(220, 200, 180, 0.18);
         }
         .mobile-menu.open {
             transform: translateY(0);
@@ -483,15 +505,10 @@
             font-weight: 400;
             padding: 0;
         }
-        .mobile-menu-center {
-            display: flex;
-            flex-direction: column;
-            margin: auto 0;
-        }
-        .menu-theme-btn { display: none; }
         .mobile-menu-links {
             list-style: none;
             padding: 0;
+            margin: auto 0;
         }
         .mobile-menu-links li { overflow: hidden; }
         .mobile-menu-links a {
@@ -504,17 +521,13 @@
             transition: color 0.25s;
         }
         .mobile-menu-links a:hover { color: var(--warm-brown); }
-        .mobile-menu-lang-row { padding-bottom: 20px; }
         .mobile-menu-bottom {
             border-top: 1px solid var(--blush);
-            margin-left: calc(-1 * var(--mp));
-            margin-right: calc(-1 * var(--mp));
-            padding: 28px var(--mp) 0;
+            padding-top: 28px;
             display: grid;
             grid-template-columns: 1fr 1fr;
             gap: 20px;
         }
-        .mobile-menu-bottom-col:nth-child(2) { text-align: right; }
         .mobile-menu-bottom-col span {
             display: block;
             font-size: 0.55rem;
@@ -533,7 +546,11 @@
             transition: color 0.25s;
         }
         .mobile-menu-bottom-col a:hover { color: var(--warm-brown); }
-        html.dark .mobile-menu { background: #130a03; }
+        html.dark .mobile-menu {
+            background: rgba(19, 10, 3, 0.88);
+            backdrop-filter: blur(20px) saturate(1.3);
+            -webkit-backdrop-filter: blur(20px) saturate(1.3);
+        }
         html.dark .mobile-menu-brand,
         html.dark .mobile-menu-links a { color: var(--cream-light); }
         html.dark .mobile-menu-links a:hover { color: var(--rose-taupe); }
@@ -541,36 +558,11 @@
         html.dark .mobile-menu-bottom-col a { color: var(--cream); }
         html.dark .mobile-menu-close { color: var(--rose-taupe); }
 
-        /* ─── THEME SWITCH ────────────────────────── */
-        .theme-switch-btn {
-            position: relative;
+        .nav-right {
             display: flex;
             align-items: center;
-            justify-content: center;
-            width: 28px;
-            height: 28px;
-            border: none;
-            background: transparent;
-            cursor: pointer;
-            color: var(--text-light);
-            overflow: hidden;
-            padding: 0;
-            transition: color 0.3s;
+            gap: 16px;
         }
-        .theme-switch-btn:hover { color: var(--warm-brown); }
-        .theme-switch-btn svg {
-            position: absolute;
-            width: 17px;
-            height: 17px;
-            transition: transform 0.3s cubic-bezier(0.34,1.56,0.64,1),
-                        opacity 0.3s cubic-bezier(0.34,1.56,0.64,1);
-        }
-        .theme-switch-btn .icon-sun  { transform: scale(1) translateY(0); opacity: 1; }
-        .theme-switch-btn .icon-moon { transform: scale(0.5) translateY(20px); opacity: 0; }
-        .theme-switch-btn.dark .icon-sun  { transform: scale(0.5) translateY(20px); opacity: 0; }
-        .theme-switch-btn.dark .icon-moon { transform: scale(1) translateY(0); opacity: 1; }
-        html.dark .theme-switch-btn { color: var(--rose-taupe); }
-        html.dark .theme-switch-btn:hover { color: var(--cream); }
 
         /* ─── LANG BTN ────────────────────────────── */
         .lang-btn {
@@ -661,9 +653,9 @@
         }
         @media (max-width: 600px) {
             nav { padding: 20px 24px; }
-            .nav-brand { font-size: 0.72rem; letter-spacing: 0.08em; }
-            .theme-switch-btn { display: none; }
-            .menu-theme-btn { display: flex; margin-bottom: 12px; align-self: flex-start; }
+            .nav-links { display: none; }
+            .nav-menu-btn { display: block; }
+            .nav-logo { font-size: 0.82rem; letter-spacing: 0.1em; }
             .masonry { columns: 2; padding: 0 12px 40px; column-gap: 8px; }
             .masonry-item { margin-bottom: 8px; border-radius: 4px; }
             .portfolio-header { padding: 88px 12px 0; }
@@ -682,19 +674,14 @@
     <img src="/media/sparkle.png" alt="">
 </div>
 
-<nav>
-    <a href="/" class="nav-back">
-        <svg viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="1.2">
-            <path d="M10 7H4M4 7L7 4M4 7L7 10"/>
-        </svg>
-        <span data-i18n="back">Voltar</span>
-    </a>
-    <a href="/" class="nav-brand">STEPHANY RIBEIRO</a>
-    <div style="display:flex;align-items:center;gap:16px;">
-        <button class="theme-switch-btn" id="theme-switch" aria-label="Toggle theme">
-            <svg class="icon-sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="4"/><line x1="12" y1="2" x2="12" y2="4"/><line x1="12" y1="20" x2="12" y2="22"/><line x1="2" y1="12" x2="4" y2="12"/><line x1="20" y1="12" x2="22" y2="12"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="19.78" y1="4.22" x2="18.36" y2="5.64"/><line x1="5.64" y1="18.36" x2="4.22" y2="19.78"/></svg>
-            <svg class="icon-moon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>
-        </button>
+<nav id="nav">
+    <a href="/" class="nav-logo">Stephany Ribeiro</a>
+    <ul class="nav-links">
+        <li><a href="/" data-i18n="nav-home">Início</a></li>
+        <li><a href="/book" data-i18n="nav-book">Marcar</a></li>
+    </ul>
+    <div class="nav-right">
+        <button class="lang-btn" id="lang-switch" aria-label="Mudar idioma">EN</button>
         <button class="nav-menu-btn" id="menu-open-btn" aria-label="Open menu" data-i18n="nav-menu">Menu</button>
     </div>
 </nav>
@@ -705,19 +692,10 @@
         <a href="/" class="mobile-menu-brand" id="menu-brand-link">Stephany Ribeiro</a>
         <button class="mobile-menu-close" id="menu-close-btn" aria-label="Close menu" data-i18n="nav-close">Fechar</button>
     </div>
-    <div class="mobile-menu-center">
-        <button class="theme-switch-btn menu-theme-btn" id="theme-switch-menu" aria-label="Toggle theme">
-            <svg class="icon-sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="4"/><line x1="12" y1="2" x2="12" y2="4"/><line x1="12" y1="20" x2="12" y2="22"/><line x1="2" y1="12" x2="4" y2="12"/><line x1="20" y1="12" x2="22" y2="12"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="19.78" y1="4.22" x2="18.36" y2="5.64"/><line x1="5.64" y1="18.36" x2="4.22" y2="19.78"/></svg>
-            <svg class="icon-moon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>
-        </button>
-        <ul class="mobile-menu-links">
-            <li><a href="/" class="menu-link" data-i18n="nav-home">Início</a></li>
-            <li><a href="/book" class="menu-link" data-i18n="nav-book">Marcar</a></li>
-        </ul>
-    </div>
-    <div class="mobile-menu-lang-row">
-        <button class="lang-btn" id="lang-switch" aria-label="Mudar idioma">EN</button>
-    </div>
+    <ul class="mobile-menu-links">
+        <li><a href="/" class="menu-link" data-i18n="nav-home">Início</a></li>
+        <li><a href="/book" class="menu-link" data-i18n="nav-book">Marcar</a></li>
+    </ul>
     <div class="mobile-menu-bottom">
         <div class="mobile-menu-bottom-col">
             <span data-i18n="mobile-social">Redes Sociais</span>
@@ -912,7 +890,6 @@
     </div>
     <div class="footer-links">
         <a href="/" class="footer-link" data-i18n="footer-home">Início</a>
-        <a href="/portfolio" class="footer-link" data-i18n="footer-portfolio">Portfólio</a>
         <a href="https://lumiatelierpt.com" target="_blank" rel="noopener" class="footer-link">Atelier</a>
         <a href="/book" class="footer-cta" data-i18n="footer-book">Marcar Sessão</a>
     </div>
@@ -1120,18 +1097,6 @@
     document.querySelectorAll('.menu-link').forEach(a => a.addEventListener('click', closeMenu));
     document.getElementById('menu-brand-link').addEventListener('click', closeMenu);
 
-    // Theme switch
-    const themeBtn = document.getElementById('theme-switch');
-    const themeBtnMenu = document.getElementById('theme-switch-menu');
-    function applyTheme(isDark) {
-        document.documentElement.classList.toggle('dark', isDark);
-        themeBtn.classList.toggle('dark', isDark);
-        if (themeBtnMenu) themeBtnMenu.classList.toggle('dark', isDark);
-        localStorage.setItem('theme', isDark ? 'dark' : 'light');
-    }
-    applyTheme(localStorage.getItem('theme') === 'dark');
-    themeBtn.addEventListener('click', () => applyTheme(!themeBtn.classList.contains('dark')));
-    if (themeBtnMenu) themeBtnMenu.addEventListener('click', () => applyTheme(!themeBtn.classList.contains('dark')));
 </script>
   <!-- Cookie Consent by Osano -->
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/cookieconsent@3/build/cookieconsent.min.css" />
