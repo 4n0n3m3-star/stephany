@@ -174,12 +174,18 @@ nav.scrolled .nav-links a:hover {
             inset: 0;
             z-index: 0;
             pointer-events: none;
+            background: var(--text);
         }
         .hero-bg video {
             width: 100%;
             height: 100%;
             object-fit: cover;
             display: block;
+            opacity: 0;
+            transition: opacity 0.6s ease;
+        }
+        .hero-bg video.loaded {
+            opacity: 1;
         }
         .hero-overlay {
             position: absolute;
@@ -496,7 +502,7 @@ nav.scrolled .nav-links a:hover {
         /* ─── STUDIO (dark) ───────────────────────── */
         .studio {
             display: flex;
-            min-height: 100vh;
+            height: 100vh;
             padding: 0;
         }
         .studio-photo {
@@ -509,8 +515,8 @@ nav.scrolled .nav-links a:hover {
             flex: 1;
             display: flex;
             flex-direction: column;
-            justify-content: space-between;
-            padding: 72px 72px 0 72px;
+            justify-content: center;
+            padding: 72px;
             background: var(--text);
             color: var(--cream-light);
         }
@@ -820,6 +826,15 @@ nav.scrolled .nav-links a:hover {
             transition: color 0.25s;
         }
         .mobile-menu-links a:hover { color: var(--warm-brown); }
+        .mobile-menu-theme {
+            margin-top: 20px;
+        }
+        .mobile-menu-theme .theme-switch-btn {
+            color: var(--text-light);
+        }
+        html.dark .mobile-menu-theme .theme-switch-btn {
+            color: var(--cream);
+        }
         .mobile-menu-bottom {
             border-top: 1px solid var(--blush);
             padding-top: 28px;
@@ -1099,6 +1114,17 @@ html.dark nav.scrolled {
         <a href="#" class="mobile-menu-brand" id="menu-brand-link">Stephany Ribeiro</a>
         <button class="mobile-menu-close" id="menu-close-btn" aria-label="Close menu" data-i18n="nav-close">Fechar</button>
     </div>
+    <!-- Theme toggle inside menu -->
+    <div class="mobile-menu-theme">
+        <button class="theme-switch-btn" id="menu-theme-switch" aria-label="Toggle theme">
+            <svg class="icon-sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+                <circle cx="12" cy="12" r="4"/><line x1="12" y1="2" x2="12" y2="4"/><line x1="12" y1="20" x2="12" y2="22"/><line x1="2" y1="12" x2="4" y2="12"/><line x1="20" y1="12" x2="22" y2="12"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="19.78" y1="4.22" x2="18.36" y2="5.64"/><line x1="5.64" y1="18.36" x2="4.22" y2="19.78"/>
+            </svg>
+            <svg class="icon-moon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/>
+            </svg>
+        </button>
+    </div>
     <ul class="mobile-menu-links">
         <li><a href="#about" class="menu-link" data-i18n="nav-about">Sobre</a></li>
         <li><a href="/portfolio" class="menu-link" data-i18n="nav-portfolio">Portfólio</a></li>
@@ -1107,11 +1133,9 @@ html.dark nav.scrolled {
     </ul>
     <div class="mobile-menu-bottom">
         <div class="mobile-menu-bottom-col">
-            <span data-i18n="mobile-social">Redes Sociais</span>
             <a href="https://www.instagram.com/stephany.tattoo/" target="_blank" rel="noopener">@stephany.tattoo</a>
         </div>
         <div class="mobile-menu-bottom-col">
-            <span data-i18n="mobile-contact">Contacto</span>
             <a href="mailto:art@stephanytattoo.com">art@stephanytattoo.com</a>
         </div>
     </div>
@@ -1121,7 +1145,7 @@ html.dark nav.scrolled {
 <section class="hero" id="home">
     <!-- Background: 4-panel media grid -->
     <div class="hero-bg">
-        <video autoplay muted loop playsinline preload="metadata">
+        <video autoplay muted loop playsinline preload="auto">
             <source src="media/MX7A1431.mp4" type="video/mp4">
         </video>
     </div>
@@ -1458,6 +1482,7 @@ updateNavStyle();
 
     // Theme switch (mirrors ThemeSwitch component in components/ui/theme-switch-button.tsx)
     const themeBtn = document.getElementById('theme-switch');
+    const menuThemeBtn = document.getElementById('menu-theme-switch');
     const heroVideo  = document.querySelector('.hero-bg video');
     const heroSource = heroVideo.querySelector('source');
     const VIDEOS = {
@@ -1468,16 +1493,25 @@ updateNavStyle();
     function applyTheme(isDark) {
         document.documentElement.classList.toggle('dark', isDark);
         themeBtn.classList.toggle('dark', isDark);
+        menuThemeBtn.classList.toggle('dark', isDark);
+        heroVideo.classList.remove('loaded');
         heroSource.src = isDark ? VIDEOS.dark : VIDEOS.light;
         heroVideo.load();
     }
 
+    // Fade video in once it can play
+    heroVideo.addEventListener('canplay', () => {
+        heroVideo.classList.add('loaded');
+    }, { once: false });
+
     applyTheme(false);
 
-    themeBtn.addEventListener('click', () => {
+    function toggleTheme() {
         const isDark = !themeBtn.classList.contains('dark');
         applyTheme(isDark);
-    });
+    }
+    themeBtn.addEventListener('click', toggleTheme);
+    menuThemeBtn.addEventListener('click', toggleTheme);
 
     // Parallax divider — only update when near viewport
     const parallaxImg = document.getElementById('parallax-img');
