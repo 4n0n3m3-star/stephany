@@ -58,6 +58,8 @@
             background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
             background-repeat: repeat;
             background-size: 180px;
+            will-change: transform;
+            transform: translateZ(0);
         }
         html.dark body::before { opacity: 0.04; }
 
@@ -384,12 +386,14 @@ nav.scrolled .nav-links a:hover {
             flex-wrap: nowrap;
             gap: 3px;
             will-change: transform;
+            backface-visibility: hidden;
         }
         .sv-item {
             flex: 0 0 auto;
             width: 18vw;
             height: 12vw;
             overflow: hidden;
+            contain: layout style paint;
         }
         .sv-item img {
             width: 100%;
@@ -463,6 +467,7 @@ nav.scrolled .nav-links a:hover {
             inset: 0;
             opacity: 0;
             transition: opacity 0.9s ease;
+            contain: layout style paint;
         }
         .portfolio-slide.active { opacity: 1; }
         .portfolio-slide img,
@@ -485,6 +490,7 @@ nav.scrolled .nav-links a:hover {
             background-size: cover;
             background-position: center;
             will-change: transform;
+            backface-visibility: hidden;
         }
 
         /* ─── STUDIO (dark) ───────────────────────── */
@@ -582,7 +588,7 @@ nav.scrolled .nav-links a:hover {
         .links-link:hover::after { width: 100%; }
 
         /* ─── CONTACT ─────────────────────────────── */
-        .contact { background: linear-gradient(180deg, #F3E8DF 0%, #FDFAF7 100%); min-height: 100vh; display: flex; flex-direction: column; justify-content: center; }
+        .contact { background: linear-gradient(180deg, #F3E8DF 0%, #FDFAF7 100%); min-height: 50vh; display: flex; flex-direction: column; justify-content: center; }
         .contact-inner {
             text-align: left;
         }
@@ -719,10 +725,12 @@ nav.scrolled .nav-links a:hover {
             opacity: 0;
             transform: translateY(28px);
             transition: opacity 0.8s ease, transform 0.8s ease;
+            will-change: opacity, transform;
         }
         .fade-up.visible {
             opacity: 1;
             transform: translateY(0);
+            will-change: auto;
         }
 
         /* ─── RESPONSIVE ──────────────────────────── */
@@ -1387,6 +1395,22 @@ const heroSection = document.getElementById('home');
 const portfolioSection = document.getElementById('portfolio');
 const atelierSection = document.getElementById('studio');
 
+// Cache section offsets — recalculate on resize
+let sectionCache = {};
+function cacheSectionOffsets() {
+    if (heroSection) sectionCache.heroBottom = heroSection.offsetTop + heroSection.offsetHeight;
+    if (portfolioSection) {
+        sectionCache.portfolioTop = portfolioSection.offsetTop;
+        sectionCache.portfolioBottom = portfolioSection.offsetTop + portfolioSection.offsetHeight;
+    }
+    if (atelierSection) {
+        sectionCache.atelierTop = atelierSection.offsetTop;
+        sectionCache.atelierBottom = atelierSection.offsetTop + atelierSection.offsetHeight;
+    }
+}
+cacheSectionOffsets();
+window.addEventListener('resize', cacheSectionOffsets, { passive: true });
+
 function updateNavStyle() {
     const scrollY = window.scrollY;
 
@@ -1394,21 +1418,15 @@ function updateNavStyle() {
 
     if (!heroSection || !portfolioSection || !atelierSection) return;
 
-    const heroBottom = heroSection.offsetTop + heroSection.offsetHeight;
-    const portfolioTop = portfolioSection.offsetTop;
-    const portfolioBottom = portfolioSection.offsetTop + portfolioSection.offsetHeight;
-    const atelierTop = atelierSection.offsetTop;
-    const atelierBottom = atelierSection.offsetTop + atelierSection.offsetHeight;
-
-    const isWhiteSection = 
-        scrollY < heroBottom * 0.75 || 
-        (scrollY >= portfolioTop - 180 && scrollY < portfolioBottom) ||
-        (scrollY >= atelierTop - 180 && scrollY < atelierBottom);
+    const c = sectionCache;
+    const isWhiteSection =
+        scrollY < c.heroBottom * 0.75 ||
+        (scrollY >= c.portfolioTop - 180 && scrollY < c.portfolioBottom) ||
+        (scrollY >= c.atelierTop - 180 && scrollY < c.atelierBottom);
 
     nav.classList.toggle('nav-text-white', isWhiteSection);
 }
 
-window.addEventListener('scroll', updateNavStyle, { passive: true });
 updateNavStyle();
 
     // Mobile menu
@@ -1462,15 +1480,30 @@ updateNavStyle();
         applyTheme(isDark);
     });
 
-    // Parallax divider
+    // Parallax divider — only update when near viewport
     const parallaxImg = document.getElementById('parallax-img');
+    const parallaxParent = parallaxImg.parentElement;
     function updateParallax() {
-        const rect = parallaxImg.parentElement.getBoundingClientRect();
+        const rect = parallaxParent.getBoundingClientRect();
+        // Skip if section is far off-screen
+        if (rect.bottom < -200 || rect.top > window.innerHeight + 200) return;
         const progress = -rect.top / (window.innerHeight + rect.height);
-        parallaxImg.style.transform = `translateY(${progress * 28}%)`;
+        parallaxImg.style.transform = `translate3d(0, ${progress * 28}%, 0)`;
     }
-    window.addEventListener('scroll', updateParallax, { passive: true });
     updateParallax();
+
+    // ─── Single consolidated scroll handler ──────────
+    let scrollTicking = false;
+    window.addEventListener('scroll', () => {
+        if (!scrollTicking) {
+            requestAnimationFrame(() => {
+                updateNavStyle();
+                updateParallax();
+                scrollTicking = false;
+            });
+            scrollTicking = true;
+        }
+    }, { passive: true });
 
     // Portfolio slideshows (each container runs independently)
     document.querySelectorAll('.portfolio-slides').forEach((container, i) => {
@@ -1566,17 +1599,33 @@ updateNavStyle();
     // Scroll velocity marquee (mirrors ScrollVelocity component in components/ui/scroll-velocity.tsx)
     (function() {
         const tracks = document.querySelectorAll('.sv-track');
+        const svSection = document.querySelector('.sv-section');
         let lastScrollY = window.scrollY;
         let rawVelocity = 0;
         let smoothVelocity = 0;
+        let marqueeVisible = false;
 
+        // Track scroll velocity via the consolidated scroll handler
         window.addEventListener('scroll', () => {
             rawVelocity = window.scrollY - lastScrollY;
             lastScrollY = window.scrollY;
         }, { passive: true });
 
+        // Only animate when marquee is near viewport
+        if (svSection) {
+            const visObs = new IntersectionObserver((entries) => {
+                marqueeVisible = entries[0].isIntersecting;
+            }, { rootMargin: '200px 0px' });
+            visObs.observe(svSection);
+        }
+
+        const isMobile = window.innerWidth <= 768;
+        const speedScale = isMobile ? 0.45 : 1;       // slower on mobile
+        const scrollCap  = isMobile ? 2 : 5;           // less scroll influence on mobile
+        const scrollMult = isMobile ? 0.2 : 0.4;       // gentler scroll reaction on mobile
+
         tracks.forEach(track => {
-            const baseVelocity = parseFloat(track.dataset.velocity || '3');
+            const baseVelocity = parseFloat(track.dataset.velocity || '3') * speedScale;
             const halfCount = track.children.length / 2;
             let offset = 0;
             let direction = baseVelocity > 0 ? 1 : -1;
@@ -1585,17 +1634,31 @@ updateNavStyle();
             // measure half-width after first paint
             requestAnimationFrame(function measure() {
                 const itemW = track.querySelector('.sv-item').offsetWidth + 3; // +gap
-                const halfWidth = itemW * halfCount;
+                let halfWidth = itemW * halfCount;
+
+                // Recalculate on resize
+                window.addEventListener('resize', () => {
+                    const newW = track.querySelector('.sv-item').offsetWidth + 3;
+                    halfWidth = newW * halfCount;
+                }, { passive: true });
 
                 function tick(time) {
                     if (!lastTime) { lastTime = time; requestAnimationFrame(tick); return; }
                     const delta = Math.min(time - lastTime, 50);
                     lastTime = time;
 
+                    // Skip heavy computation when off-screen
+                    if (!marqueeVisible) {
+                        rawVelocity = 0;
+                        smoothVelocity = 0;
+                        requestAnimationFrame(tick);
+                        return;
+                    }
+
                     // smooth the raw scroll velocity
                     smoothVelocity += (rawVelocity - smoothVelocity) * 0.12;
 
-                    const scrollFactor = Math.min(Math.abs(smoothVelocity) * 0.4, 5);
+                    const scrollFactor = Math.min(Math.abs(smoothVelocity) * scrollMult, scrollCap);
                     if (smoothVelocity < -0.5) direction = -1;
                     else if (smoothVelocity > 0.5) direction = 1;
 
@@ -1605,7 +1668,7 @@ updateNavStyle();
 
                     // wrap between 0 and halfWidth
                     offset = ((offset % halfWidth) + halfWidth) % halfWidth;
-                    track.style.transform = `translateX(-${offset}px)`;
+                    track.style.transform = `translate3d(-${offset}px, 0, 0)`;
 
                     requestAnimationFrame(tick);
                 }
