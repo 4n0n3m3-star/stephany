@@ -516,7 +516,7 @@ nav.scrolled .nav-links a:hover {
             display: flex;
             flex-direction: column;
             justify-content: space-between;
-            padding: 72px;
+            padding: 72px 72px 0 72px;
             background: var(--text);
             color: var(--cream-light);
         }
@@ -542,6 +542,7 @@ nav.scrolled .nav-links a:hover {
             border-color: rgba(253,250,247,0.35);
             color: var(--cream-light);
             padding: 18px 0;
+            margin: 0 0 72px;
         }
         .studio-content .btn:hover {
             background: var(--cream-light);
@@ -892,7 +893,11 @@ nav.scrolled .nav-links a:hover {
             }
 
             /* ── About ── */
-            .about { padding-top: 64px; padding-bottom: 72px; }
+            .about {
+                padding-top: 64px;
+                padding-bottom: 72px;
+                min-height: 0;
+            }
             .about-inner { grid-template-columns: 1fr; gap: 40px; }
             .about-image { order: -1; }
             .about-image-accent { display: none; }
@@ -912,6 +917,7 @@ nav.scrolled .nav-links a:hover {
             /* ── Studio — stack: text → photo → button ── */
             .studio {
                 flex-direction: column;
+                height: auto;
                 min-height: auto;
                 background: var(--text);
             }
@@ -921,14 +927,25 @@ nav.scrolled .nav-links a:hover {
             .studio-photo {
                 order: 2;
                 flex: none;
-                height: 45vw;
-                min-height: 200px;
+                height: 56vw;
+                min-height: 220px;
             }
             .studio-text {
                 order: 1;
                 background: var(--text);
                 padding: 32px 24px 24px;
                 color: var(--cream-light);
+            }
+            .studio-title {
+                font-size: clamp(1.8rem, 6vw, 3.5rem);
+                margin-bottom: 24px;
+                color: var(--cream-light);
+            }
+            .studio-text p {
+                font-size: 0.82rem;
+                line-height: 1.9;
+                margin-bottom: 12px;
+                color: var(--taupe);
             }
             .studio-content .btn {
                 order: 3;
@@ -938,10 +955,8 @@ nav.scrolled .nav-links a:hover {
                 display: block;
                 text-align: center;
                 width: calc(100% - 48px);
-                margin: 20px 24px;
+                margin: 20px 24px 32px;
             }
-            .studio-title { font-size: clamp(1.8rem, 6vw, 3.5rem); margin-bottom: 24px; }
-            .studio-text p { font-size: 0.82rem; line-height: 1.9; margin-bottom: 12px; }
 
             /* ── Links section ── */
             .links-section { padding: 0 24px; }
@@ -949,7 +964,8 @@ nav.scrolled .nav-links a:hover {
             .links-link { font-size: clamp(1.2rem, 5.5vw, 4rem); }
 
             /* ── Contact ── */
-            .contact { padding-left: 24px; padding-right: 24px; }
+            .contact { padding-left: 24px; padding-right: 24px; min-height: 0; }
+            .form-row { grid-template-columns: 1fr; }
 
             /* ── Scroll velocity marquee ── */
             .sv-item { width: 30vw; height: 20vw; }
