@@ -2,8 +2,7 @@ import { Resend } from 'resend';
 
 const resend = new Resend(process.env.RESEND_API_KEY);
 
-const SHEET_URL = process.env.GOOGLE_SHEET_URL
-    || 'https://script.google.com/macros/s/AKfycbwaMIQjRQnFTdiKFx9TJvup5vdI-q9sz5TWZHl3b5kyPCeoUfOfh19XtWyPpXDaynBYXw/exec';
+const SHEET_URL = process.env.INNER_CIRCLE_SHEET_URL;
 
 export default async function handler(req, res) {
     if (req.method !== 'POST') {
@@ -33,17 +32,15 @@ export default async function handler(req, res) {
                 html: buildWelcome(),
             }),
 
-            // Log to Google Sheet
-            fetch(SHEET_URL, {
+            // Log to Google Sheet (skipped if env var not set)
+            ...(SHEET_URL ? [fetch(SHEET_URL, {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify({
-                    name: 'Inner Circle',
                     email,
-                    source: 'inner-circle-popup',
                     date: new Date().toISOString(),
                 }),
-            }).catch(err => console.error('Sheet log failed:', err)),
+            }).catch(err => console.error('Sheet log failed:', err))] : []),
         ]);
 
         return res.status(200).json({ ok: true });
