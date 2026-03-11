@@ -1770,5 +1770,205 @@ updateNavStyle();
     }
   </style>
   <script src="/_vercel/speed-insights/script.js" defer></script>
+
+<!-- ─── INNER CIRCLE POPUP ──────────────────────────── -->
+<div id="ic-backdrop"></div>
+<div id="ic-popup" role="dialog" aria-modal="true" aria-labelledby="ic-title">
+  <button id="ic-close" aria-label="Fechar">Fechar</button>
+  <span class="ic-eyebrow">✦ Inner Circle</span>
+  <h2 id="ic-title">Entra no meu<br>inner circle</h2>
+  <p class="ic-body">Para além das tatuagens… algo novo está a nascer. Peças pensadas para durar uma vida. Edições que não voltam. Arte que se pode tocar e sentir.</p>
+  <p class="ic-sub">Sé a primeira a saber. Sem spam, sem ruído — apenas atualizações tranquilas quando algo especial estiver pronto.</p>
+  <form id="ic-form">
+    <input type="hidden" name="access_key" value="17ecc826-9257-4057-86e9-15bec8251701">
+    <input type="hidden" name="subject" value="Inner Circle — Nova subscrição">
+    <input type="hidden" name="from_name" value="LUMI Atelier · Inner Circle">
+    <div class="ic-field">
+      <input type="email" id="ic-email" name="email" placeholder="o teu email" required autocomplete="email">
+    </div>
+    <button type="submit" class="ic-btn">Quero entrar</button>
+  </form>
+  <p class="ic-disclaimer">Respeito a tua caixa de entrada. Apenas atualizações com significado, sempre fácil de cancelar.</p>
+  <div id="ic-success" hidden>
+    <p class="ic-success-msg">✦ Bem-vinda ao círculo.</p>
+  </div>
+</div>
+
+<style>
+  #ic-backdrop {
+    position: fixed; inset: 0; z-index: 290;
+    background: rgba(44, 26, 14, 0.18);
+    opacity: 0; pointer-events: none;
+    transition: opacity 0.45s cubic-bezier(0.76,0,0.24,1);
+  }
+  #ic-backdrop.ic-visible { opacity: 1; pointer-events: all; }
+
+  #ic-popup {
+    position: fixed; bottom: 32px; left: 50%; transform: translateX(-50%) translateY(calc(100% + 48px));
+    z-index: 300; width: min(440px, calc(100vw - 32px));
+    background: rgba(253, 250, 247, 0.72);
+    backdrop-filter: blur(24px) saturate(1.3);
+    -webkit-backdrop-filter: blur(24px) saturate(1.3);
+    border: 1px solid rgba(220, 200, 180, 0.28);
+    border-radius: 20px;
+    box-shadow: 0 24px 64px rgba(44,26,14,0.18), 0 4px 16px rgba(44,26,14,0.08);
+    padding: 36px 32px 28px;
+    opacity: 0; pointer-events: none;
+    transition: transform 0.55s cubic-bezier(0.76,0,0.24,1), opacity 0.45s cubic-bezier(0.76,0,0.24,1);
+  }
+  #ic-popup.ic-visible {
+    transform: translateX(-50%) translateY(0);
+    opacity: 1; pointer-events: all;
+  }
+  html.dark #ic-popup {
+    background: rgba(19, 10, 3, 0.88);
+    border-color: rgba(167,112,73,0.18);
+    box-shadow: 0 24px 64px rgba(0,0,0,0.45), 0 4px 16px rgba(0,0,0,0.25);
+  }
+  #ic-close {
+    position: absolute; top: 20px; right: 24px;
+    font-family: 'Montserrat', sans-serif; font-weight: 400;
+    font-size: 0.58rem; letter-spacing: 0.28em; text-transform: uppercase;
+    color: var(--text-light); background: none; border: none; cursor: pointer;
+    padding: 0; transition: color 0.2s;
+  }
+  #ic-close:hover { color: var(--warm-brown); }
+  html.dark #ic-close { color: var(--rose-taupe); }
+  html.dark #ic-close:hover { color: var(--cream); }
+
+  .ic-eyebrow {
+    display: block; font-family: 'Montserrat', sans-serif; font-weight: 400;
+    font-size: 0.58rem; letter-spacing: 0.3em; text-transform: uppercase;
+    color: var(--warm-brown); margin-bottom: 14px;
+  }
+  #ic-title {
+    font-family: 'Tenor Sans', serif; font-size: clamp(1.6rem, 5vw, 2.1rem);
+    line-height: 1.12; letter-spacing: -0.02em; color: var(--text);
+    margin: 0 0 16px; font-weight: 400;
+  }
+  html.dark #ic-title { color: var(--cream-light); }
+
+  .ic-body {
+    font-family: 'Montserrat', sans-serif; font-weight: 300;
+    font-size: 0.82rem; line-height: 1.75; color: var(--text);
+    margin: 0 0 10px;
+  }
+  html.dark .ic-body { color: var(--cream); }
+
+  .ic-sub {
+    font-family: 'Montserrat', sans-serif; font-weight: 300;
+    font-size: 0.78rem; line-height: 1.7; color: var(--text-light);
+    margin: 0 0 24px;
+  }
+  html.dark .ic-sub { color: var(--rose-taupe); }
+
+  .ic-field {
+    border-bottom: 1px solid var(--blush);
+    margin-bottom: 20px;
+    transition: border-color 0.25s;
+  }
+  .ic-field:focus-within { border-color: var(--warm-brown); }
+  html.dark .ic-field { border-color: #3a2418; }
+  html.dark .ic-field:focus-within { border-color: var(--warm-brown); }
+
+  #ic-email {
+    width: 100%; background: none; border: none; outline: none;
+    font-family: 'Montserrat', sans-serif; font-weight: 300;
+    font-size: 0.85rem; letter-spacing: 0.04em;
+    color: var(--text); padding: 10px 0;
+  }
+  html.dark #ic-email { color: var(--cream-light); }
+  #ic-email::placeholder { color: var(--text-light); }
+  html.dark #ic-email::placeholder { color: var(--rose-taupe); }
+
+  .ic-btn {
+    width: 100%; padding: 14px;
+    font-family: 'Montserrat', sans-serif; font-weight: 400;
+    font-size: 0.72rem; letter-spacing: 0.2em; text-transform: uppercase;
+    color: var(--cream-light); background: var(--warm-brown);
+    border: none; border-radius: 10px; cursor: pointer;
+    transition: transform 0.25s cubic-bezier(0.34,1.56,0.64,1), opacity 0.2s;
+    margin-bottom: 16px;
+  }
+  .ic-btn:hover { transform: translateY(-2px); opacity: 0.92; }
+  .ic-btn:active { transform: translateY(0); }
+
+  .ic-disclaimer {
+    font-family: 'Montserrat', sans-serif; font-weight: 300;
+    font-size: 0.62rem; letter-spacing: 0.04em; line-height: 1.6;
+    color: var(--text-light); text-align: center; margin: 0;
+  }
+  html.dark .ic-disclaimer { color: var(--rose-taupe); }
+
+  .ic-success-msg {
+    font-family: 'Tenor Sans', serif; font-size: 1.1rem;
+    color: var(--warm-brown); text-align: center;
+    padding: 16px 0 8px; margin: 0; letter-spacing: 0.06em;
+  }
+  @media (max-width: 600px) {
+    #ic-popup { bottom: 16px; padding: 28px 22px 22px; border-radius: 16px; }
+    #ic-title { font-size: 1.5rem; }
+  }
+</style>
+
+<script>
+(function() {
+  const STORAGE_KEY = 'ic_seen';
+  if (localStorage.getItem(STORAGE_KEY)) return;
+
+  const popup  = document.getElementById('ic-popup');
+  const backdrop = document.getElementById('ic-backdrop');
+  const closeBtn = document.getElementById('ic-close');
+  const form   = document.getElementById('ic-form');
+  const success = document.getElementById('ic-success');
+  let shown = false;
+
+  function show() {
+    if (shown) return;
+    shown = true;
+    localStorage.setItem(STORAGE_KEY, '1');
+    popup.classList.add('ic-visible');
+    backdrop.classList.add('ic-visible');
+    popup.removeAttribute('hidden');
+  }
+
+  function hide() {
+    popup.classList.remove('ic-visible');
+    backdrop.classList.remove('ic-visible');
+    setTimeout(() => popup.setAttribute('hidden', ''), 550);
+  }
+
+  // 8-second trigger
+  setTimeout(show, 8000);
+
+  // 50% scroll trigger
+  window.addEventListener('scroll', function onScroll() {
+    const scrolled = window.scrollY / (document.documentElement.scrollHeight - window.innerHeight);
+    if (scrolled >= 0.5) { show(); window.removeEventListener('scroll', onScroll); }
+  }, { passive: true });
+
+  closeBtn.addEventListener('click', hide);
+  backdrop.addEventListener('click', hide);
+
+  form.addEventListener('submit', async function(e) {
+    e.preventDefault();
+    const btn = form.querySelector('.ic-btn');
+    btn.textContent = '…';
+    btn.disabled = true;
+    try {
+      const data = new FormData(form);
+      const res = await fetch('https://api.web3forms.com/submit', { method: 'POST', body: data });
+      const json = await res.json();
+      if (json.success) {
+        form.hidden = true;
+        popup.querySelector('.ic-body').hidden = true;
+        popup.querySelector('.ic-sub').hidden = true;
+        success.hidden = false;
+        setTimeout(hide, 2800);
+      } else { btn.textContent = 'Quero entrar'; btn.disabled = false; }
+    } catch { btn.textContent = 'Quero entrar'; btn.disabled = false; }
+  });
+})();
+</script>
 </body>
 </html>
