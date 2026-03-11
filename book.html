@@ -1442,9 +1442,6 @@
   <p class="ic-body">Para além das tatuagens… algo novo está a nascer. Peças pensadas para durar uma vida. Edições que não voltam. Arte que se pode tocar e sentir.</p>
   <p class="ic-sub">Sé a primeira a saber. Sem spam, sem ruído — apenas atualizações tranquilas quando algo especial estiver pronto.</p>
   <form id="ic-form">
-    <input type="hidden" name="access_key" value="17ecc826-9257-4057-86e9-15bec8251701">
-    <input type="hidden" name="subject" value="Inner Circle — Nova subscrição">
-    <input type="hidden" name="from_name" value="LUMI Atelier · Inner Circle">
     <div class="ic-field">
       <input type="email" id="ic-email" name="email" placeholder="o teu email" required autocomplete="email">
     </div>
@@ -1602,9 +1599,10 @@
     const btn = form.querySelector('.ic-btn');
     btn.textContent = '…'; btn.disabled = true;
     try {
-      const res = await fetch('https://api.web3forms.com/submit', { method: 'POST', body: new FormData(form) });
+      const email = document.getElementById('ic-email').value;
+      const res = await fetch('/api/inner-circle', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ email }) });
       const json = await res.json();
-      if (json.success) {
+      if (json.ok) {
         form.hidden = true;
         popup.querySelector('.ic-body').hidden = true;
         popup.querySelector('.ic-sub').hidden = true;
